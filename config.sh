@@ -6,6 +6,7 @@ STUDENT_COUNT=5
 STUDENT_PASSWORD=redhat
 
 GAU_PROJ=infra
+GAU_TITLE="CICD Workshop"
 GAU_ACCESS_TOKEN=cicdworkshop
 GAU_ADMIN_PASSWORD=myworkshoppassword
 # Admin username is admin.  Go to URI /admin of the GAU app
