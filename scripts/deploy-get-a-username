@@ -16,8 +16,9 @@ function ensure_set {
 }
 
 ensure_set STUDENT_COUNT
+ensure_set STUDENT_PASSWORD
 ensure_set GAU_PROJ
-ensure_set GAU_PROJ
+ensure_set GAU_TITLE
 ensure_set GAU_ACCESS_TOKEN
 ensure_set GAU_ADMIN_PASSWORD
 oc project $GAU_PROJ || oc new-project $GAU_PROJ
@@ -56,11 +57,11 @@ oc new-app \
   --dry-run \
   -e LAB_REDIS_HOST=redis \
   -e LAB_REDIS_PASS=redis \
-  -e LAB_TITLE="ROSA Workshop" \
+  -e LAB_TITLE="$GAU_TITLE" \
   -e LAB_DURATION_HOURS=240h \
   -e LAB_USER_COUNT=$STUDENT_COUNT \
   -e LAB_USER_ACCESS_TOKEN="$GAU_ACCESS_TOKEN" \
-  -e LAB_USER_PASS=openshift \
+  -e LAB_USER_PASS="$STUDENT_PASSWORD" \
   -e LAB_USER_PREFIX=user \
   -e LAB_USER_PAD_ZERO=false \
   -e LAB_ADMIN_PASS="$GAU_ADMIN_PASSWORD" \
