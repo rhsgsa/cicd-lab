@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# Creates an student users in gitea
+
+APP_NAME=gitea
+
+cd `dirname $0`
+BASE=`pwd`
+cd - >> /dev/null
+
+source ${BASE}/../config.sh
+
+function ensure_set {
+	local varName="$1"
+	if [ -z "${!varName}" ]; then
+		echo "$varName is not set"
+		exit 1
+	fi
+}
+
+ensure_set STUDENT_COUNT
+ensure_set STUDENT_PASSWORD
+ensure_set GIT_PROJ
+
+set -e
+
+function create_user() {
+  local USER="$1"
+
+  oc rsh -n $GIT_PROJ statefulset/$APP_NAME \
+  gitea admin user create \
+    --username "$USER" \
+    --password "$STUDENT_PASSWORD" \
+    --email "$USER@example.com"
+
+oc rsh -n $GIT_PROJ statefulset/$APP_NAME \
+  gitea admin user must-change-password --unset "$USER"
+}
+
+
+u=1 \
+&& \
+while [ $u -le $STUDENT_COUNT ]; do
+  USER="user${u}"
+  echo "creating account for ${USER}..."
+
+  create_user ${USER}
+
+  u=$(( $u + 1))
+done

@@ -1,0 +1,56 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: build-and-deploy
+spec:
+  triggers:
+  - name: git-commit
+    bindings:
+    - name: git-url-source
+      kind: TriggerBinding
+      value: 'http://gitea.infra.svc:3000/userX/sample-app'
+    - name: git-revision
+      kind: TriggerBinding
+      value: $(body.after)
+    - name: output-image
+      kind: TriggerBinding
+      value: 'gitea.infra.svc:3000/userX/simpleweb-training'
+    template:
+      spec:
+        params:
+          - name: git-url-source
+          - name: git-revision
+          - name: output-image
+        resourcetemplates:
+        - apiVersion: tekton.dev/v1beta1
+          kind: PipelineRun
+          metadata:
+            generateName: build-and-deploy-
+            labels:
+              tekton.dev/pipeline: build-and-deploy
+          spec:
+            params:
+              - name: git-url-source
+                value: $(tt.params.git-url-source)
+              - name: git-revision
+                value: $(tt.params.git-revision)
+              - name: output-image
+                value: $(tt.params.output-image)
+            pipelineRef:
+              name: build-and-deploy
+            serviceAccountName: pipeline
+            timeout: 1h0m0s
+            workspaces:
+              - name: git-workspace
+                volumeClaimTemplate:
+                  metadata:
+                    creationTimestamp: null
+                  spec:
+                    accessModes:
+                      - ReadWriteOnce
+                    resources:
+                      requests:
+                        storage: 1Gi
+                    volumeMode: Filesystem
+                  status: {}
+                  status: {}

@@ -1,0 +1,25 @@
+#!/bin/bash
+
+set -e
+
+cat <<EOF | oc apply -f -
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: openshift-pipelines-operator
+  namespace: openshift-operators
+spec:
+  channel:  pipelines-1.9
+  name: openshift-pipelines-operator-rh
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+EOF
+
+echo -n "waiting for TektonConfig to show up..."
+until oc get tektonconfig/config > /dev/null 2>&1; do
+  echo -n "."
+  sleep 5
+done
+echo "done"
+
+oc patch tektonconfig/config --type=json -p '[{"op":"replace","path":"/spec/pruner/keep","value":15},{"op":"replace","path":"/spec/pruner/schedule","value":"*/15 * * * *"}]'

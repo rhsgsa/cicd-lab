@@ -1,0 +1,39 @@
+#!/bin/bash
+
+cd `dirname $0`
+BASE=`pwd`
+cd - >> /dev/null
+
+source ${BASE}/../config.sh
+
+function ensure_set {
+	local varName="$1"
+	if [ -z "${!varName}" ]; then
+		echo "$varName is not set"
+		exit 1
+	fi
+}
+
+ensure_set STUDENT_COUNT
+
+set -e
+
+function create_project_for_user() {
+  local PROJ="$1"
+  local USER="$2"
+
+  oc new-project $PROJ
+  oc adm policy add-role-to-user admin $USER -n $PROJ
+  oc adm policy add-role-to-user admin -z pipeline -n $PROJ
+}
+
+u=1 \
+&& \
+while [ $u -le $STUDENT_COUNT ]; do
+  USER="user${u}"
+  echo "creating project for ${USER}..."
+
+  create_project_for_user "${USER}" ${USER}
+
+  u=$(( $u + 1))
+done

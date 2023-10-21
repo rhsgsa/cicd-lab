@@ -1,0 +1,214 @@
+# Run with:
+# git-url-source: http://gitea.infra.svc:3000/instructor/sample-app
+# output-image: gitea.infra.svc:3000/instructor/simpleweb-training
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: build-and-deploy
+spec:
+  params:
+  - description: URL of application source git repo
+    name: git-url-source
+    type: string
+  - description: Git revision from webhook
+    name: git-revision
+    type: string
+    default: main
+  - description: Container image build destination
+    name: output-image
+    type: string
+
+  tasks:
+
+    - name: git-clone-src
+      params:
+      - name: url
+        value: $(params.git-url-source)
+      - name: submodules
+        value: 'true'
+      - name: sslVerify
+        value: 'false'
+      - name: crtFileName
+        value: ca-bundle.crt
+      - name: deleteExisting
+        value: 'true'
+      - name: verbose
+        value: 'true'
+      - name: gitInitImage
+        value: >-
+          registry.redhat.io/openshift-pipelines/pipelines-git-init-rhel8@sha256:6c3980b3d28c8fb92b17466f5654d5f484ab893f1673ec8f29e49c0d03f8aca9
+      - name: userHome
+        value: /tekton/home
+      - name: subdirectory
+        value: .
+      - name: revision
+        value: $(params.git-revision)
+      taskRef:
+        kind: ClusterTask
+        name: git-clone
+      workspaces:
+      - name: output
+        workspace: git-workspace
+
+    #- name: debug-workspace
+    #  runAfter:
+    #    - git-clone-src
+    #  taskSpec:
+    #    metadata: {}
+    #    spec: null
+    #    steps:
+    #      - image: 'registry.access.redhat.com/ubi8:8.7-1090@sha256:b7e686e30346e9ace664fa09c0275262f8b9a443ed56d22165a0e201f6488c13'
+    #        name: debug-workspace
+    #        resources: {}
+    #        script: |
+    #          #!/bin/bash
+    #          pwd
+    #          ls -alR .
+    #        workingDir: $(workspaces.my-workspace.path)
+    #    workspaces:
+    #      - name: my-workspace
+    #  workspaces:
+    #    - name: my-workspace
+    #      workspace: git-workspace
+
+    - name: build-go-app
+      runAfter:
+      - git-clone-src
+      taskSpec:
+        metadata: {}
+        spec: null
+        steps:
+        - image: 'registry.access.redhat.com/ubi8/go-toolset:1.19.13-2.1697656138'
+          name: go-test
+          resources: {}
+          script: |
+            #!/bin/bash
+
+            echo  "running unit tests..."
+            go test -v .
+
+          workingDir: $(workspaces.my-workspace.path)
+
+        - image: 'registry.access.redhat.com/ubi8/go-toolset:1.19.13-2.1697656138'
+          name: go-build
+          resources: {}
+          script: |
+            #!/bin/bash
+
+            echo "building application..."
+            go build -buildvcs=false -a -installsuffix cgo -o ./simpleweb .
+
+          workingDir: $(workspaces.my-workspace.path)
+        workspaces:
+        - name: my-workspace
+      workspaces:
+      - name: my-workspace
+        workspace: git-workspace
+
+    - name: truncate-git-sha
+      params:
+      - name: long-string
+        value: $(tasks.git-clone-src.results.commit)
+      runAfter:
+      - git-clone-src
+      taskSpec:
+        metadata: {}
+        params:
+        - description: String to truncate
+          name: long-string
+          type: string
+        results:
+        - description: Truncated string
+          name: short-string
+          type: string
+        spec: null
+        steps:
+        - image: 'registry.access.redhat.com/ubi8:8.7-1090'
+          name: truncate-string
+          resources: {}
+          script: |
+            #!/bin/bash
+            export longstring="$(params.long-string)"
+            export shortstring="${longstring:0:5}"
+            echo -n $shortstring > $(results.short-string.path)
+            echo "truncated git sha is $shortstring"
+
+    - name: build-and-push-image
+      params:
+      - name: BUILDER_IMAGE
+        value: >-
+          registry.redhat.io/rhel8/buildah@sha256:ac0b8714cc260c94435cab46fe41b3de0ccbc3d93e38c395fa9d52ac49e521fe
+      - name: STORAGE_DRIVER
+        value: vfs
+      - name: DOCKERFILE
+        value: ./Dockerfile
+      - name: CONTEXT
+        value: .
+      - name: TLSVERIFY
+        value: 'false'
+      - name: FORMAT
+        value: oci
+      - name: SKIP_PUSH
+        value: 'false'
+      - name: IMAGE
+        value: >-
+          $(params.output-image):$(tasks.truncate-git-sha.results.short-string)
+      runAfter:
+      - build-go-app
+      - truncate-git-sha
+      taskRef:
+        kind: ClusterTask
+        name: buildah
+      workspaces:
+      - name: source
+        workspace: git-workspace
+
+    - name: apply-manifests
+      params:
+      - name: image-url
+        value: $(tasks.build-and-push-image.results.IMAGE_URL)
+      runAfter:
+      - build-and-push-image
+      taskSpec:
+        metadata: {}
+        params:
+        - description: Container image URL
+          name: image-url
+          type: string
+        spec: null
+        steps:
+        - image: 'registry.redhat.io/openshift4/ose-cli:v4.13.0-202310130726.p0.g717d4a5.assembly.stream'
+          name: apply-manifests
+          resources: {}
+          script: |
+            #!/bin/bash
+
+            export IMAGE_PATH=$(echo -n '$(params.image-url)' | sed 's|.*/\([^/]*/[^/]*\)$|\1|')
+            if [ -z "$IMAGE_PATH" ]; then
+              echo "could not retrieve image path"
+              exit 1
+            fi
+            echo "image path is $IMAGE_PATH"
+            echo ""
+
+            sed -i 's|\(image: [^/]*\).*|\1/'"$IMAGE_PATH|" yaml/deployment.yaml
+            echo "new deployment.yaml"
+            echo "-------------------"
+            cat yaml/deployment.yaml
+            echo ""
+
+            for f in deployment service route; do
+              echo "applying $f..."
+              oc apply -f yaml/$f.yaml
+            done
+
+          workingDir: $(workspaces.my-workspace.path)
+
+        workspaces:
+        - name: my-workspace
+      workspaces:
+      - name: my-workspace
+        workspace: git-workspace
+
+  workspaces:
+  - name: git-workspace

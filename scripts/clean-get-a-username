@@ -1,0 +1,34 @@
+#!/bin/bash
+
+cd `dirname $0`
+BASE=`pwd`
+cd - >> /dev/null
+
+source ${BASE}/../config.sh
+
+oc delete all -n $GAU_PROJECT -l template=redis-persistent-template
+oc delete all -n $GAU_PROJECT -l app=get-a-username
+
+echo -n "waiting for get-a-username pod to terminate..."
+while [ $(oc get -n $GAU_PROJECT po -l deployment=get-a-username -o name 2>/dev/null | wc -l) -gt 0 ]; do
+  echo -n "."
+  sleep 5
+done
+echo "done"
+
+echo -n "waiting for redis pod to terminate..."
+while [ $(oc get -n $GAU_PROJECT po -l deploymentconfig=redis -o name 2>/dev/null | wc -l) -gt 0 ]; do
+  echo -n "."
+  sleep 5
+done
+echo "done"
+
+oc delete -n $GAU_PROJECT secret/redis
+oc delete -n $GAU_PROJECT pvc/redis
+
+if [ $(oc get all -n $GAU_PROJECT --no-headers 2>/dev/null | wc -l) -eq 0 ]; then
+  oc project openshift
+  oc delete project $GAU_PROJECT
+fi
+
+exit 0

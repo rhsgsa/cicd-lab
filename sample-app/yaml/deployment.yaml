@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: simpleweb
+  name: simpleweb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simpleweb
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: simpleweb
+    spec:
+      containers:
+      - image: ghcr.io/kwkoo/simpleweb-training
+        name: simpleweb-training
+        ports:
+        - name: http
+          containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /livez
+            port: 8080
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8080
+        resources: {}
+status: {}

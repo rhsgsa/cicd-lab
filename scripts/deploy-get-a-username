@@ -1,0 +1,98 @@
+#!/bin/bash
+
+cd $(dirname $0)
+BASE=$(pwd)
+cd - >> /dev/null
+
+source ${BASE}/../config.sh
+
+
+function ensure_set {
+	local varName="$1"
+	if [ -z "${!varName}" ]; then
+		echo "$varName is not set"
+		exit 1
+	fi
+}
+
+ensure_set STUDENT_COUNT
+ensure_set GAU_PROJ
+ensure_set GAU_PROJ
+ensure_set GAU_ACCESS_TOKEN
+ensure_set GAU_ADMIN_PASSWORD
+oc project $GAU_PROJ || oc new-project $GAU_PROJ
+
+CONSOLE_ROUTE="https://$(oc get -n openshift-console route/console -o jsonpath='{.spec.host}')"
+GITEA_ROUTE="https://$(oc get route/gitea -n $GIT_PROJ -o jsonpath='{.spec.host}')"
+
+ensure_set CONSOLE_ROUTE
+ensure_set GITEA_ROUTE
+
+set -e
+
+oc get template/redis-persistent \
+  -n openshift \
+  -o json \
+| \
+oc process \
+  -f - \
+  --local \
+  -o json \
+  -p MEMORY_LIMIT=1Gi \
+  -p DATABASE_SERVICE_NAME=redis \
+  -p REDIS_PASSWORD=redis \
+  -p VOLUME_CAPACITY=1Gi \
+  -p REDIS_VERSION=6-el8 \
+| \
+jq '.items |= map(if .kind=="DeploymentConfig" then .spec.template.spec.containers[0].securityContext = {"allowPrivilegeEscalation":false, "capabilities":{"drop":["ALL"]}, "runAsNonRoot":true, "seccompProfile":{"type":"RuntimeDefault"}} else . end)' \
+| \
+oc apply -f - -n $GAU_PROJ
+
+oc new-app \
+  quay.io/openshiftlabs/username-distribution \
+  -n $GAU_PROJ \
+  --name=get-a-username \
+  -o json \
+  --dry-run \
+  -e LAB_REDIS_HOST=redis \
+  -e LAB_REDIS_PASS=redis \
+  -e LAB_TITLE="ROSA Workshop" \
+  -e LAB_DURATION_HOURS=240h \
+  -e LAB_USER_COUNT=$STUDENT_COUNT \
+  -e LAB_USER_ACCESS_TOKEN="$GAU_ACCESS_TOKEN" \
+  -e LAB_USER_PASS=openshift \
+  -e LAB_USER_PREFIX=user \
+  -e LAB_USER_PAD_ZERO=false \
+  -e LAB_ADMIN_PASS="$GAU_ADMIN_PASSWORD" \
+  -e LAB_MODULE_URLS="${GITEA_ROUTE};Gitea" \
+  -e LAB_EXTRA_URLS="${CONSOLE_ROUTE};OpenShift Console" \
+| \
+jq '.items |= map(if .kind=="Deployment" then .spec.template.spec.containers[0].securityContext = {"allowPrivilegeEscalation":false, "capabilities":{"drop":["ALL"]}, "runAsNonRoot":true, "seccompProfile":{"type":"RuntimeDefault"}} else . end)' \
+| \
+oc apply -f -
+
+oc expose -n $GAU_PROJ svc/get-a-username
+oc patch route/get-a-username -n $GAU_PROJ -p '{"spec":{"tls":{"termination":"edge","insecureEdgeTerminationPolicy":"Allow"}}}'
+
+# Remove .spec.template.spec.containers[0].securityContext for older OpenShift
+# versions (<4.11)
+if [ "$(oc version | grep ^Server | cut -d ' ' -f 3 | cut -d '.' -f 2)" -lt 11 ]; then
+
+  oc patch dc/redis \
+    -n $GAU_PROJ \
+    --type json \
+    -p '[{"op":"remove", "path":"/spec/template/spec/containers/0/securityContext"}]'
+
+  oc patch deploy/get-a-username \
+    -n $GAU_PROJ \
+    --type json \
+    -p '[{"op":"remove", "path":"/spec/template/spec/containers/0/securityContext"}]'
+
+fi
+
+# for the topology view
+oc label -n $GAU_PROJ deploy/get-a-username app.kubernetes.io/part-of=get-a-username
+oc label -n $GAU_PROJ dc/redis app.kubernetes.io/part-of=get-a-username
+oc annotate -n $GAU_PROJ deploy/get-a-username app.openshift.io/connects-to='[{"apiVersion":"apps.openshift.io/v1","kind":"DeploymentConfig","name":"redis"}]'
+
+echo "Username app will be available soon at https://$(oc get -n $GAU_PROJ route/get-a-username -o jsonpath='{.spec.host}')"
