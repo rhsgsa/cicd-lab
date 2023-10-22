@@ -1,0 +1,115 @@
+#!/bin/bash
+
+set -e
+
+cat <<EOF | oc apply -f -
+apiVersion: v1
+kind: Namespace
+metadata:
+ labels:
+   openshift.io/cluster-monitoring: "true"
+ name: openshift-storage
+spec: {}
+EOF
+
+cat <<EOF | oc apply -f -
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+ name: openshift-storage-operatorgroup
+ namespace: openshift-storage
+spec:
+ targetNamespaces:
+ - openshift-storage
+EOF
+
+cat <<EOF | oc apply -f -
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+ name: odf-operator
+ namespace: openshift-storage
+spec:
+ channel: "stable-4.13" # <-- Channel should be modified depending on the OCS version to be installed. Please ensure to maintain compatibility with OCP version
+ installPlanApproval: Automatic
+ name: odf-operator
+ source: redhat-operators  # <-- Modify the name of the redhat-operators catalogsource if not default
+ sourceNamespace: openshift-marketplace
+EOF
+
+echo "Check Operator deployment status..."
+sleep 5
+while [ `oc get csv -n openshift-storage | grep -i mcg-operator | awk '{print $6}'` != "Succeeded" ]
+do
+  echo "Waiting for mcg-operator to be deployed..."
+  sleep 5
+done
+
+while [ `oc get csv -n openshift-storage | grep -i ocs-operator | awk '{print $7}'` != "Succeeded" ]
+do
+  echo "Waiting for ocs-operator to be deployed..."
+  sleep 5
+done
+
+while [ `oc get csv -n openshift-storage | grep -i odf-csi-addons-operator | awk '{print $6}'` != "Succeeded" ]
+do
+  echo "Waiting for odf-csi-addons-operator to be deployed..."
+  sleep 5
+done
+
+while [ `oc get csv -n openshift-storage | grep -i odf-operator | awk '{print $7}'` != "Succeeded" ]
+do
+  echo "Waiting for odf-operator to be deployed..."
+  sleep 5
+done
+
+echo "ODF Operator Deployed"
+echo "Deploy Standalone Multicloud Object Gateway"
+
+cat <<EOF | oc apply -f -
+apiVersion: noobaa.io/v1alpha1
+kind: NooBaa
+metadata:
+  name: noobaa
+  namespace: openshift-storage
+spec:
+ dbResources:
+   requests:
+     cpu: '0.1'
+     memory: 1Gi
+ dbType: postgres
+ coreResources:
+   requests:
+     cpu: '0.1'
+     memory: 1Gi
+EOF
+
+cat <<EOF | oc apply -f -
+apiVersion: noobaa.io/v1alpha1
+kind: BackingStore
+metadata:
+  finalizers:
+  - noobaa.io/finalizer
+  labels:
+    app: noobaa
+  name: noobaa-pv-backing-store
+  namespace: openshift-storage
+spec:
+  pvPool:
+    numVolumes: 1
+    resources:
+      requests:
+        storage: 50Gi
+  type: pv-pool
+EOF
+
+while [ `oc get -n openshift-storage noobaas noobaa | grep noobaa | awk '{print $5}'` != "Ready" ]
+do
+  echo "Waiting for noobaa to be deployed..."
+  sleep 5
+done
+
+echo "Make PersistentVolume backing store the default for all ObjectBucketClaims"
+oc patch bucketclass noobaa-default-bucket-class --patch '{"spec":{"placementPolicy":{"tiers":[{"backingStores":["noobaa-pv-backing-store"]}]}}}' --type merge -n openshift-storage
+
+echo "Noobaa Deployed"
