@@ -14,6 +14,18 @@ spec: {}
 EOF
 
 cat <<EOF | oc apply -f -
+apiVersion: v1
+kind: Namespace
+metadata:
+ labels:
+   openshift.io/cluster-monitoring: "true"
+ name: rhacs-operator
+spec: {}
+EOF
+
+sleep 5
+
+cat <<EOF | oc apply -f -
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
@@ -27,7 +39,7 @@ spec:
   sourceNamespace: openshift-marketplace
 EOF
 
-sleep 5
+sleep 20
 while [ `oc get csv -n rhacs-operator | grep rhacs | awk '{print $9}'` != "Succeeded" ]
 do
   echo "Wait for RHACS Operator to be deployed..."

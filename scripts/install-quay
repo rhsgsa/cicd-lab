@@ -27,7 +27,7 @@ spec:
  sourceNamespace: openshift-marketplace
 EOF
 
-sleep 5
+sleep 20
 while [ `oc get csv -n quay-enterprise | grep quay | awk '{print $7}'` != "Succeeded" ]
 do
   echo "Wait for Quay Operator to be deployed..."
