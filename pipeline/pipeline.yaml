@@ -1,6 +1,6 @@
 # Run with:
 # git-url-source: http://gitea.infra.svc:3000/instructor/sample-app
-# output-image: gitea.infra.svc:3000/instructor/simpleweb-training
+# output-image: registry-quay-quay.apps.cluster-YYYYY.YYYYY.sandboxZZZZ.opentlc.com:443/userX/simpleweb-training
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
@@ -168,7 +168,8 @@ spec:
       - name: image-url
         value: $(tasks.build-and-push-image.results.IMAGE_URL)
       runAfter:
-      - build-and-push-image
+      - rox-image-scan
+      - rox-image-check 
       taskSpec:
         metadata: {}
         params:
@@ -209,6 +210,38 @@ spec:
       workspaces:
       - name: my-workspace
         workspace: git-workspace
+
+    - name: rox-image-scan
+      params:
+        - name: rox_central_endpoint
+          value: roxsecrets
+        - name: rox_api_token
+          value: roxsecrets
+        - name: image
+          value: >-
+            $(params.output-image):$(tasks.truncate-git-sha.results.short-string)
+        - name: output_format
+          value: json
+      runAfter:
+        - build-and-push-image
+      taskRef:
+        kind: ClusterTask
+        name: rox-image-scan
+
+    - name: rox-image-check
+      params:
+        - name: rox_central_endpoint
+          value: roxsecrets
+        - name: rox_api_token
+          value: roxsecrets
+        - name: image
+          value: >-
+            $(params.output-image):$(tasks.truncate-git-sha.results.short-string)
+      runAfter:
+        - build-and-push-image
+      taskRef:
+        kind: ClusterTask
+        name: rox-image-check
 
   workspaces:
   - name: git-workspace

@@ -21,13 +21,15 @@ ensure_set GAU_PROJ
 ensure_set GAU_TITLE
 ensure_set GAU_ACCESS_TOKEN
 ensure_set GAU_ADMIN_PASSWORD
+ensure_set GIT_PROJ
 oc project $GAU_PROJ || oc new-project $GAU_PROJ
 
-CONSOLE_ROUTE="https://$(oc get -n openshift-console route/console -o jsonpath='{.spec.host}')"
-GITEA_ROUTE="https://$(oc get route/gitea -n $GIT_PROJ -o jsonpath='{.spec.host}')"
+CONSOLE_ROUTE="$(oc whoami --show-console)"
+SUFFIX="$(echo -n $CONSOLE_ROUTE | sed 's/^[^.]*\.//')"
+GITEA_ROUTE="https://gitea-${GIT_PROJ}.${SUFFIX}"
 
 ensure_set CONSOLE_ROUTE
-ensure_set GITEA_ROUTE
+ensure_set SUFFIX
 
 set -e
 

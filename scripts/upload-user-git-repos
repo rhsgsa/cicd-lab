@@ -1,0 +1,125 @@
+#!/bin/bash
+
+# Creates an admin user in gitea and clones a few repos.
+# Note that the username cannot be "admin".
+
+DEFAULT_BRANCH=main
+APP_NAME=gitea
+
+cd `dirname $0`
+BASE=`pwd`
+cd - >> /dev/null
+
+source ${BASE}/../config.sh
+
+function ensure_set {
+	local varName="$1"
+	if [ -z "${!varName}" ]; then
+		echo "$varName is not set"
+		exit 1
+	fi
+}
+
+ensure_set STUDENT_COUNT
+ensure_set STUDENT_PASSWORD
+ensure_set GIT_PROJ
+
+set -e
+
+ROUTE_HOST="$(oc get route/$APP_NAME -n $GIT_PROJ -o jsonpath='{.spec.host}')"
+
+if [ -z "$ROUTE_HOST" ]; then
+  echo "could not get route for gitea"
+  exit 1
+fi
+
+# wait till gitea API is up
+echo -n "waiting for gitea API to come up..."
+while [ "$(curl -s -o /dev/null -w "%{http_code}" http://${ROUTE_HOST}/api/v1/version 2>/dev/null)" -ne 200 ]; do
+  echo -n "."
+  sleep 5
+done
+echo "done"
+
+echo -n "waiting for pipeline CRDs to appear..."
+while [ $(oc api-resources | grep 'EventListener\|Pipeline' | grep -v openshiftpipelinesascode | wc -l) -lt 2 ]; do
+  echo -n "."
+  sleep 5
+done
+echo "done"
+
+function clone_repo {
+  local repoDir="$1"
+  local repoName="$2"
+  local repoDescription="$3"
+  local git_user="$4"
+  local git_password="$STUDENT_PASSWORD"
+
+  echo "repoName $repoName"
+  echo "repoDescription $repoDescription"
+
+  curl \
+    -k \
+    -X POST \
+    -H "accept: application/json" \
+    -H "Content-Type: application/json" \
+    -u "${git_user}:${git_password}" \
+    -d '{"auto_init":false, "default_branch":"'"$DEFAULT_BRANCH"'", "description":"'"$repoDescription"'", "gitignores":"", "issue_labels":"", "license":"", "name":"'"$repoName"'", "private":false, "readme":"", "template":false, "trust_model":"default"}' \
+    http://${ROUTE_HOST}/api/v1/user/repos
+
+  cd ${BASE}
+  cd ${repoDir}
+  rm -rf .git
+  git init
+  git checkout -b $DEFAULT_BRANCH
+  git add .
+  git commit -m 'Initial commit'
+  git push --mirror http://${git_user}:${git_password}@${ROUTE_HOST}/${git_user}/${repoName}.git
+  rm -rf .git
+}
+
+rm -rf /tmp/sample-app
+rm -rf /tmp/pipeline
+
+REGISTRY_HOSTNAME="$(oc get -n $GIT_PROJ route/gitea -o jsonpath='{.spec.host}')"
+if [ -z "$REGISTRY_HOSTNAME" ]; then
+  echo "could not retrieve registry hostname"
+  exit 1
+fi
+
+u=1 \
+&& \
+while [ $u -le $STUDENT_COUNT ]; do
+  USER="user${u}"
+  echo "uploading git repos for ${USER}..."
+
+  # prepare sample-app git repo
+  tar -C $BASE/.. -cf - sample-app | tar -C /tmp -xf -
+  sed 's|image: .*|image: '"$REGISTRY_HOSTNAME/$USER/simpleweb-training:latest|" $BASE/../sample-app/yaml/deployment.yaml > /tmp/sample-app/yaml/deployment.yaml
+  clone_repo /tmp/sample-app sample-app "Simple web service" $USER
+  rm -rf /tmp/sample-app
+
+  # add webhook to sample-app
+  BRANCH_FILTER='*'
+  WEBHOOK="http:///el-build-and-deploy.${USER}.svc:8080"
+  WEBHOOK_EVENT="push"
+  REPO_NAME="sample-app"
+  curl \
+  -s \
+  -X POST \
+  -H "accept: application/json" \
+  -H "Content-Type: application/json" \
+  -u "${USER}:${STUDENT_PASSWORD}" \
+  -d '{"type":"gitea","branch_filter":"'"$BRANCH_FILTER"'","config":{"content_type":"json","url":"'"$WEBHOOK"'"},"events":["'"$WEBHOOK_EVENT"'"],"active":true}' \
+  http://${REGISTRY_HOSTNAME}/api/v1/repos/${USER}/${REPO_NAME}/hooks
+
+  # prepare pipeline git repo
+  tar -C $BASE/.. -cf - pipeline | tar -C /tmp -xf -
+  REGISTRY_HOSTNAME=$REGISTRY_HOSTNAME GIT_PROJ=$GIT_PROJ STUDENT_PASSWORD=$STUDENT_PASSWORD envsubst < $BASE/../pipeline/registry-credentials.yaml | sed "s/username: .*/username: $USER/" > /tmp/pipeline/registry-credentials.yaml
+  sed "s/userX/$USER/g" $BASE/../pipeline/eventlistener.yaml > /tmp/pipeline/eventlistener.yaml
+  clone_repo /tmp/pipeline pipeline "Tekton pipeline" $USER
+  oc apply -n $USER -f /tmp/pipeline
+  rm -rf /tmp/pipeline
+
+  u=$(( $u + 1))
+done

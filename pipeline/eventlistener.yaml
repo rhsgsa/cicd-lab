@@ -14,7 +14,7 @@ spec:
       value: $(body.after)
     - name: output-image
       kind: TriggerBinding
-      value: 'gitea.infra.svc:3000/userX/simpleweb-training'
+      value: 'registry-quay-quay.apps.cluster-YYYYY.YYYYY.sandboxZZZZ.opentlc.com:443/userX/simpleweb-training'
     template:
       spec:
         params:
