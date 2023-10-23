@@ -43,12 +43,16 @@ metadata:
 EOF
 
 echo "Get Quay Registry Endpoint"
-sleep 5
-oc get quayregistry -n quay-enterprise registry -o jsonpath="{.status.registryEndpoint}"
+while ! [ `oc get quayregistry -n quay-enterprise registry -o jsonpath="{.status.registryEndpoint}"` ]
+do
+  echo "Wait for Quay Registry Endpoint"
+  sleep 15
+done
 
+oc get quayregistry -n quay-enterprise registry -o jsonpath="{.status.registryEndpoint}"
 echo -e "\n"
 
-while [ `oc get po -n quay-enterprise | grep -v Running | grep -v Completed | grep -v NAME` ]
+while [ `oc get pod -n quay-enterprise | grep -v Running | grep -v Completed | grep -v NAME` ]
 do
   echo "Wait for Quay to be deployed..."
   sleep 15
