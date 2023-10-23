@@ -35,6 +35,19 @@ install-gitea:
 	rm -rf /tmp/sample-app
 	rm -rf /tmp/pipeline
 
+	# configure gitea to authenticate users against LDAP
+	oc rsh -n $(GIT_PROJ) sts/gitea \
+	  gitea admin auth add-ldap-simple \
+	    --name ldap \
+		--active \
+		--security-protocol unencrypted \
+		--skip-tls-verify \
+		--host ldap.$(LDAP_PROJ).svc.cluster.local \
+		--port 1389 \
+		--user-dn 'cn=%s,ou=users,$(LDAP_ROOT)' \
+		--user-filter '(cn=%s)' \
+		--email-attribute mail
+
 
 install-openshift-pipelines:
 	@echo "installing OpenShift Pipelines..."
