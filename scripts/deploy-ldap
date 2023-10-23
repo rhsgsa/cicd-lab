@@ -1,5 +1,7 @@
 #!/bin/bash
 
+LDIF=/tmp/mail.ldif
+
 cd `dirname $0`
 BASE=`pwd`
 cd - >> /dev/null
@@ -23,6 +25,7 @@ ensure_set LDAP_ROOT
 ensure_set LDAP_ADMIN_USERNAME
 ensure_set LDAP_ADMIN_PASSWORD
 
+rm -f $LDIF
 LDAP_USERS=""
 LDAP_PASSWORDS=""
 COUNT=1
@@ -33,6 +36,13 @@ while [ $COUNT -le $STUDENT_COUNT ]; do
   fi
   LDAP_USERS="${LDAP_USERS}user${COUNT}"
   LDAP_PASSWORDS="${LDAP_PASSWORDS}${STUDENT_PASSWORD}"
+
+  echo "dn: cn=user${COUNT},ou=users,${LDAP_ROOT}" >> $LDIF
+  echo "changetype: modify" >> $LDIF
+  echo "replace: mail" >> $LDIF
+  echo "mail: user${COUNT}@example.com" >> $LDIF
+  echo >> $LDIF
+
   COUNT=$((COUNT + 1))
 done
 
@@ -200,3 +210,10 @@ spec:
   type: ClusterIP
 status: {}
 EOF
+
+echo "waiting for pod to come up..."
+oc wait -n $LDAP_PROJ deploy/ldap --for condition=Available=True --timeout=120s
+
+oc rsh deploy/ldap ldapmodify -v -H 'ldap://localhost:1389' -D "cn=$LDAP_ADMIN_USERNAME,$LDAP_ROOT" -w "$LDAP_ADMIN_PASSWORD" < $LDIF
+
+rm -f $LDIF

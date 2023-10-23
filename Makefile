@@ -48,7 +48,7 @@ deploy-ldap:
 	  echo "could not find oauth/cluster resource"; \
 	  exit 1; \
 	fi
-	oc patch oauth/cluster --type json -p '[{"op":"add","path":"/spec/identityProviders/-","value":{"name":"ldap_provider","mappingMethod":"claim","type":"LDAP","ldap":{"attributes":{"id":["uid"],"email":["uid"],"name":["cn"],"preferredUsername":["uid"]},"insecure":true,"url":"ldap://ldap.$(LDAP_PROJ).svc.cluster.local:1389/ou=users,$(LDAP_ROOT)?cn"}}}]'
+	oc patch oauth/cluster --type json -p '[{"op":"add","path":"/spec/identityProviders/-","value":{"name":"ldap_provider","mappingMethod":"claim","type":"LDAP","ldap":{"attributes":{"id":["uid"],"email":["mail"],"name":["cn"],"preferredUsername":["uid"]},"insecure":true,"url":"ldap://ldap.$(LDAP_PROJ).svc.cluster.local:1389/ou=users,$(LDAP_ROOT)?cn"}}}]'
 	oc delete -n openshift-authentication po -l app=oauth-openshift
 
 
