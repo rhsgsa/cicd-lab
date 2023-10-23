@@ -74,7 +74,8 @@ function clone_repo {
   cd ${BASE}
   cd ${repoDir}
   rm -rf .git
-  git init --initial-branch=$DEFAULT_BRANCH
+  git init
+  git checkout -b $DEFAULT_BRANCH
   git add .
   git commit -m 'Initial commit'
   git push --mirror http://${GIT_USER}:${GIT_PASSWORD}@${ROUTE_HOST}/${GIT_USER}/${repoName}.git
