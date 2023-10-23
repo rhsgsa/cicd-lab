@@ -4,7 +4,8 @@ include $(BASE)/config.sh
 
 .PHONY: install
 
-install: deploy-ldap install-gitea install-openshift-pipelines provision-student-accounts deploy-get-a-username
+install: deploy-ldap install-gitea install-openshift-pipelines install-openshift-storage install-redhat-quay install-rhacs-central provision-student-accounts deploy-get-a-username
+
 	@echo "done"
 
 
@@ -53,6 +54,18 @@ install-openshift-pipelines:
 	@echo "installing OpenShift Pipelines..."
 	@$(BASE)/scripts/install-openshift-pipelines
 
+
+install-openshift-storage:
+	@echo "installing OpenShift Storage for Noobaa..."
+	@$(BASE)/scripts/install-openshift-storage
+
+install-redhat-quay:
+	@echo "installing Red Hat Quay..."
+	@$(BASE)/scripts/install-quay
+
+install-rhacs-central:
+	@echo "installing Red Hat Advanced Cluster Security Central..."
+	@$(BASE)/scripts/install-rhacs-central
 
 deploy-ldap:
 	$(BASE)/scripts/deploy-ldap

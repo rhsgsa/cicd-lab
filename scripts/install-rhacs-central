@@ -1,0 +1,45 @@
+#!/bin/bash
+
+set -e
+
+echo "Deploy RHACS Operator..."
+cat <<EOF | oc apply -f -
+apiVersion: v1
+kind: Namespace
+metadata:
+ labels:
+   openshift.io/cluster-monitoring: "true"
+ name: stackrox
+spec: {}
+EOF
+
+cat <<EOF | oc apply -f -
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: rhacs-operator
+  namespace: rhacs-operator
+spec:
+  channel: stable
+  installPlanApproval: Automatic
+  name: rhacs-operator
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+EOF
+
+sleep 5
+while [ `oc get csv -n rhacs-operator | grep rhacs | awk '{print $9}'` != "Succeeded" ]
+do
+  echo "Wait for RHACS Operator to be deployed..."
+  sleep 5
+done
+
+echo "Check status of RHACS Central Deployment..."
+sleep 5
+while [ `oc get pod -n stackrox | grep -v Running | grep -v NAME` ]
+do
+  echo "Wait for Central to be deployed..."
+  sleep 15
+done
+
+echo "RHACS Central Deployed"
