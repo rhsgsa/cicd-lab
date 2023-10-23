@@ -1,0 +1,202 @@
+#!/bin/bash
+
+cd `dirname $0`
+BASE=`pwd`
+cd - >> /dev/null
+
+source ${BASE}/../config.sh
+
+set -e
+
+function ensure_set {
+	local varName="$1"
+	if [ -z "${!varName}" ]; then
+		echo "$varName is not set"
+		exit 1
+	fi
+}
+
+ensure_set LDAP_PROJ
+ensure_set STUDENT_COUNT
+ensure_set STUDENT_PASSWORD
+ensure_set LDAP_ROOT
+ensure_set LDAP_ADMIN_USERNAME
+ensure_set LDAP_ADMIN_PASSWORD
+
+LDAP_USERS=""
+LDAP_PASSWORDS=""
+COUNT=1
+while [ $COUNT -le $STUDENT_COUNT ]; do
+  if [ $COUNT -gt 1 ]; then
+    LDAP_USERS="$LDAP_USERS,"
+    LDAP_PASSWORDS="$LDAP_PASSWORDS,"
+  fi
+  LDAP_USERS="${LDAP_USERS}user${COUNT}"
+  LDAP_PASSWORDS="${LDAP_PASSWORDS}${STUDENT_PASSWORD}"
+  COUNT=$((COUNT + 1))
+done
+
+oc project $LDAP_PROJ || oc new-project $LDAP_PROJ
+
+oc create cm ldap \
+  -n $LDAP_PROJ \
+  --from-literal=LDAP_ROOT="$LDAP_ROOT" \
+  --from-literal=LDAP_ADMIN_USERNAME="$LDAP_ADMIN_USERNAME" \
+  --from-literal=LDAP_ADMIN_PASSWORD="$LDAP_ADMIN_PASSWORD" \
+  --from-literal=LDAP_USERS="$LDAP_USERS" \
+  --from-literal=LDAP_PASSWORDS="$LDAP_PASSWORDS"
+
+oc label cm/ldap \
+  -n $LDAP_PROJ \
+  app=ldap
+
+
+cat <<EOF | oc apply -n $LDAP_PROJ -f -
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: ldap
+  finalizers:
+  - kubernetes.io/pvc-protection
+  name: ldap
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5G
+  volumeMode: Filesystem
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ldap
+    app.kubernetes.io/component: ldap
+    app.kubernetes.io/instance: ldap
+  name: ldap
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      deployment: ldap
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftNewApp
+      creationTimestamp: null
+      labels:
+        deployment: ldap
+    spec:
+      containers:
+      - env:
+        - name: LDAP_ROOT
+          valueFrom:
+            configMapKeyRef:
+              key: LDAP_ROOT
+              name: ldap
+        - name: LDAP_USERS
+          valueFrom:
+            configMapKeyRef:
+              key: LDAP_USERS
+              name: ldap
+        - name: LDAP_ADMIN_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: LDAP_ADMIN_PASSWORD
+              name: ldap
+        - name: LDAP_ADMIN_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              key: LDAP_ADMIN_USERNAME
+              name: ldap
+        - name: LDAP_PASSWORDS
+          valueFrom:
+            configMapKeyRef:
+              key: LDAP_PASSWORDS
+              name: ldap
+        image: bitnami/openldap:2.5.13-debian-11-r75
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 1389
+          timeoutSeconds: 1
+        readinessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 1389
+          timeoutSeconds: 1
+        name: ldap
+        ports:
+        - containerPort: 1389
+          protocol: TCP
+        - containerPort: 1636
+          protocol: TCP
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          runAsNonRoot: true
+          seccompProfile:
+            type: RuntimeDefault
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /bitnami/openldap
+          name: data
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: ldap
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ldap
+    app.kubernetes.io/component: ldap
+    app.kubernetes.io/instance: ldap
+  name: ldap
+spec:
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: ldap
+    port: 1389
+    protocol: TCP
+    targetPort: 1389
+  - name: ldaps
+    port: 1636
+    protocol: TCP
+    targetPort: 1636
+  selector:
+    deployment: ldap
+  sessionAffinity: None
+  type: ClusterIP
+status: {}
+EOF
