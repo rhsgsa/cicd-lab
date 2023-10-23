@@ -2,9 +2,9 @@ BASE:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 include $(BASE)/config.sh
 
-.PHONY: install
+.PHONY: install deploy-ldap install-gitea install-openshift-pipelines install-openshift-storage install-redhat-quay install-rhacs-central provision-student-accounts deploy-get-a-username deploy-workshopper local-workshopper
 
-install: deploy-ldap install-gitea install-openshift-pipelines install-openshift-storage install-redhat-quay install-rhacs-central provision-student-accounts deploy-get-a-username
+install: deploy-ldap install-gitea install-openshift-pipelines install-openshift-storage install-redhat-quay install-rhacs-central provision-student-accounts deploy-workshopper deploy-get-a-username
 
 	@echo "done"
 
@@ -87,3 +87,37 @@ provision-student-accounts:
 
 deploy-get-a-username:
 	$(BASE)/scripts/deploy-get-a-username
+
+
+deploy-workshopper:
+	oc new-build \
+	  --name workshopper \
+	  -n $(WORKSHOPPER_PROJ) \
+	  --binary \
+	  --strategy source \
+	  --image quay.io/kwkoo/workshopper-uid:1.0
+	@/bin/echo -n "waiting for buildconfig to appear..."
+	@until oc get -n $(WORKSHOPPER_PROJ) bc/workshopper >/dev/null 2>/dev/null; do \
+	  /bin/echo -n "."; \
+	  sleep 5; \
+	done
+	@echo "done"
+	oc start-build -n $(WORKSHOPPER_PROJ) workshopper --from-dir=$(BASE)/workshopper --follow
+	sed 's|\(image: [^/]*\)/[^/]*/\(.*\)|\1/$(WORKSHOPPER_PROJ)/\2|' $(BASE)/yaml/workshopper.yaml | oc apply -n $(WORKSHOPPER_PROJ) -f -
+	oc set env -n $(WORKSHOPPER_PROJ) deploy/workshopper \
+	  CONSOLE_URL=`oc whoami --show-console` \
+	  GIT_URL="https://gitea-$(GIT_PROJ).`oc whoami --show-console | sed 's/[^.]*\.//'`"
+
+
+local-workshopper:
+	docker run \
+	  --name workshopper \
+	  -it \
+	  --rm \
+	  -p 8080:8080 \
+	  -v $(BASE)/workshopper:/workshopper/content \
+	  -e CONTENT_URL_PREFIX="file:///workshopper/content" \
+	  -e LOG_TO_STDOUT=true \
+	  -e WORKSHOPS_URLS="file:///workshopper/content/_workshop.yml" \
+	  -e CONSOLE_URL="https://https://console-openshift-console.apps.environment.com" \
+	  quay.io/openshiftlabs/workshopper:1.0

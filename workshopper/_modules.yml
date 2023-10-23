@@ -1,0 +1,10 @@
+config:
+  renderer: markdown
+
+modules:
+  overview:
+    name: Overview
+  initial-build:
+    name: Initial Build
+  make-a-change:
+    name: Make A Change

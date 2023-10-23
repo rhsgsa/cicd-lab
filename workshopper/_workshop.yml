@@ -1,0 +1,13 @@
+---
+id: cicd-workshop
+name: CICD Workshop
+
+vars:
+  CONSOLE_URL: https://console-openshift-console.apps.cluster.example.com
+  GIT_URL: https://gitea-infra.apps.cluster.example.com
+
+modules:
+  activate:
+  - overview
+  - initial-build
+  - make-a-change

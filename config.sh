@@ -15,3 +15,5 @@ LDAP_PROJ=infra
 LDAP_ROOT=dc=redhat,dc=com
 LDAP_ADMIN_USERNAME=admin
 LDAP_ADMIN_PASSWORD=myworkshoppassword
+
+WORKSHOPPER_PROJ=infra
