@@ -67,7 +67,9 @@ deploy-ldap:
 
 provision-student-accounts:
 	$(BASE)/scripts/create-user-projects
-	$(BASE)/scripts/create-gitea-user-accounts
+
+	# this script also applies the pipeline manifests in the user namespaces
+	$(BASE)/scripts/upload-user-git-repos
 
 
 deploy-get-a-username:
