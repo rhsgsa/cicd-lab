@@ -13,3 +13,5 @@ A CICD pipeline has been provisioned in your OpenShift namespace. Let's take a l
 01. The pipeline clones from a Java source git repo, builds the application, creates a container image, pushes the container image to an image registry, and deploys the image to your namespace in OpenShift
 
 	![Pipeline](/workshop/cicd-workshop/asset/images/pipeline.png)
+
+01. If you wish to examine the artifacts that were used to deploy the pipeline, you can look through the files in the [pipline git repo]({{GIT_URL}}/{{USER_ID}}/pipeline)
