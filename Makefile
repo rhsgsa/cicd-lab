@@ -132,5 +132,5 @@ local-workshopper:
 	  -e CONTENT_URL_PREFIX="file:///workshopper/content" \
 	  -e LOG_TO_STDOUT=true \
 	  -e WORKSHOPS_URLS="file:///workshopper/content/_workshop.yml" \
-	  -e CONSOLE_URL="https://https://console-openshift-console.apps.environment.com" \
+	  -e CONSOLE_URL="https://console-openshift-console.apps.environment.com" \
 	  quay.io/openshiftlabs/workshopper:1.0
