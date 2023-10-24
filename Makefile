@@ -2,9 +2,9 @@ BASE:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 include $(BASE)/config.sh
 
-.PHONY: install deploy-ldap install-gitea install-openshift-pipelines install-openshift-storage install-redhat-quay install-rhacs-central provision-student-accounts deploy-get-a-username deploy-workshopper local-workshopper
+.PHONY: install deploy-ldap install-gitea install-openshift-pipelines install-openshift-storage install-redhat-quay provision-student-accounts deploy-get-a-username deploy-workshopper local-workshopper
 
-install: deploy-ldap install-gitea install-openshift-pipelines install-openshift-storage install-redhat-quay install-rhacs-central provision-student-accounts deploy-workshopper deploy-get-a-username
+install: deploy-ldap install-gitea install-openshift-pipelines install-openshift-storage install-redhat-quay provision-student-accounts deploy-workshopper deploy-get-a-username
 
 	@echo "done"
 
