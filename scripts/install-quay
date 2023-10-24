@@ -28,7 +28,7 @@ spec:
 EOF
 
 sleep 20
-while [ `oc get csv -n quay-enterprise | grep quay | awk '{print $7}'` != "Succeeded" ]
+while [ "`oc get csv -n quay-enterprise | grep quay | awk '{print $7}'`" != "Succeeded" ]
 do
   echo "Wait for Quay Operator to be deployed..."
   sleep 5
@@ -52,7 +52,7 @@ done
 oc get quayregistry -n quay-enterprise registry -o jsonpath="{.status.registryEndpoint}"
 echo -e "\n"
 
-while [ `oc get pod -n quay-enterprise | grep -v Running | grep -v Completed | grep -v NAME` ]
+until oc get pod -n quay-enterprise | grep -v Running | grep -v Completed | grep -v NAME
 do
   echo "Wait for Quay to be deployed..."
   sleep 15
