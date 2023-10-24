@@ -1,12 +1,3 @@
-Deploy Quay Operator...
-namespace/quay-enterprise unchanged
-subscription.operators.coreos.com/quay-operator unchanged
-quayregistry.quay.redhat.com/registry unchanged
-Get Quay Registry Endpoint
-https://registry-quay-quay-enterprise.apps.cluster-q8qq9.dynamic.opentlc.com
-
-Red Hat Quay Deployed
-[lab-user@bastion cicd-lab-main]$ cat /home/lab-user/cicd-lab-main/scripts/install-quay
 #!/bin/bash
 
 set -e
