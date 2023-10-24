@@ -4,15 +4,15 @@ In this module, we will trigger the pipeline for the first time. We will do this
 
 01. Sign in using your assigned username and password
 
-	![Login to gitea](/workshop/cicd-workshop/asset/images/login_to_gitea.png)
+	![Login to gitea](images/login_to_gitea.png)
 
 01. A webhook has been configured in this git repo to trigger the pipeline - examine the webhook by selecting Settings / Webhooks / `http://el-build-and-deploy...`
 
-	![Webhook](/workshop/cicd-workshop/asset/images/webhook.png)
+	![Webhook](images/webhook.png)
 
 01. Trigger the webhook by scrolling to the bottom of the page and clicking on Test Delivery
 
-	![Test Delivery](/workshop/cicd-workshop/asset/images/test_delivery.png)
+	![Test Delivery](images/test_delivery.png)
 
 01. Examine the [PipelineRuns screen in the OpenShift Console]({{CONSOLE_URL}}/pipelines/ns/{{USER_ID}}/pipeline-runs){:target="console"} - you should see a new pipeline run running
 
@@ -20,8 +20,8 @@ In this module, we will trigger the pipeline for the first time. We will do this
 
 01. Select the Developer perspective / Topology - you should see the `simpleweb` Deployment spinning up
 
-	![Topology view](/workshop/cicd-workshop/asset/images/topology_view.png)
+	![Topology view](images/topology_view.png)
 
 01. Click on the `simpleweb` route - you should see a greeting from the web services
 
-	![Route](/workshop/cicd-workshop/asset/images/route.png)
+	![Route](images/route.png)
