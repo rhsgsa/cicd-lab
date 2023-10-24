@@ -198,7 +198,7 @@ spec:
             cat yaml/deployment.yaml
             echo ""
 
-            for f in deployment service route; do
+            for f in deployment service route pull-secret service-account; do
               echo "applying $f..."
               oc apply -f yaml/$f.yaml
             done

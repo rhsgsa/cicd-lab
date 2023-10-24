@@ -12,21 +12,33 @@ install: deploy-ldap install-gitea install-openshift-pipelines install-openshift
 install-gitea:
 	$(BASE)/scripts/deploy-gitea
 
+	# prepare sample-app git repo for instructor
 	-rm -rf /tmp/sample-app
 	cd $(BASE) \
 	&& \
 	tar -cf - sample-app | tar -C /tmp -xf -
 
-	GIT_HOST=`oc get -n $(GIT_PROJ) route/gitea -o jsonpath='{.spec.host}'` \
+	REGISTRY_HOSTNAME=registry-quay-quay-enterprise.`oc whoami --show-console | sed 's/^[^.]*\.//'` \
 	&& \
-	sed 's|image: .*|image: '"$$GIT_HOST/userX/simpleweb-training:latest|" $(BASE)/sample-app/yaml/deployment.yaml > /tmp/sample-app/yaml/deployment.yaml
+	sed 's|image: .*|image: '"$$REGISTRY_HOSTNAME/userX/simpleweb-training:latest|" $(BASE)/sample-app/yaml/deployment.yaml > /tmp/sample-app/yaml/deployment.yaml
 
+	# prepare pipeline git repo for instructor
 	-rm -rf /tmp/pipeline
 	cd $(BASE) \
 	&& \
 	tar -cf - pipeline | tar -C /tmp -xf -
 
-	REGISTRY_HOSTNAME=`oc get -n $(GIT_PROJ) route/gitea -o jsonpath='{.spec.host}'` GIT_PROJ=$(GIT_PROJ) STUDENT_PASSWORD=$(STUDENT_PASSWORD) envsubst < $(BASE)/pipeline/registry-credentials.yaml > /tmp/pipeline/registry-credentials.yaml
+	REGISTRY_HOSTNAME=registry-quay-quay-enterprise.`oc whoami --show-console | sed 's/^[^.]*\.//'` \
+	STUDENT_PASSWORD=$(STUDENT_PASSWORD) \
+	envsubst \
+	  < $(BASE)/pipeline/registry-credentials.yaml \
+	  > /tmp/pipeline/registry-credentials.yaml
+
+	REGISTRY_HOSTNAME=registry-quay-quay-enterprise.`oc whoami --show-console | sed 's/^[^.]*\.//'` \
+	&& \
+	sed "s|value: 'registry-quay[^/]*|value: '$$REGISTRY_HOSTNAME|" \
+	  $(BASE)/pipeline/eventlistener.yaml \
+	  > /tmp/pipeline/eventlistener.yaml
 
 	@$(BASE)/scripts/init-gitea \
 	  $(GIT_PROJ) gitea $(GIT_ADMIN) $(GIT_PASSWORD) $(GIT_ADMIN)@example.com \
@@ -62,6 +74,7 @@ install-openshift-storage:
 install-redhat-quay:
 	@echo "installing Red Hat Quay..."
 	@$(BASE)/scripts/install-quay
+	$(BASE)/scripts/configure-quay-ldap-auth
 
 install-rhacs-central:
 	@echo "installing Red Hat Advanced Cluster Security Central..."

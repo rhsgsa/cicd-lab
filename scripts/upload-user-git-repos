@@ -81,9 +81,10 @@ function clone_repo {
 rm -rf /tmp/sample-app
 rm -rf /tmp/pipeline
 
-REGISTRY_HOSTNAME="$(oc get -n $GIT_PROJ route/gitea -o jsonpath='{.spec.host}')"
-if [ -z "$REGISTRY_HOSTNAME" ]; then
-  echo "could not retrieve registry hostname"
+REGISTRY_HOSTNAME="registry-quay-quay-enterprise.`oc whoami --show-console | sed 's/^[^.]*\.//'`"
+GITEA_HOSTNAME="$(oc get -n $GIT_PROJ route/gitea -o jsonpath='{.spec.host}')"
+if [ -z "$GITEA_HOSTNAME" ]; then
+  echo "could not retrieve gitea hostname"
   exit 1
 fi
 
@@ -95,13 +96,21 @@ while [ $u -le $STUDENT_COUNT ]; do
 
   # prepare sample-app git repo
   tar -C $BASE/.. -cf - sample-app | tar -C /tmp -xf -
-  sed 's|image: .*|image: '"$REGISTRY_HOSTNAME/$USER/simpleweb-training:latest|" $BASE/../sample-app/yaml/deployment.yaml > /tmp/sample-app/yaml/deployment.yaml
+  sed 's|image: .*|image: '"$REGISTRY_HOSTNAME/$USER/simpleweb-training:latest|" \
+    $BASE/../sample-app/yaml/deployment.yaml \
+    > /tmp/sample-app/yaml/deployment.yaml
+  # construct pull secret
+  DOCKER_CONFIG='{"auths":{"'"$REGISTRY_HOSTNAME"'":{"username":"'"$USER"'","password":"'"$STUDENT_PASSWORD"'","email":"'"$USER"'@example.com","auth":"'"$(echo -n ${USER}:${STUDENT_PASSWORD} | base64)"'"}}}'
+  sed \
+    "s/.dockerconfigjson: .*/.dockerconfigjson: $(echo -n $DOCKER_CONFIG | base64)/" \
+    $BASE/../sample-app/yaml/pull-secret.yaml \
+    > /tmp/sample-app/yaml/pull-secret.yaml
   clone_repo /tmp/sample-app sample-app "Simple web service" $USER
   rm -rf /tmp/sample-app
 
   # add webhook to sample-app
   BRANCH_FILTER='*'
-  WEBHOOK="http:///el-build-and-deploy.${USER}.svc:8080"
+  WEBHOOK="http://el-build-and-deploy.${USER}.svc:8080"
   WEBHOOK_EVENT="push"
   REPO_NAME="sample-app"
   curl \
@@ -111,12 +120,22 @@ while [ $u -le $STUDENT_COUNT ]; do
   -H "Content-Type: application/json" \
   -u "${USER}:${STUDENT_PASSWORD}" \
   -d '{"type":"gitea","branch_filter":"'"$BRANCH_FILTER"'","config":{"content_type":"json","url":"'"$WEBHOOK"'"},"events":["'"$WEBHOOK_EVENT"'"],"active":true}' \
-  http://${REGISTRY_HOSTNAME}/api/v1/repos/${USER}/${REPO_NAME}/hooks
+  http://${GITEA_HOSTNAME}/api/v1/repos/${USER}/${REPO_NAME}/hooks
 
   # prepare pipeline git repo
   tar -C $BASE/.. -cf - pipeline | tar -C /tmp -xf -
-  REGISTRY_HOSTNAME=$REGISTRY_HOSTNAME GIT_PROJ=$GIT_PROJ STUDENT_PASSWORD=$STUDENT_PASSWORD envsubst < $BASE/../pipeline/registry-credentials.yaml | sed "s/username: .*/username: $USER/" > /tmp/pipeline/registry-credentials.yaml
-  sed "s/userX/$USER/g" $BASE/../pipeline/eventlistener.yaml > /tmp/pipeline/eventlistener.yaml
+  REGISTRY_HOSTNAME=$REGISTRY_HOSTNAME \
+  STUDENT_PASSWORD=$STUDENT_PASSWORD \
+  envsubst \
+    < $BASE/../pipeline/registry-credentials.yaml \
+  | \
+  sed "s/username: .*/username: $USER/" \
+    > /tmp/pipeline/registry-credentials.yaml
+  sed \
+    -e "s/userX/$USER/g" \
+    -e "s|value: 'registry-quay[^/]*|value: '$REGISTRY_HOSTNAME|" \
+    $BASE/../pipeline/eventlistener.yaml \
+    > /tmp/pipeline/eventlistener.yaml
   clone_repo /tmp/pipeline pipeline "Tekton pipeline" $USER
   oc apply -n $USER -f /tmp/pipeline
   rm -rf /tmp/pipeline

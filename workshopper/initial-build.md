@@ -4,6 +4,8 @@ In this module, we will trigger the pipeline for the first time. We will do this
 
 01. Open the [application source git repo]({{GIT_URL}}/{{USER_ID}}/sample-app) in a new browser tab
 
+01. Sign in using your assigned username and password
+
 01. A webhook has been configured in this git repo to trigger the pipeline - examine the webhook by selecting Settings / Webhooks / `http://el-build-and-deploy...`
 
 01. Trigger the webhook by scrolling to the bottom of the page and clicking on Test Delivery

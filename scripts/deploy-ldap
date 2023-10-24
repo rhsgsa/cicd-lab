@@ -211,7 +211,7 @@ spec:
 status: {}
 EOF
 
-echo "waiting for pod to come up..."
+echo "waiting for the ldap pod to come up..."
 oc wait -n $LDAP_PROJ deploy/ldap --for condition=Available=True --timeout=120s
 
 oc rsh deploy/ldap ldapmodify -v -H 'ldap://localhost:1389' -D "cn=$LDAP_ADMIN_USERNAME,$LDAP_ROOT" -w "$LDAP_ADMIN_PASSWORD" < $LDIF

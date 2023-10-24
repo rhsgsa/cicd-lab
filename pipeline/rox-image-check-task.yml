@@ -3,7 +3,6 @@ apiVersion: tekton.dev/v1beta1
 kind: ClusterTask
 metadata:
   name: rox-image-check
-  namespace: user1
 spec:
   params:
     - name: rox_central_endpoint

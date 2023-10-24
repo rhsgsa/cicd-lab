@@ -1,0 +1,58 @@
+#!/bin/bash
+
+PROJ=quay-enterprise
+TMPFILE=/tmp/quay-config.yaml
+
+cd `dirname $0`
+BASE=`pwd`
+cd - >> /dev/null
+
+source ${BASE}/../config.sh
+
+function ensure_set {
+	local varName="$1"
+	if [ -z "${!varName}" ]; then
+		echo "$varName is not set"
+		exit 1
+	fi
+}
+
+ensure_set LDAP_PROJ
+ensure_set LDAP_ROOT
+ensure_set LDAP_ADMIN_USERNAME
+ensure_set LDAP_ADMIN_PASSWORD
+
+echo -n "waiting for quay config bundle..."
+while true; do
+  CONFIG_BUNDLE="$(oc get -n $PROJ quayregistry registry -o jsonpath='{.spec.configBundleSecret}' 2>/dev/null)"
+  if [ -n "$CONFIG_BUNDLE" ]; then
+    break
+  fi
+  echo -n "."
+  sleep 5
+done
+echo "done"
+echo "quay config bundle is $CONFIG_BUNDLE"
+
+
+rm -f $TMPFILE
+oc extract -n $PROJ secret/$CONFIG_BUNDLE --to=- --keys=config.yaml | grep -v AUTHENTICATION_TYPE: > $TMPFILE
+
+cat <<EOF >> $TMPFILE
+AUTHENTICATION_TYPE: LDAP
+LDAP_ADMIN_DN: cn=$LDAP_ADMIN_USERNAME,$LDAP_ROOT
+LDAP_ADMIN_PASSWD: $LDAP_ADMIN_PASSWORD
+LDAP_ALLOW_INSECURE_FALLBACK: true
+LDAP_BASE_DN:
+- dc=redhat
+- dc=com
+LDAP_EMAIL_ATTR: mail
+LDAP_UID_ATTR: cn
+LDAP_URI: ldap://ldap.${LDAP_PROJ}.svc.cluster.local:1389
+EOF
+
+oc set data -n $PROJ secret/$CONFIG_BUNDLE --from-file=config.yaml=$TMPFILE
+
+rm -f $TMPFILE
+
+oc delete po -n $PROJ -l app=quay

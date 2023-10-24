@@ -15,6 +15,7 @@ spec:
       labels:
         app: simpleweb
     spec:
+      serviceAccountName: simpleweb
       containers:
       - image: ghcr.io/kwkoo/simpleweb-training
         name: simpleweb-training

@@ -29,6 +29,7 @@ CONSOLE_ROUTE="$(oc whoami --show-console)"
 SUFFIX="$(echo -n $CONSOLE_ROUTE | sed 's/^[^.]*\.//')"
 GITEA_ROUTE="https://gitea-${GIT_PROJ}.${SUFFIX}"
 WORKSHOPPER_ROUTE="https://workshopper-${WORKSHOPPER_PROJ}.${SUFFIX}"
+REGISTRY_ROUTE="https://registry-quay-quay-enterprise.${SUFFIX}"
 
 ensure_set CONSOLE_ROUTE
 ensure_set SUFFIX
@@ -70,7 +71,7 @@ oc new-app \
   -e LAB_USER_PAD_ZERO=false \
   -e LAB_ADMIN_PASS="$GAU_ADMIN_PASSWORD" \
   -e LAB_MODULE_URLS="${WORKSHOPPER_ROUTE}/workshop/cicd-workshop/lab/overview?userid=%USERNAME%;Lab Instructions" \
-  -e LAB_EXTRA_URLS="${CONSOLE_ROUTE};OpenShift Console,${GITEA_ROUTE};Gitea" \
+  -e LAB_EXTRA_URLS="${CONSOLE_ROUTE};OpenShift Console,${GITEA_ROUTE};Gitea,${REGISTRY_ROUTE};Quay" \
 | \
 jq '.items |= map(if .kind=="Deployment" then .spec.template.spec.containers[0].securityContext = {"allowPrivilegeEscalation":false, "capabilities":{"drop":["ALL"]}, "runAsNonRoot":true, "seccompProfile":{"type":"RuntimeDefault"}} else . end)' \
 | \

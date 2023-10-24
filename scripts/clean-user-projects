@@ -8,7 +8,7 @@ source ${BASE}/../config.sh
 
 u=1 \
 && \
-while [ $u -le $NUM_USERS ]; do
+while [ $u -le $STUDENT_COUNT ]; do
   USER="user${u}"
   echo "deleting project for ${USER}..."
 
