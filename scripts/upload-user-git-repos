@@ -88,6 +88,11 @@ if [ -z "$GITEA_HOSTNAME" ]; then
   exit 1
 fi
 
+BASE64=base64
+if [ "$(uname)" = "Linux" ]; then
+  BASE64="base64 -w 0"
+fi
+
 u=1 \
 && \
 while [ $u -le $STUDENT_COUNT ]; do
@@ -95,14 +100,14 @@ while [ $u -le $STUDENT_COUNT ]; do
   echo "uploading git repos for ${USER}..."
 
   # prepare sample-app git repo
-  tar -C $BASE/.. -cf - sample-app | tar -C /tmp -xf -
+  (cd $BASE/..; tar -cf - sample-app) | (cd /tmp; tar -xf -)
   sed 's|image: .*|image: '"$REGISTRY_HOSTNAME/$USER/simpleweb-training:latest|" \
     $BASE/../sample-app/yaml/deployment.yaml \
     > /tmp/sample-app/yaml/deployment.yaml
   # construct pull secret
-  DOCKER_CONFIG='{"auths":{"'"$REGISTRY_HOSTNAME"'":{"username":"'"$USER"'","password":"'"$STUDENT_PASSWORD"'","email":"'"$USER"'@example.com","auth":"'"$(echo -n ${USER}:${STUDENT_PASSWORD} | base64)"'"}}}'
+  DOCKER_CONFIG='{"auths":{"'"$REGISTRY_HOSTNAME"'":{"username":"'"$USER"'","password":"'"$STUDENT_PASSWORD"'","email":"'"$USER"'@example.com","auth":"'"$(echo -n ${USER}:${STUDENT_PASSWORD} | $BASE64)"'"}}}'
   sed \
-    "s/.dockerconfigjson: .*/.dockerconfigjson: $(echo -n $DOCKER_CONFIG | base64)/" \
+    "s/.dockerconfigjson: .*/.dockerconfigjson: $(echo -n $DOCKER_CONFIG | $BASE64)/" \
     $BASE/../sample-app/yaml/pull-secret.yaml \
     > /tmp/sample-app/yaml/pull-secret.yaml
   clone_repo /tmp/sample-app sample-app "Simple web service" $USER
@@ -123,7 +128,7 @@ while [ $u -le $STUDENT_COUNT ]; do
   http://${GITEA_HOSTNAME}/api/v1/repos/${USER}/${REPO_NAME}/hooks
 
   # prepare pipeline git repo
-  tar -C $BASE/.. -cf - pipeline | tar -C /tmp -xf -
+  (cd $BASE/..; tar -cf - pipeline) | (cd /tmp; tar -xf -)
   REGISTRY_HOSTNAME=$REGISTRY_HOSTNAME \
   STUDENT_PASSWORD=$STUDENT_PASSWORD \
   envsubst \
