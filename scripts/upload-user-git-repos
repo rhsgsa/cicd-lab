@@ -107,7 +107,7 @@ while [ $u -le $STUDENT_COUNT ]; do
   # construct pull secret
   DOCKER_CONFIG='{"auths":{"'"$REGISTRY_HOSTNAME"'":{"username":"'"$USER"'","password":"'"$STUDENT_PASSWORD"'","email":"'"$USER"'@example.com","auth":"'"$(echo -n ${USER}:${STUDENT_PASSWORD} | $BASE64)"'"}}}'
   sed \
-    "s/.dockerconfigjson: .*/.dockerconfigjson: $(echo -n $DOCKER_CONFIG | $BASE64)/" \
+    's|{.*|'"$DOCKER_CONFIG"'|' \
     $BASE/../sample-app/yaml/pull-secret.yaml \
     > /tmp/sample-app/yaml/pull-secret.yaml
   clone_repo /tmp/sample-app sample-app "Simple web service" $USER
