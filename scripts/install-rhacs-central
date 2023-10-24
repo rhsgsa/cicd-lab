@@ -101,7 +101,7 @@ EOF
 
 echo "Check status of RHACS Central Deployment..."
 sleep 60
-while [ `oc get pod -n stackrox | grep -v Running | grep -v NAME` ]
+while [ `oc get pod -n stackrox | grep -v Running | grep -v NAME | wc -l` -lt 1 ]
 do
   echo "Wait for Central to be deployed..."
   sleep 15
