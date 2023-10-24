@@ -1,6 +1,6 @@
 In this module, we will trigger the pipeline for the first time. We will do this by triggering a webhook from the application source git repo.
 
-01. Open the [application source git repo]({{GIT_URL}}/{{USER_ID}}/sample-app) in a new browser tab
+01. Open the [application source git repo]({{GIT_URL}}/{{USER_ID}}/sample-app){:target="git"} in a new browser tab
 
 01. Sign in using your assigned username and password
 
@@ -14,7 +14,7 @@ In this module, we will trigger the pipeline for the first time. We will do this
 
 	![Test Delivery](/workshop/cicd-workshop/asset/images/test_delivery.png)
 
-01. Examine the [PipelineRuns screen in the OpenShift Console]({{CONSOLE_URL}}/pipelines/ns/{{USER_ID}}/pipeline-runs) - you should see a new pipeline run running
+01. Examine the [PipelineRuns screen in the OpenShift Console]({{CONSOLE_URL}}/pipelines/ns/{{USER_ID}}/pipeline-runs){:target="console"} - you should see a new pipeline run running
 
 01. Wait for the pipeline run to complete
 

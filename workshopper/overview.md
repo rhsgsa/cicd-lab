@@ -1,6 +1,6 @@
 A CICD pipeline has been provisioned in your OpenShift namespace. Let's take a look at the pipeline in the OpenShift Console.
 
-01. Login to the [OpenShift Console]({{CONSOLE_URL}}) in a new browser tab - select the `ldap_provider` and enter your assigned username and password
+01. Login to the [OpenShift Console]({{CONSOLE_URL}}){:target="console"} in a new browser tab - select the `ldap_provider` and enter your assigned username and password
 
 	![Authentication providers](/workshop/cicd-workshop/asset/images/auth_providers.png)
 
@@ -12,4 +12,4 @@ A CICD pipeline has been provisioned in your OpenShift namespace. Let's take a l
 
 	![Pipeline](/workshop/cicd-workshop/asset/images/pipeline.png)
 
-01. If you wish to examine the artifacts that were used to deploy the pipeline, you can look through the files in the [pipline git repo]({{GIT_URL}}/{{USER_ID}}/pipeline)
+01. If you wish to examine the artifacts that were used to deploy the pipeline, you can look through the files in the [pipline git repo]({{GIT_URL}}/{{USER_ID}}/pipeline){:target="git"}
