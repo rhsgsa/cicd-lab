@@ -1,5 +1,3 @@
-# Initial Build
-
 In this module, we will trigger the pipeline for the first time. We will do this by triggering a webhook from the application source git repo.
 
 01. Open the [application source git repo]({{GIT_URL}}/{{USER_ID}}/sample-app) in a new browser tab

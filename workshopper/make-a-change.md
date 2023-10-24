@@ -1,5 +1,3 @@
-# Make A Change
-
 In this module, we will make a change to the application. This should trigger the pipeline, initiating build and deployment of the application.
 
 01. Open [`main.go` in the `sample-app` git repo]({{GIT_URL}}/{{USER_ID}}/sample-app/src/branch/main/main.go)

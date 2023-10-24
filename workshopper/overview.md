@@ -1,5 +1,3 @@
-# Overview
-
 A CICD pipeline has been provisioned in your OpenShift namespace. Let's take a look at the pipeline in the OpenShift Console.
 
 01. Login to the [OpenShift Console]({{CONSOLE_URL}}) in a new browser tab - select the `ldap_provider` and enter your assigned username and password
