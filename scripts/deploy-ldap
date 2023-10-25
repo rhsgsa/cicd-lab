@@ -27,20 +27,11 @@ ensure_set LDAP_ADMIN_PASSWORD
 ensure_set QUAY_ADMIN_PASSWORD
 
 rm -f $LDIF
-LDAP_USERS="quayadmin"
-LDAP_PASSWORDS="$QUAY_ADMIN_PASSWORD"
-cat <<EOF > $LDIF
-dn: cn=quayadmin,ou=users,${LDAP_ROOT}
-changetype: modify
-replace: mail
-mail: quayadmin@example.com
-
-EOF
 
 COUNT=1
 while [ $COUNT -le $STUDENT_COUNT ]; do
-  LDAP_USERS="${LDAP_USERS},user${COUNT}"
-  LDAP_PASSWORDS="${LDAP_PASSWORDS},${STUDENT_PASSWORD}"
+  LDAP_USERS="${LDAP_USERS}user${COUNT},"
+  LDAP_PASSWORDS="${LDAP_PASSWORDS}${STUDENT_PASSWORD},"
 
   echo "dn: cn=user${COUNT},ou=users,${LDAP_ROOT}" >> $LDIF
   echo "changetype: modify" >> $LDIF
@@ -50,6 +41,17 @@ while [ $COUNT -le $STUDENT_COUNT ]; do
 
   COUNT=$((COUNT + 1))
 done
+
+LDAP_USERS="${LDAP_USERS}quayadmin"
+LDAP_PASSWORDS="${LDAP_PASSWORDS}${QUAY_ADMIN_PASSWORD}"
+
+cat <<EOF >> $LDIF
+dn: cn=quayadmin,ou=users,${LDAP_ROOT}
+changetype: modify
+replace: mail
+mail: quayadmin@example.com
+
+EOF
 
 oc project $LDAP_PROJ || oc new-project $LDAP_PROJ
 
