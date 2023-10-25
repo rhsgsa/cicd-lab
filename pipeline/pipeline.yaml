@@ -96,7 +96,7 @@ spec:
             #!/bin/bash
 
             echo "building application..."
-            go build -buildvcs=false -a -installsuffix cgo -o ./simpleweb .
+            CGO_ENABLED=0 go build -buildvcs=false -o ./simpleweb .
 
           workingDir: $(workspaces.my-workspace.path)
         workspaces:
