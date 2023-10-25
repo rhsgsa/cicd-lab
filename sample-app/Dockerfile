@@ -5,7 +5,7 @@ LABEL \
   io.openshift.expose-services="8080:http"
 
 ARG PACKAGE
-COPY --chown=1001:0 --chmod=555 simpleweb /usr/local/bin/
+COPY --chown=1001:0 --chmod=555 simpleweb /simpleweb
 USER 1001
 EXPOSE 8080
-ENTRYPOINT ["/usr/local/bin/simpleweb"]
+ENTRYPOINT ["/simpleweb"]
