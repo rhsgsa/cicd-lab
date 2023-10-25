@@ -93,6 +93,44 @@ if [ "$(uname)" = "Linux" ]; then
   BASE64="base64 -w 0"
 fi
 
+# ensure that ACS is deployed before we generate an ACS API token
+echo -n "waiting for ACS route to appear..."
+while true; do
+  ROX_HOST="`oc get -n stackrox route/central -o jsonpath='{.spec.host}' 2>/dev/null`"
+  if [ -n "$ROX_HOST" ]; then break; fi
+  echo -n "."
+  sleep 5
+done
+echo "ACS endpoint is at $ROX_HOST"
+
+echo -n "waiting for ACS API to come up..."
+while [ "`curl -sk "https://$ROX_HOST/v1/ping" 2>/dev/null | jq -r .status`" != "ok" ]; do
+  echo -n "."
+  sleep 5
+done
+echo "done"
+
+echo -n "waiting for ACS credentials secret to appear..."
+until oc get -n stackrox secret/central-htpasswd >/dev/null 2>/dev/null; do
+  echo -n "."
+  sleep 5
+done
+echo "done"
+
+ROX_PASSWORD="`oc extract -n stackrox secret/central-htpasswd --to=- --keys=password 2>/dev/null`"
+if [ -z "$ROX_PASSWORD" ]; then
+  echo "could not get ACS admin password"
+  exit 1
+fi
+
+ROX_TOKEN=`curl -sk -u "admin:$ROX_PASSWORD" "https://$ROX_HOST/v1/apitokens/generate" -d '{"name":"pipeline","role":"Admin"}' | jq -r .token`
+if [ -z "$ROX_TOKEN" ]; then
+  echo "could not generate ACS API token"
+  exit 1
+fi
+echo "ACS API token is $ROX_TOKEN"
+
+
 u=1 \
 && \
 while [ $u -le $STUDENT_COUNT ]; do
@@ -136,11 +174,19 @@ while [ $u -le $STUDENT_COUNT ]; do
   | \
   sed "s/username: .*/username: $USER/" \
     > /tmp/pipeline/registry-credentials.yaml
+
   sed \
     -e "s/userX/$USER/g" \
     -e "s|value: 'registry-quay[^/]*|value: '$REGISTRY_HOSTNAME|" \
     $BASE/../pipeline/eventlistener.yaml \
     > /tmp/pipeline/eventlistener.yaml
+
+  sed \
+    -e "s|rox_central_endpoint: .*|rox_central_endpoint: $ROX_HOST:443|" \
+    -e "s|rox_api_token: .*|rox_api_token: $ROX_TOKEN|" \
+    $BASE/../pipeline/rox-secrets.yml \
+    > /tmp/pipeline/rox-secrets.yml
+
   clone_repo /tmp/pipeline pipeline "Tekton pipeline" $USER
   oc apply -n $USER -f /tmp/pipeline
   rm -rf /tmp/pipeline

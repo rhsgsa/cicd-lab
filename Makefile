@@ -1,13 +1,13 @@
 WORKSHOPPER_STAGING=/tmp/content
+ROX_API_TOKEN=/tmp/roxtoken
 
 BASE:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 include $(BASE)/config.sh
 
-.PHONY: install deploy-ldap install-gitea install-openshift-pipelines install-openshift-storage install-redhat-quay install-rhacs-central provision-student-accounts deploy-get-a-username deploy-workshopper local-workshopper prep-workshopper-paths
+.PHONY: install deploy-ldap install-openshift-pipelines install-openshift-storage install-redhat-quay install-rhacs-central install-gitea provision-student-accounts deploy-get-a-username deploy-workshopper local-workshopper prep-workshopper-paths
 
-install: deploy-ldap install-gitea install-openshift-pipelines install-openshift-storage install-redhat-quay install-rhacs-central provision-student-accounts deploy-workshopper deploy-get-a-username
-
+install: deploy-ldap install-openshift-pipelines install-openshift-storage install-redhat-quay install-rhacs-central install-gitea provision-student-accounts deploy-workshopper deploy-get-a-username
 	@echo "done"
 
 
@@ -38,9 +38,51 @@ install-gitea:
 
 	REGISTRY_HOSTNAME=registry-quay-quay-enterprise.`oc whoami --show-console | sed 's/^[^.]*\.//'` \
 	&& \
-	sed "s|value: 'registry-quay[^/]*|value: '$$REGISTRY_HOSTNAME|" \
+	sed \
+	  "s|value: 'registry-quay[^/]*|value: '$$REGISTRY_HOSTNAME|" \
 	  $(BASE)/pipeline/eventlistener.yaml \
 	  > /tmp/pipeline/eventlistener.yaml
+
+	# ensure that ACS is deployed before we generate an ACS API token
+	@/bin/echo -n "waiting for ACS route to appear..."; \
+	while true; do \
+	  ROX_HOST="`oc get -n stackrox route/central -o jsonpath='{.spec.host}'`"; \
+	  if [ -n "$$ROX_HOST" ]; then break; fi; \
+	  /bin/echo -n "."; \
+	  sleep 5; \
+	done; \
+	echo "ACS endpoint is at $$ROX_HOST"; \
+	/bin/echo -n "waiting for ACS API to come up..."; \
+	while [ "`curl -sk "https://$$ROX_HOST/v1/ping" 2>/dev/null | jq -r .status`" != "ok" ]; do \
+	  /bin/echo -n "."; \
+	  sleep 5; \
+	done; \
+	echo "done"; \
+	/bin/echo -n "waiting for ACS credentials secret to appear..."; \
+	until oc get -n stackrox secret/central-htpasswd >/dev/null 2>/dev/null; do \
+	  /bin/echo -n "."; \
+	  sleep 5; \
+	done; \
+	echo "done"; \
+	ROX_PASSWORD="`oc extract -n stackrox secret/central-htpasswd --to=- --keys=password 2>/dev/null`"; \
+	if [ -z "$$ROX_PASSWORD" ]; then \
+	  echo "could not get ACS admin password"; \
+	  exit 1; \
+	fi; \
+	ROX_TOKEN=`curl -sk -u "admin:$$ROX_PASSWORD" "https://$$ROX_HOST/v1/apitokens/generate" -d '{"name":"pipeline","role":"Admin"}' | jq -r .token`; \
+	if [ -z "$$ROX_TOKEN" ]; then \
+	  echo "could not generate ACS API token"; \
+	  exit 1; \
+	fi; \
+	echo "ACS API token is $$ROX_TOKEN"; \
+	/bin/echo -n $$ROX_TOKEN > $(ROX_API_TOKEN)
+
+	sed \
+	  -e "s|rox_central_endpoint: .*|rox_central_endpoint: `oc get -n stackrox route/central -o jsonpath='{.spec.host}'`:443|" \
+	  -e "s|rox_api_token: .*|rox_api_token: `cat $(ROX_API_TOKEN)`|" \
+	  $(BASE)/pipeline/rox-secrets.yml \
+	  > /tmp/pipeline/rox-secrets.yml
+	rm -f $(ROX_API_TOKEN)
 
 	@$(BASE)/scripts/init-gitea \
 	  $(GIT_PROJ) gitea $(GIT_ADMIN) $(GIT_PASSWORD) $(GIT_ADMIN)@example.com \
@@ -73,14 +115,17 @@ install-openshift-storage:
 	@echo "installing OpenShift Storage for Noobaa..."
 	@$(BASE)/scripts/install-openshift-storage
 
+
 install-redhat-quay:
 	@echo "installing Red Hat Quay..."
 	@$(BASE)/scripts/install-quay
 	$(BASE)/scripts/configure-quay-ldap-auth
 
+
 install-rhacs-central:
 	@echo "installing Red Hat Advanced Cluster Security Central..."
 	@$(BASE)/scripts/install-rhacs-central
+
 
 deploy-ldap:
 	$(BASE)/scripts/deploy-ldap
