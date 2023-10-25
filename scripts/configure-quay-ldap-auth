@@ -49,6 +49,7 @@ LDAP_BASE_DN:
 LDAP_EMAIL_ATTR: mail
 LDAP_UID_ATTR: cn
 LDAP_URI: ldap://ldap.${LDAP_PROJ}.svc.cluster.local:1389
+LDAP_SUPERUSER_FILTER: (cn=quayadmin)
 EOF
 
 oc set data -n $PROJ secret/$CONFIG_BUNDLE --from-file=config.yaml=$TMPFILE

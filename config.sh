@@ -1,6 +1,6 @@
 GIT_PROJ=infra
 GIT_ADMIN=instructor
-GIT_PASSWORD=password
+GIT_PASSWORD=myworkshoppassword
 
 STUDENT_COUNT=5
 STUDENT_PASSWORD=redhat
@@ -17,3 +17,5 @@ LDAP_ADMIN_USERNAME=admin
 LDAP_ADMIN_PASSWORD=myworkshoppassword
 
 WORKSHOPPER_PROJ=infra
+
+QUAY_ADMIN_PASSWORD=myworkshoppassword
