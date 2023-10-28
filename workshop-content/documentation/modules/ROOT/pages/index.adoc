@@ -1,0 +1,13 @@
+= Welcome to the CI/CD Tutorial
+:page-layout: home
+:!sectids:
+
+[.text-center.strong]
+
+[.tiles.browse]
+== Browse modules
+
+[.tile]
+* xref:01-overview.adoc[Overview]
+* xref:02-initial-build.adoc[Initial Build]
+* xref:03-make-a-change.adoc[Make A Change]

@@ -1,0 +1,30 @@
+= Initial Build
+include::_attributes.adoc[]
+
+In this module, we will trigger the pipeline for the first time. We will do this by triggering a webhook from the application source git repo.
+
+. Open the {GIT_URL}/%USER%/sample-app[application source git repo,window=git] in a new browser tab
+
+. Sign in using your assigned username and password
++
+image::login_to_gitea.png[Login to gitea]
+
+. A webhook has been configured in this git repo to trigger the pipeline - examine the webhook by selecting Settings / Webhooks / `\http://el-build-and-deploy...`
++
+image::webhook.png[Webhook]
+
+. Trigger the webhook by scrolling to the bottom of the page and clicking on Test Delivery
++
+image::test_delivery.png[Test Delivery]
+
+. Examine the {CONSOLE_URL}/pipelines/ns/%USER%/pipeline-runs[PipelineRuns screen in the OpenShift Console,window=console] - you should see a new pipeline run running
+
+. Wait for the pipeline run to complete
+
+. Select the Developer perspective / Topology - you should see the `simpleweb` Deployment spinning up
++
+image::topology_view.png[Topology view]
+
+. Click on the `simpleweb` route - you should see a greeting from the web services
++
+image::route.png[Route]

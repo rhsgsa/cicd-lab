@@ -5,9 +5,9 @@ BASE:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 include $(BASE)/config.sh
 
-.PHONY: install deploy-ldap install-openshift-pipelines install-openshift-storage install-redhat-quay install-rhacs-central install-gitea provision-student-accounts deploy-get-a-username deploy-workshopper local-workshopper prep-workshopper-paths
+.PHONY: install deploy-ldap install-openshift-pipelines install-openshift-storage install-redhat-quay install-rhacs-central install-gitea provision-student-accounts deploy-get-a-username deploy-antora
 
-install: deploy-ldap install-openshift-pipelines install-openshift-storage install-redhat-quay install-rhacs-central install-gitea provision-student-accounts deploy-workshopper deploy-get-a-username
+install: deploy-ldap install-openshift-pipelines install-openshift-storage install-redhat-quay install-rhacs-central install-gitea provision-student-accounts deploy-antora deploy-get-a-username
 	@echo "done"
 
 
@@ -149,49 +149,30 @@ deploy-get-a-username:
 	$(BASE)/scripts/deploy-get-a-username
 
 
-deploy-workshopper: prep-workshopper-paths
+deploy-antora:
 	oc new-build \
-	  --name workshopper \
-	  -n $(WORKSHOPPER_PROJ) \
+	  -n $(ANTORA_PROJ) \
+	  --name antora \
 	  --binary \
-	  --strategy source \
-	  --image quay.io/kwkoo/workshopper-uid:1.0
-	@/bin/echo -n "waiting for buildconfig to appear..."
-	@until oc get -n $(WORKSHOPPER_PROJ) bc/workshopper >/dev/null 2>/dev/null; do \
-	  /bin/echo -n "."; \
+	  --build-arg=CONSOLE_URL="`oc whoami --show-console`" \
+	  --build-arg=GIT_URL="https://gitea-$(GIT_PROJ).`oc whoami --show-console | sed 's/^[^.]*\.//'`" \
+	  --strategy docker
+	@/bin/echo -n "waiting for build config to appear..."
+	@until oc get -n $(ANTORA_PROJ) bc/antora >/dev/null 2>/dev/null; do \
+	  echo -n "."; \
 	  sleep 5; \
 	done
 	@echo "done"
-	oc start-build -n $(WORKSHOPPER_PROJ) workshopper --from-dir=$(WORKSHOPPER_STAGING) --follow
-	sed 's|\(image: [^/]*\)/[^/]*/\(.*\)|\1/$(WORKSHOPPER_PROJ)/\2|' $(BASE)/yaml/workshopper.yaml | oc apply -n $(WORKSHOPPER_PROJ) -f -
-	oc set env -n $(WORKSHOPPER_PROJ) deploy/workshopper \
-	  CONSOLE_URL=`oc whoami --show-console` \
-	  GIT_URL="https://gitea-$(GIT_PROJ).`oc whoami --show-console | sed 's/[^.]*\.//'`"
-	rm -rf $(WORKSHOPPER_STAGING)
-
-
-local-workshopper: prep-workshopper-paths
-	docker run \
-	  --name workshopper \
-	  -it \
-	  --rm \
-	  -p 8080:8080 \
-	  -v $(WORKSHOPPER_STAGING):/workshopper/content \
-	  -e CONTENT_URL_PREFIX="file:///workshopper/content" \
-	  -e LOG_TO_STDOUT=true \
-	  -e WORKSHOPS_URLS="file:///workshopper/content/_workshop.yml" \
-	  -e CONSOLE_URL="https://console-openshift-console.apps.environment.com" \
-	  quay.io/openshiftlabs/workshopper:1.0
-	rm -rf $(WORKSHOPPER_STAGING)
-
-
-prep-workshopper-paths:
-	rm -rf $(WORKSHOPPER_STAGING)
-	mkdir -p $(WORKSHOPPER_STAGING)
-	tar -C $(BASE)/workshopper -cf - . | tar -C $(WORKSHOPPER_STAGING) -xf -
-	cd $(BASE)/workshopper \
-	&& \
-	for f in *.md; do \
-	  sed 's|!\[\(.*\)\](images/\(.*\))|![\1](/workshop/cicd-workshop/asset/images/\2)|g' $$f > $(WORKSHOPPER_STAGING)/$$f; \
-	done
-
+	oc start-build antora \
+	  -n $(ANTORA_PROJ) \
+	  --from-dir=$(BASE)/workshop-content \
+	  --follow
+	oc create deploy workshop-content \
+	  -n $(ANTORA_PROJ) \
+	  --image=image-registry.openshift-image-registry.svc:5000/$(ANTORA_PROJ)/antora \
+	  --port 8080
+	oc expose -n $(ANTORA_PROJ) deploy/workshop-content
+	oc expose -n $(ANTORA_PROJ) svc/workshop-content
+	oc patch route/workshop-content \
+	  -n $(ANTORA_PROJ) \
+	  -p '{"spec":{"tls":{"termination":"edge","insecureEdgeTerminationPolicy":"Allow"}}}'

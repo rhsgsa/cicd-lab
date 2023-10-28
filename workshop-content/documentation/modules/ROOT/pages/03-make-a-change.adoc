@@ -1,0 +1,24 @@
+= Make A Change
+include::_attributes.adoc[]
+
+In this module, we will make a change to the application. This should trigger the pipeline, initiating build and deployment of the application.
+
+. Open {GIT_URL}/%USER%/sample-app/src/branch/main/main.go[`main.go` in the `sample-app` git repo,window=git]
+
+. Click on Edit File
++
+image::edit_file.png[Edit File]
+
+. Change the greeting in line 26 from `Hello` to `Good afternoon`
+
+. Commit the change
++
+image::commit_change.png[Commit Change]
+
+. Switch back to the OpenShift Console - a new pipeline run should have been triggered by the webhook
+
+. Wait for the pipeline run to complete
+
+. Go back to the Topology view - you should see a new pod spinning up
+
+. When the new pod comes up successfully, click on `simpleweb`'s route again - the new greeting should appear

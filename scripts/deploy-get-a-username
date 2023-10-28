@@ -22,13 +22,13 @@ ensure_set GAU_TITLE
 ensure_set GAU_ACCESS_TOKEN
 ensure_set GAU_ADMIN_PASSWORD
 ensure_set GIT_PROJ
-ensure_set WORKSHOPPER_PROJ
+ensure_set ANTORA_PROJ
 oc project $GAU_PROJ || oc new-project $GAU_PROJ
 
 CONSOLE_ROUTE="$(oc whoami --show-console)"
 SUFFIX="$(echo -n $CONSOLE_ROUTE | sed 's/^[^.]*\.//')"
 GITEA_ROUTE="https://gitea-${GIT_PROJ}.${SUFFIX}"
-WORKSHOPPER_ROUTE="https://workshopper-${WORKSHOPPER_PROJ}.${SUFFIX}"
+ANTORA_ROUTE="https://workshop-content-${ANTORA_PROJ}.${SUFFIX}"
 REGISTRY_ROUTE="https://registry-quay-quay-enterprise.${SUFFIX}"
 
 ensure_set CONSOLE_ROUTE
@@ -70,7 +70,7 @@ oc new-app \
   -e LAB_USER_PREFIX=user \
   -e LAB_USER_PAD_ZERO=false \
   -e LAB_ADMIN_PASS="$GAU_ADMIN_PASSWORD" \
-  -e LAB_MODULE_URLS="${WORKSHOPPER_ROUTE}/workshop/cicd-workshop/lab/overview?userid=%USERNAME%;Lab Instructions" \
+  -e LAB_MODULE_URLS="${ANTORA_ROUTE}/cicd-tutorial/?user=%USERNAME%;Lab Instructions" \
   -e LAB_EXTRA_URLS="${CONSOLE_ROUTE};OpenShift Console,${GITEA_ROUTE};Gitea,${REGISTRY_ROUTE};Quay" \
 | \
 jq '.items |= map(if .kind=="Deployment" then .spec.template.spec.containers[0].securityContext = {"allowPrivilegeEscalation":false, "capabilities":{"drop":["ALL"]}, "runAsNonRoot":true, "seccompProfile":{"type":"RuntimeDefault"}} else . end)' \

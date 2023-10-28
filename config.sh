@@ -16,6 +16,6 @@ LDAP_ROOT=dc=redhat,dc=com
 LDAP_ADMIN_USERNAME=admin
 LDAP_ADMIN_PASSWORD=myworkshoppassword
 
-WORKSHOPPER_PROJ=infra
+ANTORA_PROJ=infra
 
 QUAY_ADMIN_PASSWORD=myworkshoppassword

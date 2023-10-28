@@ -1,0 +1,19 @@
+= Overview
+include::_attributes.adoc[]
+
+A CICD pipeline has been provisioned in your OpenShift namespace. Let's take a look at the pipeline in the OpenShift Console.
+
+[start=1]
+. Login to the {CONSOLE_URL}[OpenShift Console,window=console] in a new browser tab - select the `ldap_provider` and enter your assigned username and password
++
+image::auth_providers.png[Authentication providers]
+
+. Select the %USER% project / Pipelines / `build-and-deploy`
++
+image::select_pipeline.png[Select pipeline]
+
+. The pipeline clones from a Java source git repo, builds the application, creates a container image, pushes the container image to an image registry, and deploys the image to your namespace in OpenShift
++
+image::pipeline.png[Pipeline]
+
+. If you wish to examine the artifacts that were used to deploy the pipeline, you can look through the files in the {GIT_URL}/%USER%/pipeline[pipline git repo,window=git]

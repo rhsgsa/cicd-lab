@@ -1,0 +1,9 @@
+#!/bin/bash
+
+docker run \
+  --rm \
+  --name antora \
+  -it \
+  -p 3000:3000 \
+  -v .:/antora \
+  antora-dev /bin/sh
