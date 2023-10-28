@@ -20,7 +20,8 @@ asciidoc:
     - ./lib/tab-block.js
 ui:
   bundle:
-    url: ./ui/build/ui-bundle.zip
+    #url: ./ui/build/ui-bundle.zip
+    url: https://github.com/rhsgsa/cicd-lab/releases/download/v0.1/ui-bundle.zip
     snapshot: true
 output:
   dir: ./gh-pages

@@ -21,4 +21,4 @@ image::commit_change.png[Commit Change]
 
 . Go back to the Topology view - you should see a new pod spinning up
 
-. When the new pod comes up successfully, click on `simpleweb`'s route again - the new greeting should appear
+. When the new pod comes up successfully, click on ``simpleweb``'s route again - the new greeting should appear

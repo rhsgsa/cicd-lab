@@ -3,7 +3,6 @@ runtime:
 
 site:
   title: CI/CD Tutorial
-  url: https://redhat-scholars.github.io/course-template
   start_page: cicd-tutorial::index.adoc
 
 content:

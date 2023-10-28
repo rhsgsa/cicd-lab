@@ -5,5 +5,5 @@ docker run \
   --name antora \
   -it \
   -p 3000:3000 \
-  -v .:/antora \
+  -v $(pwd)/..:/antora \
   antora-dev /bin/sh
