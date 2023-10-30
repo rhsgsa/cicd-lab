@@ -54,6 +54,19 @@ If you wish to add content to the lab instructions,
 01. Add a `xref` to the new file to `workshop-content/modules/ROOT/pages/index.adoc` and `workshop-content/modules/ROOT/nav.adoc`
 
 
+### Substitutions
+
+*   If you want to substitute the username in your asciidoc files, insert [`%USER%` in the file](https://redhat-scholars.github.io/build-course/rhs-build-course/extras.html#using-credentials) and it will be substituted with the username - note that the `user` URL query parameter will need to be defined in the URL
+
+*   If you want to avoid hardcoding text in your documents, you can make use of [asciidoc attributes](https://docs.asciidoctor.org/asciidoc/latest/attributes/reference-attributes/#reference-custom)
+
+	*   You can define custom attributes in `site.yml` under `.asciidoc.attributes`
+
+	*   You can then reference these attributes in your documents by surrounding them with curly braces - e.g. if you define an attribute named `my_server_url`, you can reference the attribute with `{my_server_url}`
+
+	*   If you want to override the default value of the custom attribute defined in `site.yml` during build time, just set the value of the attribute using the [`--attribute` option when calling `antora generate`](https://docs.antora.org/antora/latest/cli/options/#generate-options)
+
+
 ### Previewing content locally
 
 If you wish to preview the content on your local machine,
