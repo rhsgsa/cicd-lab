@@ -19,11 +19,7 @@ RUN \
   && \
   git init \
   && \
-  touch .gitignore \
-  && \
-  git add .gitignore \
-  && \
-  git commit -m 'Dummy commit' \
+  git commit --allow-empty -m 'init' \
   && \
   antora generate --attribute console_url=$CONSOLE_URL --attribute git_url=$GIT_URL --stacktrace site.yml
 

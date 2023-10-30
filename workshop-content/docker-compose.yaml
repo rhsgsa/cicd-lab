@@ -1,0 +1,35 @@
+# this file is used to let you preview the workshop content on your local machine
+version: "3.5"
+
+name: antora-dev
+
+services:
+
+  antora:
+    container_name: antora
+    image: antora-dev
+    build:
+      context: ./antora-dev
+    command:
+    - /bin/sh
+    - "-c"
+    - |
+      if [ `ls ./node_modules | wc -l` -lt 1 ]; then
+        yarn install
+      fi
+      git config --global user.email "user@example.com"
+      git config --global user.name "Example User"
+      git init
+      git commit --allow-empty -m 'init'
+      gulp
+    volumes:
+    - ./documentation:/antora/documentation
+    - ./lib:/antora/lib
+    - ./node_modules:/antora/node_modules
+    - ./ui:/antora/ui
+    - ./dev-site.yml:/antora/dev-site.yml
+    - ./gulpfile.babel.js:/antora/gulpfile.babel.js
+    - ./package.json:/antora/package.json
+    - ./site.yml:/antora/site.yml
+    ports:
+    - 3000:3000

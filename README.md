@@ -38,3 +38,59 @@ Some manual configuration is required for Quay and ACS. Perform the following to
 These manual steps are needed because quay will only create a user account for the user on initial login. If you do not login, you will get an error while trying to push an image to quay even if you present the correct credentials.
 
 You need to create a robot account in order for the ACS CLI to be able to access the image in quay.
+
+
+## Lab Instructions
+
+The lab instructions are in the `workshop-content` directory. [Antora](https://docs.antora.org/antora/latest/) is used to convert the instructions from asciidoc to HTML.
+
+
+### Adding content
+
+If you wish to add content to the lab instructions,
+
+01. Add a new asciidoc file to `workshop-content/documentation/modules/ROOT/pages/`; if you want to include images in your file, you can add the images to `workshop-content/documentation/modules/ROOT/assets/images/`
+
+01. Add a `xref` to the new file to `workshop-content/modules/ROOT/pages/index.adoc` and `workshop-content/modules/ROOT/nav.adoc`
+
+
+### Previewing content locally
+
+If you wish to preview the content on your local machine,
+
+	cd workshop-content
+
+	docker compose up
+
+You can access the content at <http://localhost:3000>
+
+
+### Changing the UI
+
+If you wish to make changes to the UI,
+
+01. Make the changes to the UI source files in `workshop-content/ui/src`
+
+01. Spin up a container on your local machine
+
+		cd workshop-content
+
+		docker compose up
+
+01. Generate a UI bundle
+
+		docker exec -it antora /bin/sh
+
+		cd ui
+
+		yarn install
+
+		gulp bundle
+
+01. Modify `workshop-content/dev-site.yml` and change `.ui.bundle.url` to `./ui/build/ui-bundle.zip`
+
+01. After you are done making your changes,
+
+	*   Upload `workshop-content/ui/build/ui-bundle.zip` to the [github repo](https://github.com/rhsgsa/cicd-lab/) and publish it as a new release
+
+	*   Modify `workshop-content/dev-site.yml` and `workshop-content/site.yml` - change `.ui.bundle.url` to the new release's download URL

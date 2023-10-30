@@ -8,6 +8,6 @@
 == Browse modules
 
 [.tile]
-* xref:01-overview.adoc[Overview]
-* xref:02-initial-build.adoc[Initial Build]
-* xref:03-make-a-change.adoc[Make A Change]
+* xref:01-overview.adoc[]
+* xref:02-initial-build.adoc[]
+* xref:03-make-a-change.adoc[]
