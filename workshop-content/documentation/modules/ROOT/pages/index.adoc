@@ -5,7 +5,7 @@
 == Browse modules
 
 [.tile]
-* xref:00-container-building.adoc[]
-* xref:01-overview.adoc[]
+* xref:00-overview.adoc[]
+* xref:01-container-building.adoc[]
 * xref:02-initial-build.adoc[]
 * xref:03-make-a-change.adoc[]
