@@ -164,6 +164,11 @@ bash-4.4$ curl localhost:8080
 Hello World
 ---- 
 
+#### Now, let's simulate a scenario where we have a new update in the application (source code) and want to rebuild application with the change. 
+
+
+
+
 
 
 
