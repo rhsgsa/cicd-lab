@@ -1,0 +1,114 @@
+= New Update in Application
+include::_attributes.adoc[]
+:experimental:
+
+== Changing the source code
+
+Now, let's simulate a scenario where we have a new update in the application (source code) and want to rebuild application with the change. 
+
+[start=1]
+. In the file named "main.go" look for line 26 and change the text from "Hello" to "Hello there" as shown in the image below. 
++
+image::SourceCodeChange.png[main.go]
+
+. Compile the simpleweb application with the new change by running the following command
++
+ $ go build \
+     -buildvcs=false \
+     -a \
+     -installsuffix cgo \
+     -o ./simpleweb \
+     .
+
+== Building Your Container Image 
+
+Once `simpleweb` is compiled successfully, we can now go ahead to build the container image! 
+
+For building the container image, we will be making use of Podman Build command. `podman build`` Builds an image using instructions from one or more Containerfile(s) a specified build context directory. 
+
+. Run the following on your Visual Studio Code 
++
+ $ podman build -t podman-simpleweb:v1 .
+
+. Validate that the container image has been built successfully 
++
+ $ podman images
+
+== Pushing the Container Image Into Your Quay Registry
+
+Now that we have successsfully built our container image, we shall push this image into the Quay registry. 
+You will need to first login to the Quay regsitry using the following command
+
+. Login to Quay Registry 
++
+ $ podman login \
+     registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com \
+     --username %USER% \
+     --password redhat
+
+
+. Tag the Container Image
++
+ $ podman tag \
+     localhost/myimage:latest \
+     registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v1
+
+. Push the Container Image into your Quay Registry
++
+ $ podman push registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v1
+
+== Accessing Your MicroShift Instance
+
+Now that your have your container image in your Quay Registry, you can now access into your MicroShift instance and deploy the simeplweb application using that container image. 
+
+. Access your bastion via SSH
++
+ $ ssh lab-user@bastion.vcdn4.sandbox1757.opentlc.com
++ 
+When prompted with password, use - xxx
+
+. Login to the MicroShift VM
++
+ $ virtctl ssh \
+     rhde@microshift.%USER% \
+     --identity-file=/home/lab-user/.ssh/id_rsa
+
+== Pulling the Container Image from your Quay Registry
+
+. Login to Quay Registry 
++
+ $ podman login \
+     registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com \
+     --username %USER% \
+     --password redhat
+
+. Pull the podman-simpleweb:v1 image from the Quay registry
++
+ $ podman pull registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v1
+
+. Validate that the container image has been successfully pulled and you should be able to see the podman-simpleweb image. 
++
+ $ podman images
+
+
+
+== Building the container using the podman-simpleweb image
+
+. Build a container using podman create
++
+ $ podman create \
+     --name podman-simpleweb \
+     registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v1
+
+. Start the container
++
+ $ podman start podman-simpleweb
+
+
+== Testing the application
+
+. Run the exec command to run a new /bin/bash command inside the container mycontainer
++
+ $ podman exec -it mycontainer /bin/bash 
++
+ $ curl localhost:8080
