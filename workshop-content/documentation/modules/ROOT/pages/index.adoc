@@ -1,33 +1,11 @@
 = Welcome to the CI/CD Tutorial
 :page-layout: home
 :!sectids:
-:experimental:
 
 == Browse modules
 
 [.tile]
+* xref:00-container-building.adoc[]
 * xref:01-overview.adoc[]
 * xref:02-initial-build.adoc[]
 * xref:03-make-a-change.adoc[]
-
-To save the file, select menu:File[Save]
-
-[tabs]
-====
-one::
-+
---
-[source,bash]
-----
-echo Hello World!
-----
---
-two::
-+
---
-[source,bash]
-----
-Hello World!
-----
---
-====

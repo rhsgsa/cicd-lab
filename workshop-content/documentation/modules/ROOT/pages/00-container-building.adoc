@@ -1,0 +1,167 @@
+= Container Building
+include::_attributes.adoc[]
+:experimental:
+
+Welcome to Part A of the Hands-On Workshop! In this section, we will be making use of Dev Spaces environment which has Visual Studio Code running as an IDE on it.
+
+[start=1]
+. Login to the {DEVSPACES_URL}#{GIT_URL}/%USER%/path/to/devfile.yaml[OpenShift Dev Spaces Console,window=console] in a new browser tab - and enter your assigned username and password
++
+image::xxx.png[Dev Spaces Console]
+
+. Select the terminal window on the top left and open up a new terminal
++
+image::xxx.png[Terminal Window]
+
+. Change your working directory into the cicd-lab directory by running the following command
++
+[source,shell]
+----
+cd cicd-lab
+----
+
+. Change directory once again into the sample-app directory by running the following command
++
+[source,shell]
+----
+cd sample-app
+----
+
+. Compile the simpleweb application by running the following command
++
+[source,shell]
+----
+go build -buildvcs=false -a -installsuffix cgo -o ./simpleweb .
+----
+
+== Building Your Container Image 
+
+Once `simpleweb` is compiled successfully, we can now go ahead to build the container image! 
+
+For building the container image, we will be making use of Podman Build command. `podman build`` Builds an image using instructions from one or more Containerfile(s) a specified build context directory. 
+
+. Run the following on your Visual Studio Code 
++
+[source,shell]
+----
+podman build -t podman-simpleweb:v1 .
+---- 
+
+. Validate that the container image has been built successfully 
++
+[source,shell]
+----
+podman images
+---- 
+
+== Pushing the Container Image Into Your Quay Registry
+
+Now that we have successsfully built our container image, we shall push this image into the Quay registry. 
+You will need to first login to the Quay regsitry using the following command
+
+. Login to Quay Registry 
++
+[source,shell]
+----
+podman login registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com --username %USER% --password redhat
+---- 
+
+. Tag the Container Image
++
+[source,shell]
+----
+podman tag localhost/myimage:latest registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v1
+---- 
+
+. Push the Container Image into your Quay Registry
++
+[source,shell]
+----
+podman push registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v1
+---- 
+
+== Accessing Your MicroShift Instance
+
+Now that your have your container image in your Quay Registry, you can now access into your MicroShift instance and deploy the simeplweb application using that container image. 
+
+. Access your bastion via SSH
++
+[source,shell]
+----
+ssh lab-user@bastion.vcdn4.sandbox1757.opentlc.com
+---- 
++ 
+When prompted with password, use - xxx
+
+. Login to the MicroShift VM
++
+[source,shell]
+----
+virtctl ssh rhde@microshift.%USER% --identity-file=/home/lab-user/.ssh/id_rsa
+---- 
+
+== Pulling the Container Image from your Quay Registry
+
+. Login to Quay Registry 
++
+[source,shell]
+----
+podman login registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com --username %USER% --password redhat
+---- 
+
+. Pull the podman-simpleweb:v1 image from the Quay registry
++
+[source,shell]
+----
+podman pull registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v1
+----
+
+. Validate that the container image has been successfully pulled and you should be able to see the podman-simpleweb image. 
++
+[source,shell]
+----
+podman images
+----
+
+== Building the container using the podman-simpleweb image
+
+. Build a container using podman create
++
+[source,shell]
+----
+podman create --name podman-simpleweb registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v1
+---- 
+
+. Start the container
++
+[source,shell]
+----
+podman start podman-simpleweb
+---- 
+
+== Testing the application
+
+. Run the exec command to run a new /bin/bash command inside the container mycontainer
++
+[source,shell]
+----
+podman exec -it mycontainer /bin/bash 
+
+curl localhost:8080
+---- 
+
+== Now, let's simulate a scenario where we have a new update in the application (source code) and want to rebuild application with the change. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+

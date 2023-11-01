@@ -26,7 +26,6 @@ services:
     - ./documentation:/antora/documentation
     - ./lib:/antora/lib
     - ./node_modules:/antora/node_modules
-    - ./ui:/antora/ui
     - ./dev-site.yml:/antora/dev-site.yml
     - ./gulpfile.babel.js:/antora/gulpfile.babel.js
     - ./package.json:/antora/package.json

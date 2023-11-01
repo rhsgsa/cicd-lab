@@ -9,7 +9,7 @@ In this module, we will trigger the pipeline for the first time. We will do this
 +
 image::login_to_gitea.png[Login to gitea]
 
-. A webhook has been configured in this git repo to trigger the pipeline - examine the webhook by selecting Settings / Webhooks / `\http://el-build-and-deploy...`
+. A webhook has been configured in this git repo to trigger the pipeline - examine the webhook by selecting menu:Settings[Webhooks > `\http://el-build-and-deploy...`]
 +
 image::webhook.png[Webhook]
 
@@ -21,7 +21,7 @@ image::test_delivery.png[Test Delivery]
 
 . Wait for the pipeline run to complete
 
-. Select the Developer perspective / Topology - you should see the `simpleweb` Deployment spinning up
+. Select the menu:Developer[Topology] - you should see the `simpleweb` Deployment spinning up
 +
 image::topology_view.png[Topology view]
 
