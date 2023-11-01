@@ -10,6 +10,9 @@ ADD . /antora/
 #
 #RUN if [ ! -f "./ui/build/ui-bundle.zip" ]; then cd ui; yarn install; npm install -g gulp-cli; gulp bundle; fi
 
+# get rid of Edit this Page
+ENV CI=true
+
 RUN \
   apk add git \
   && \

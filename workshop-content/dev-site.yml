@@ -3,9 +3,7 @@ runtime:
 
 site:
   title: CI/CD Tutorial (Dev Mode)
-  url: http://localhost:3000/rhs-build-course/index.html
   start_page: cicd-tutorial::index.adoc
-
 content:
   sources:
     - url: .

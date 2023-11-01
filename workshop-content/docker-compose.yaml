@@ -10,6 +10,8 @@ services:
     image: antora-dev
     build:
       context: ./antora-dev
+    environment:
+      CI: "true"
     command:
     - /bin/sh
     - "-c"
