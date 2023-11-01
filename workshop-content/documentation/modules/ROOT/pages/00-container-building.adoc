@@ -15,24 +15,21 @@ image::xxx.png[Terminal Window]
 
 . Change your working directory into the cicd-lab directory by running the following command
 +
-[source,shell]
-----
-cd cicd-lab
-----
+ $ cd cicd-lab
 
 . Change directory once again into the sample-app directory by running the following command
 +
-[source,shell]
-----
-cd sample-app
-----
+ $ cd sample-app
 
 . Compile the simpleweb application by running the following command
 +
-[source,shell]
-----
-go build -buildvcs=false -a -installsuffix cgo -o ./simpleweb .
-----
+ $ go build \
+     -buildvcs=false \
+     -a \
+     -installsuffix cgo \
+     -o ./simpleweb \
+     .
+
 
 == Building Your Container Image 
 
@@ -42,17 +39,12 @@ For building the container image, we will be making use of Podman Build command.
 
 . Run the following on your Visual Studio Code 
 +
-[source,shell]
-----
-podman build -t podman-simpleweb:v1 .
----- 
+ $ podman build -t podman-simpleweb:v1 .
 
 . Validate that the container image has been built successfully 
 +
-[source,shell]
-----
-podman images
----- 
+ $ podman images
+
 
 == Pushing the Container Image Into Your Quay Registry
 
@@ -61,24 +53,17 @@ You will need to first login to the Quay regsitry using the following command
 
 . Login to Quay Registry 
 +
-[source,shell]
-----
-podman login registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com --username %USER% --password redhat
----- 
+ $ podman login registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com --username %USER% --password redhat
+
 
 . Tag the Container Image
 +
-[source,shell]
-----
-podman tag localhost/myimage:latest registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v1
----- 
+ $ podman tag localhost/myimage:latest registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v1
 
 . Push the Container Image into your Quay Registry
 +
-[source,shell]
-----
-podman push registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v1
----- 
+ $ podman push registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v1
+
 
 == Accessing Your MicroShift Instance
 
@@ -86,69 +71,56 @@ Now that your have your container image in your Quay Registry, you can now acces
 
 . Access your bastion via SSH
 +
-[source,shell]
-----
-ssh lab-user@bastion.vcdn4.sandbox1757.opentlc.com
----- 
+ $ ssh lab-user@bastion.vcdn4.sandbox1757.opentlc.com
 + 
 When prompted with password, use - xxx
 
 . Login to the MicroShift VM
 +
-[source,shell]
-----
-virtctl ssh rhde@microshift.%USER% --identity-file=/home/lab-user/.ssh/id_rsa
----- 
+ $ virtctl ssh \
+     rhde@microshift.%USER% \
+     --identity-file=/home/lab-user/.ssh/id_rsa
+
 
 == Pulling the Container Image from your Quay Registry
 
 . Login to Quay Registry 
 +
-[source,shell]
-----
-podman login registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com --username %USER% --password redhat
----- 
+ $ podman login \
+     registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com \
+     --username %USER% \
+     --password redhat
 
 . Pull the podman-simpleweb:v1 image from the Quay registry
 +
-[source,shell]
-----
-podman pull registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v1
-----
+ $ podman pull registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v1
 
 . Validate that the container image has been successfully pulled and you should be able to see the podman-simpleweb image. 
 +
-[source,shell]
-----
-podman images
-----
+ $ podman images
+
 
 == Building the container using the podman-simpleweb image
 
 . Build a container using podman create
 +
-[source,shell]
-----
-podman create --name podman-simpleweb registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v1
----- 
+ $ podman create \
+     --name podman-simpleweb \
+     registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v1
 
 . Start the container
 +
-[source,shell]
-----
-podman start podman-simpleweb
----- 
+ $ podman start podman-simpleweb
+
 
 == Testing the application
 
 . Run the exec command to run a new /bin/bash command inside the container mycontainer
 +
-[source,shell]
-----
-podman exec -it mycontainer /bin/bash 
+ $ podman exec -it mycontainer /bin/bash 
++
+ $ curl localhost:8080
 
-curl localhost:8080
----- 
 
 == Now, let's simulate a scenario where we have a new update in the application (source code) and want to rebuild application with the change. 
 
