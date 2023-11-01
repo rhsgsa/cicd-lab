@@ -76,34 +76,3 @@ If you wish to preview the content on your local machine,
 	docker compose up
 
 You can access the content at <http://localhost:3000>
-
-
-### Changing the UI
-
-If you wish to make changes to the UI,
-
-01. Make the changes to the UI source files in `workshop-content/ui/src`
-
-01. Spin up a container on your local machine
-
-		cd workshop-content
-
-		docker compose up
-
-01. Generate a UI bundle
-
-		docker exec -it antora /bin/sh
-
-		cd ui
-
-		yarn install
-
-		gulp bundle
-
-01. Modify `workshop-content/dev-site.yml` and change `.ui.bundle.url` to `./ui/build/ui-bundle.zip`
-
-01. After you are done making your changes,
-
-	*   Upload `workshop-content/ui/build/ui-bundle.zip` to the [github repo](https://github.com/rhsgsa/cicd-lab/) and publish it as a new release
-
-	*   Modify `workshop-content/dev-site.yml` and `workshop-content/site.yml` - change `.ui.bundle.url` to the new release's download URL
