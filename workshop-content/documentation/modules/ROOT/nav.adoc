@@ -1,5 +1,5 @@
 * xref:00-overview.adoc[1. Overview]
-* xref:01(A)-container-building.adoc[0. Container Building]
-* xref:01(B)-container-building.adoc[0. Container Building]
+* xref:01(A)-container-building.adoc[2. Container Building]
+* xref:01(B)-container-building.adoc[3. Updating Application]
 * xref:02-initial-build.adoc[2. Initial Build]
 * xref:03-make-a-change.adoc[3. Make A Change]
