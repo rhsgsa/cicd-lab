@@ -24,7 +24,7 @@ image::SourceCodeChange.png[main.go]
 
 Once `simpleweb` is compiled successfully, we can now go ahead to build the container image! 
 
-For building the container image, we will be making use of Podman Build command. `podman build` Builds an image using instructions from one or more Containerfile(s) a specified build context directory. 
+For building the container image, we will be making use of Podman Build command. `podman build` builds an image using instructions from one or more Containerfile(s) a specified build context directory. 
 
 . Run the following on your Visual Studio Code 
 +
