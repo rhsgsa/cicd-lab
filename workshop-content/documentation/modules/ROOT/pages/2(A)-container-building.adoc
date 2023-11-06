@@ -107,6 +107,9 @@ When prompted with password, use - xxx
 . Validate that the container image has been successfully pulled and you should be able to see the podman-simpleweb image. 
 +
  $ podman images
+   REPOSITORY                           TAG                  IMAGE ID      CREATED        SIZE
+   localhost/podman-simpleweb           v1                   c911c3159e2a  6 seconds ago  222 MB
+   registry.access.redhat.com/ubi8/ubi  8.8-1067.1697633337  0dc8d21c3cb0  2 weeks ago    215 MB
 
 
 == Building the container using the podman-simpleweb image
