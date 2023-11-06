@@ -10,10 +10,10 @@ The goal of this lab is to assess the benefits of using containers by providing 
 === 1.2.1. Confirm Your Username!
 Look in the box at the top of your screen. Is your username set already? If so it will look like this:
 
-alreadyset
+image::alreadyset.png
 If your username is properly set, then you can move on. If not, in the above box, enter the user ID you were assigned like this:
 
-setuser
+image::setuser.png
 This will customize the links and copy/paste code for this workshop. If you accidentally type the wrong username, just update your username in the URL parameters (e.g. `1-introduction.html?USERID=%USERID%` )
 
 Important
