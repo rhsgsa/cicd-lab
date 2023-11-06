@@ -32,9 +32,7 @@ Your OpenShift cluster is already configured with everything you need. Here are 
 === 1.2.2. OpenShift Dev Spaces 
 Built on the open source Eclipse Che project, Red Hat OpenShift Dev Spaces uses Kubernetes and containers to provide developers and other IT team members with a consistent, secure, and zero-configuration development environment.
 
-Your Dev Spaces environment is already configured on your OpenShift cluster and will be making use of Visual Studio Code Server. 
-
-VSCode is already deployed in the OpenShift cluster for you to use as your IDE. This means you don’t need to install and configure anything on your system. This makes it easy to change source code and configuration files in the cloned repository.
+VSCode (IDE) is already deployed in the OpenShift cluster for you to use as your IDE. This means you don’t need to install and configure anything on your system. This makes it easy to change source code and configuration files in the cloned repository.
 
 To get started, access the {DEVSPACES_URL}[VSCode Console,window=console] and log in using the following password.
 
