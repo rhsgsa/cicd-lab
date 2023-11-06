@@ -1,5 +1,6 @@
 = Container Building
 include::_attributes.adoc[]
+include::.adoc[]
 :experimental:
 
 Welcome to Part A of the Hands-On Workshop! In this section, we will be making use of Dev Spaces environment which has Visual Studio Code running as an IDE on it.
