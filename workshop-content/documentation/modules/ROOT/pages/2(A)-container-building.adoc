@@ -31,11 +31,11 @@ image::xxx.png[Terminal Window]
      .
 
 
-== Building Your Container Image 
+== Building Your First Container Image 
 
 Once `simpleweb` is compiled successfully, we can now go ahead to build the container image! 
 
-For building the container image, we will be making use of Podman Build command. `podman build`` Builds an image using instructions from one or more Containerfile(s) a specified build context directory. 
+For building the container image, we will be making use of Podman Build command. `podman build` Builds an image using instructions from one or more Containerfile(s) a specified build context directory. 
 
 . Run the following on your Visual Studio Code 
 +
@@ -49,7 +49,7 @@ For building the container image, we will be making use of Podman Build command.
 == Pushing the Container Image Into Your Quay Registry
 
 Now that we have successsfully built our container image, we shall push this image into the Quay registry. 
-You will need to first login to the Quay regsitry using the following command
+You will need to first login to the Quay registry using the following command
 
 . Login to Quay Registry 
 +
@@ -62,13 +62,16 @@ You will need to first login to the Quay regsitry using the following command
 . Tag the Container Image
 +
  $ podman tag \
-     localhost/myimage:latest \
+     localhost/myimage:v1 \
      registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v1
 
 . Push the Container Image into your Quay Registry
 +
  $ podman push registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v1
 
+. Verify that the image has been built on Quay using the following link
++
+ xx
 
 == Accessing Your MicroShift Instance
 
@@ -107,7 +110,7 @@ When prompted with password, use - xxx
 
 == Building the container using the podman-simpleweb image
 
-. Build a container using podman create
+. Creating a container using podman create
 +
  $ podman create \
      --name podman-simpleweb \
@@ -127,8 +130,9 @@ When prompted with password, use - xxx
  $ curl localhost:8080
 
 
-== Now, let's simulate a scenario where we have a new update in the application (source code) and want to rebuild application with the change. 
+== Congratulations!
 
+You have successfully compiled and built your application using the container image and creating a container from it, getting the desired output. Moving on to the next section, we will make a change in the source code and re-build the container to see the reflected changes. 
 
 
 
