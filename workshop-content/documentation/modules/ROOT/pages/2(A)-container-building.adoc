@@ -7,11 +7,11 @@ Welcome to Part A of the Hands-On Workshop! In this section, we will be making u
 [start=1]
 . Login to the {DEVSPACES_URL}#{GIT_URL}/%USER%/path/to/devfile.yaml[OpenShift Dev Spaces Console,window=console] in a new browser tab - and enter your assigned username and password
 +
-image::xxx.png[Dev Spaces Console]
+image::DevSpacesConsole.png[Dev Spaces Console]
 
 . Select the terminal window on the top left and open up a new terminal
 +
-image::xxx.png[Terminal Window]
+image::Terminal.png[Terminal Window]
 
 . Change your working directory into the cicd-lab directory by running the following command
 +
