@@ -22,7 +22,7 @@ You have to use an unique username (e.g. %USERID%) while you’re running the ha
 === 1.2.2. OpenShift Cluster
 Your OpenShift cluster is already configured with everything you need. Here are the details:
 
-`Gitea` to host the source code repositories
+`Gitea` A community git server to host the source code repositories
 
 `OpenShift GitOps` to manage the deployed services using a GitOps approach through ArgoCD
 
