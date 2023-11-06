@@ -135,7 +135,7 @@ When prompted with password, use - xxx
 
 == Congratulations!
 
-You have successfully compiled and built your application using the container image and creating a container from it, getting the desired output. Moving on to the next section, we will make a change in the source code and re-build the container to see the reflected changes. 
+You have successfully compiled and built your application using the container image and created a container from the image! Moving on to the next section, we will make a change in the source code and re-build the container to see the reflected changes. 
 
 
 
