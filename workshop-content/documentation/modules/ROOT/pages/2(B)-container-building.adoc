@@ -28,7 +28,7 @@ For building the container image, we will be making use of Podman Build command.
 
 . Run the following on your Visual Studio Code 
 +
- $ podman build -t podman-simpleweb:v1 .
+ $ podman build -t podman-simpleweb:v2 .
 
 . Validate that the container image has been built successfully 
 +
@@ -50,12 +50,12 @@ You will need to first login to the Quay regsitry using the following command
 . Tag the Container Image
 +
  $ podman tag \
-     localhost/myimage:latest \
-     registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v1
+     localhost/myimage:v2 \
+     registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v2
 
 . Push the Container Image into your Quay Registry
 +
- $ podman push registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v1
+ $ podman push registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v2
 
 == Accessing Your MicroShift Instance
 
