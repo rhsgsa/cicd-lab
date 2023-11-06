@@ -14,10 +14,6 @@ image::DevSpacesConsole.png[Dev Spaces Console]
 +
 image::Terminal.png[Terminal Window]
 
-. Change your working directory into the cicd-lab directory by running the following command
-+
- $ cd cicd-lab
-
 . Change directory once again into the sample-app directory by running the following command
 +
  $ cd sample-app
