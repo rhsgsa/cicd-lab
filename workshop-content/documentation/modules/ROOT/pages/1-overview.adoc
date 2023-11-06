@@ -36,7 +36,7 @@ Your Dev Spaces environment is already configured on your OpenShift cluster and 
 
 VSCode is already deployed in the OpenShift cluster for you to use as your IDE. This means you don’t need to install and configure anything on your system. This makes it easy to change source code and configuration files in the cloned repository.
 
-To get started, access the `VS Code server instance` and log in using the following password.
+To get started, access the {DEVSPACES_URL}[VSCode Console,window=console] and log in using the following password.
 
 Password: {openshift-password}
 
