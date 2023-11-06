@@ -30,9 +30,12 @@ For building the container image, we will be making use of Podman Build command.
 +
  $ podman build -t podman-simpleweb:v2 .
 
-. Validate that the container image has been built successfully 
+. Validate that the container image (v2) has been built successfully 
 +
  $ podman images
+   REPOSITORY                           TAG                  IMAGE ID      CREATED         SIZE
+   localhost/podman-simpleweb           v2                   27970bae2dae  14 seconds ago  222 MB
+   localhost/podman-simpleweb           v1                   27970bae2dae  14 seconds ago  222 MB
 
 == Pushing the v2 Container Image Into Your Quay Registry
 
