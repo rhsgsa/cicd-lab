@@ -3,7 +3,7 @@ include::_attributes.adoc[]
 :experimental:
 
 == 1.1. Goal of the Workshop
-The goal of this lab is to access the benefits of using containers by providing a hands-on experience in building a container image and using podman to create and run containers. This labs also aims to showcase the integration of CI/CD processes to automate certain tasks.  
+The goal of this lab is to assess the benefits of using containers by providing a hands-on experience in building a container image and using podman to create and run containers. This labs also aims to showcase the integration of CI/CD processes to automate certain tasks.  
 
 == 1.2. Workshop Environment
 
