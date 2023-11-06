@@ -20,7 +20,7 @@ image::SourceCodeChange.png[main.go]
      -o ./simpleweb \
      .
 
-== Building Your Container Image 
+== Building a New Version of Your Container Image 
 
 Once `simpleweb` is compiled successfully, we can now go ahead to build the container image! 
 
@@ -34,7 +34,7 @@ For building the container image, we will be making use of Podman Build command.
 +
  $ podman images
 
-== Pushing the Container Image Into Your Quay Registry
+== Pushing the v2 Container Image Into Your Quay Registry
 
 Now that we have successsfully built our container image, we shall push this image into the Quay registry. 
 You will need to first login to the Quay regsitry using the following command
