@@ -4,10 +4,10 @@ include::_attributes.adoc[]
 
 == Changing the source code
 
-Now, let's simulate a scenario where we have a new update in the application (source code) and want to rebuild application with the change. 
+Now, let's simulate a scenario where we have a new update in the application (source code) and want to re-build application with the change. 
 
 [start=1]
-. In the file named "main.go" look for line 26 and change the text from "Hello" to "Hello there" as shown in the image below. 
+. In the file named "main.go", look for line 26 and change the text from "Hello" to "Hello there" as shown in the image below. 
 +
 image::SourceCodeChange.png[main.go]
 
