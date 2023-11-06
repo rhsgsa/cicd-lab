@@ -70,6 +70,7 @@ Now that your have your container image in your Quay Registry, you can now acces
 + 
 When prompted with password, use - xxx
 
+
 == Pulling the Container Image from your Quay Registry
 
 . Login to Quay Registry 
