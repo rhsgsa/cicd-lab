@@ -124,6 +124,10 @@ When prompted with password, use - xxx
 +
  $ podman start podman-simpleweb
 
+. Verify that the container is running successfully
++
+ $ podman ps
+
 
 == Testing the application
 
