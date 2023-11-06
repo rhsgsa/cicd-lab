@@ -94,6 +94,11 @@ When prompted with password, use - xxx
 
 == Building the container using the podman-simpleweb image
 
+. Stop and remove the previously built container
++
+ $ podman stop podman-simpleweb
+ $ podman rm podman-simpleweb
+
 . Build a container using podman create
 +
  $ podman create \
@@ -104,6 +109,9 @@ When prompted with password, use - xxx
 +
  $ podman start podman-simpleweb
 
+. Verify that the container is running successfully
++
+ $ podman ps
 
 == Testing the application
 
@@ -112,3 +120,7 @@ When prompted with password, use - xxx
  $ podman exec -it mycontainer /bin/bash 
 +
  $ curl localhost:8080
+
+== Congratulations!
+
+You have successfully compiled and re-built your application with the reflected change in source code. 
