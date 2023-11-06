@@ -77,17 +77,11 @@ You will need to first login to the Quay registry using the following command
 
 Now that your have your container image in your Quay Registry, you can now access into your MicroShift instance and deploy the simeplweb application using that container image. 
 
-. Access your bastion via SSH
+. Access your MircoShift VM via SSH
 +
- $ ssh lab-user@bastion.vcdn4.sandbox1757.opentlc.com
+ $ ssh rhde@xxxxxx
 + 
 When prompted with password, use - xxx
-
-. Login to the MicroShift VM
-+
- $ virtctl ssh \
-     rhde@microshift.%USER% \
-     --identity-file=/home/lab-user/.ssh/id_rsa
 
 
 == Pulling the Container Image from your Quay Registry
