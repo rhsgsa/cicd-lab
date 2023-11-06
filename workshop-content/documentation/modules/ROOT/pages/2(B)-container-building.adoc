@@ -123,4 +123,4 @@ When prompted with password, use - xxx
 
 == Congratulations!
 
-You have successfully compiled and re-built your application with the reflected change in source code. 
+You have successfully compiled and re-built your application with the reflected change in source code. You are now done with part A of the hands-on workshop!
