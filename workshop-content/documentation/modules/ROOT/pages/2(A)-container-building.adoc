@@ -128,7 +128,6 @@ When prompted with password, use - xxx
 +
  $ podman ps
 
-
 == Testing the application
 
 . Run the exec command to run a new /bin/bash command inside the container mycontainer
