@@ -1,4 +1,4 @@
-= 2. Container Building on MicroShift
+= 2.1. Container Building on MicroShift
 include::_attributes.adoc[]
 include::workshop-content/documentation/modules/ROOT/assets/images
 :experimental:
@@ -28,7 +28,7 @@ image::Terminal.png[Terminal Window]
      .
 
 
-== 2.1 Building Your First Container Image 
+== 2.1.1. Building Your First Container Image 
 
 Once `simpleweb` is compiled successfully, we can now go ahead to build the container image! 
 
@@ -46,7 +46,7 @@ For building the container image, we will be making use of Podman Build command.
    registry.access.redhat.com/ubi8/ubi  8.8-1067.1697633337  0dc8d21c3cb0  2 weeks ago    215 MB
 
 
-== 2.2 Pushing the Container Image Into Your Quay Registry
+== 2.1.2. Pushing the Container Image Into Your Quay Registry
 
 Now that we have successsfully built our container image, we shall push this image into the Quay registry. 
 You will need to first login to the Quay registry using the following command
@@ -73,7 +73,7 @@ You will need to first login to the Quay registry using the following command
 +
  xx
 
-== 2.3 Accessing Your MicroShift Instance
+== 2.1.3. Accessing Your MicroShift Instance
 
 Now that your have your container image in your Quay Registry, you can now access into your MicroShift instance and deploy the simeplweb application using that container image. 
 
@@ -84,7 +84,7 @@ Now that your have your container image in your Quay Registry, you can now acces
 When prompted with password, use - xxx
 
 
-== 2.4 Pulling the Container Image from your Quay Registry
+== 2.1.4. Pulling the Container Image from your Quay Registry
 
 . Login to Quay Registry 
 +
@@ -104,7 +104,7 @@ When prompted with password, use - xxx
    registry-quay-quay-enterprise.apps.cluster-jgt4p.sandbox1207.opentlc.com/user1/podman-simpleweb  v1          27970bae2dae  10 minutes ago  222 MB
 
 
-== 2.5 Building the container using the podman-simpleweb image
+== 2.1.5. Building the container using the podman-simpleweb image
 
 . Creating a container using podman create
 +
@@ -122,7 +122,7 @@ When prompted with password, use - xxx
   CONTAINER ID  IMAGE                                                                                               COMMAND     CREATED         STATUS        PORTS       NAMES
   29bc1542e8e2  registry-quay-quay-enterprise.apps.cluster-jgt4p.sandbox1207.opentlc.com/user1/podman-simpleweb:v1              14 seconds ago  Up 2 seconds              podman-simpleweb
 
-== 2.6 Testing the application
+== 2.1.6. Testing the application
 
 . Run the exec command to run a new /bin/bash command inside the container mycontainer
 +
@@ -131,7 +131,7 @@ When prompted with password, use - xxx
  $ curl localhost:8080
 
 
-== 2.7 Congratulations!
+== 2.1.7. Congratulations!
 
 You have successfully compiled and built your application using the container image and created a container from the image! Moving on to the next section, we will make a change in the source code and re-build the container to see the reflected changes. 
 
