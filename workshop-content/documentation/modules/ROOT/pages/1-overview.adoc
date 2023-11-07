@@ -3,7 +3,7 @@ include::_attributes.adoc[]
 :experimental:
 
 == 1.1. Goal of the Workshop
-The goal of this lab is to assess the benefits of using containers by providing a hands-on experience in building a container image and using podman to create and run containers. This lab also aims to showcase the integration of CI/CD processes to automate certain tasks.  
+The goal of this lab is to assess the benefits of using containers on MicroShift by providing a hands-on experience in building a container image and using podman to create and run containers. This lab also aims to showcase the integration of CI/CD processes to automate certain tasks. At the end of this workshop, you should be able to appreciate the benefits of building and running containers on MicroShift. All the best!
 
 == 1.2. Workshop Environment
 
@@ -26,7 +26,7 @@ Your OpenShift cluster is already configured with everything you need. Here are 
 
 `OpenShift GitOps` to manage the deployed services using a GitOps approach through ArgoCD
 
-`OpenShift Pipelines` to build the customer application from source code and deploy to the retail project using GitOps
+`OpenShift Pipelines` to build the customer application from source code and deploy using GitOps
 
 
 === 1.2.2. OpenShift Dev Spaces 
@@ -45,3 +45,7 @@ Red Hat Quay is a distributed and highly available container image registry. It 
 Quay is already deployed and configured in the OpenShift cluster for you. To access your Quay registry, log in using the following credentials. 
 
 xxxxxxx
+
+=== 1.2.3. Gitea 
+
+
