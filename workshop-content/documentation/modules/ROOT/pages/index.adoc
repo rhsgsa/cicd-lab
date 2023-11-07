@@ -6,7 +6,7 @@
 
 [.tile]
 * xref:1-overview.adoc[]
-* xref:2(A)-container-building.adoc[]
-* xref:2(B)-container-building.adoc[]
+* xref:2a-container-building.adoc[]
+* xref:2b-container-building.adoc[]
 * xref:3-initial-build.adoc[]
 * xref:4-make-a-change.adoc[]
