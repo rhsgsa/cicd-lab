@@ -3,7 +3,7 @@ include::_attributes.adoc[]
 include::workshop-content/documentation/modules/ROOT/assets/images
 :experimental:
 
-Welcome to Part A of the Hands-On Workshop! In this section, we will be making use of Dev Spaces environment which has Visual Studio Code running as an IDE on it.
+In this section, we will be making use of Dev Spaces environment which has Visual Studio Code running as an IDE on it. At the end of this section, you would have built a container image and a container in which an application named "simpleweb" is running. 
 
 [start=1]
 . Login to the {DEVSPACES_URL}#{GIT_URL}/%USER%/path/to/devfile.yaml[OpenShift Dev Spaces Console,window=console] in a new browser tab - and enter your assigned username and password
