@@ -1,8 +1,8 @@
-= Make A Change 
+= 2.2. Make A Change 
 include::_attributes.adoc[]
 :experimental:
 
-== Changing the source code
+== 2.2.1. Changing the source code
 
 Now, let's simulate a scenario where we have a new update in the application (source code) and want to re-build application with the change. 
 
@@ -20,7 +20,7 @@ image::SourceCodeChange.png[main.go]
      -o ./simpleweb \
      .
 
-== Building a New Version of Your Container Image 
+== 2.2.2. Building a New Version of Your Container Image 
 
 Once `simpleweb` is compiled successfully, we can now go ahead to build the container image! 
 
@@ -37,7 +37,7 @@ For building the container image, we will be making use of Podman Build command.
    localhost/podman-simpleweb           v2                   27970bae2dae  14 seconds ago  222 MB
    localhost/podman-simpleweb           v1                   27970bae2dae  14 seconds ago  222 MB
 
-== Pushing the v2 Container Image Into Your Quay Registry
+== 2.2.3. Pushing the v2 Container Image Into Your Quay Registry
 
 Now that we have successsfully built our container image, we shall push this image into the Quay registry. 
 You will need to first login to the Quay regsitry using the following command
@@ -60,7 +60,7 @@ You will need to first login to the Quay regsitry using the following command
 +
  $ podman push registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v2
 
-== Accessing Your MicroShift Instance
+== 2.2.4. Accessing Your MicroShift Instance
 
 Now that your have your container image in your Quay Registry, you can now access into your MicroShift instance and deploy the simeplweb application using that container image. 
 
@@ -71,7 +71,7 @@ Now that your have your container image in your Quay Registry, you can now acces
 When prompted with password, use - xxx
 
 
-== Pulling the Container Image from your Quay Registry
+== 2.2.5. Pulling the Container Image from your Quay Registry
 
 . Login to Quay Registry 
 +
@@ -93,7 +93,7 @@ When prompted with password, use - xxx
 
 
 
-== Building the container using the podman-simpleweb image
+== 2.2.6. Building the container using the podman-simpleweb image
 
 . Stop and remove the previously built container
 +
@@ -116,7 +116,7 @@ When prompted with password, use - xxx
    CONTAINER ID  IMAGE                                                                                               COMMAND     CREATED        STATUS        PORTS       NAMES
    c1e30ce6c05a  registry-quay-quay-enterprise.apps.cluster-jgt4p.sandbox1207.opentlc.com/user1/podman-simpleweb:v2              9 seconds ago  Up 2 seconds              podman-simpleweb
 
-== Testing the application
+== 2.2.7. Testing the application
 
 . Run the exec command to run a new /bin/bash command inside the container mycontainer
 +
@@ -124,6 +124,6 @@ When prompted with password, use - xxx
 +
  $ curl localhost:8080
 
-== Congratulations!
+== 2.2.8. Congratulations!
 
 You have successfully compiled and re-built your application with the reflected change in source code. You are now done with part A of the hands-on workshop!
