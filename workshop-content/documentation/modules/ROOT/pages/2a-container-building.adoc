@@ -1,6 +1,5 @@
 = 2.1. Container Building on MicroShift
 include::_attributes.adoc[]
-include::workshop-content/documentation/modules/ROOT/assets/images
 :experimental:
 
 In this section, we will be making use of Dev Spaces environment which has Visual Studio Code running as an IDE on it. At the end of this section, you would have built a container image and a container in which an application named "simpleweb" is running. 
@@ -8,6 +7,7 @@ In this section, we will be making use of Dev Spaces environment which has Visua
 [start=1]
 . Login to the {DEVSPACES_URL}#{GIT_URL}/%USER%/path/to/devfile.yaml[OpenShift Dev Spaces Console,window=console] in a new browser tab - and enter your assigned username and password
 +
+
 image::DevSpacesConsole.png[Dev Spaces Console]
 
 . Select the terminal window on the top left and open up a new terminal
