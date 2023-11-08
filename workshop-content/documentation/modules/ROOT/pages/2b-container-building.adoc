@@ -91,38 +91,34 @@ When prompted with password, use - xxx
    registry-quay-quay-enterprise.apps.cluster-jgt4p.sandbox1207.opentlc.com/user1/podman-simpleweb  v2          27970bae2dae  17 minutes ago  222 MB
    registry-quay-quay-enterprise.apps.cluster-jgt4p.sandbox1207.opentlc.com/user1/podman-simpleweb  v1          27970bae2dae  17 minutes ago  222 MB
 
+== 2.1.5. Building the container using the podman-simpleweb image
 
-
-== 2.2.6. Building the container using the podman-simpleweb image
-
-. Stop and remove the previously built container
+. Build and run with podman run command, let's name this container: podman-simpleweb
 +
- $ podman stop podman-simpleweb
- $ podman rm podman-simpleweb
-
-. Build a container using podman create
-+
- $ podman create \
-     --name podman-simpleweb \
-     registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v2
-
-. Start the container
-+
- $ podman start podman-simpleweb
+ $ podman run -d -p 8080:8080 --name podman-simpleweb 
+   registry-quay-quay-enterprise.apps.cluster-jgt4p.sandbox1207.opentlc.com/user1/podman-simpleweb:v1
 
 . Verify that the container is running successfully
 +
  $ podman ps
-   CONTAINER ID  IMAGE                                                                                               COMMAND     CREATED        STATUS        PORTS       NAMES
-   c1e30ce6c05a  registry-quay-quay-enterprise.apps.cluster-jgt4p.sandbox1207.opentlc.com/user1/podman-simpleweb:v2              9 seconds ago  Up 2 seconds              podman-simpleweb
+  CONTAINER ID  IMAGE                                                                                               COMMAND     CREATED         STATUS        PORTS       NAMES
+  29bc1542e8e2  registry-quay-quay-enterprise.apps.cluster-jgt4p.sandbox1207.opentlc.com/user1/podman-simpleweb:v1              14 seconds ago  Up 2 seconds              podman-simpleweb
 
-== 2.2.7. Testing the application
+. Setting up the firewall 
++
+ $ Opening TCP port 8080
+   firewall-cmd --permanent --zone=public --add-port=8080/tcp
++ 
+ $ Reload the firewall
+   firewall-cmd --reload
++
+ $ Restart the firewall
+   systemctl restart firewalld
 
-. Run the exec command to run a new /bin/bash command inside the container mycontainer
-+
- $ podman exec -it mycontainer /bin/bash 
-+
- $ curl localhost:8080
+== 2.1.6. Testing the application
+
+. Use the curl command to test the application
+ $ curl localhost:8080 
 
 == 2.2.8. Congratulations!
 
