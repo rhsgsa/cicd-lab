@@ -48,4 +48,7 @@ xxxxxxx
 
 === 1.2.3. Gitea 
 
+Gitea is a painless self-hosted all-in-one software development service, it includes Git hosting, code review, team collaboration, package registry and CI/CD. It is similar to GitHub, Bitbucket and GitLab. 
+
+Gitea has already been deployed on the OpenShift cluster. To access your Gitea account, log in using the following credentials. 
 
