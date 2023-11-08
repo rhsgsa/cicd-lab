@@ -130,6 +130,7 @@ When prompted with password, use - xxx
 == 2.1.6. Testing the application
 
 . Use the curl command to test the application
++
  $ curl localhost:8080 
 
 == 2.1.7. Congratulations!
