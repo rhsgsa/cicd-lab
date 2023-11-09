@@ -7,48 +7,54 @@ The goal of this lab is to assess the benefits of using containers on MicroShift
 
 == 1.2. Workshop Environment
 
-=== 1.2.1. Confirm Your Username!
-Look in the box at the top of your screen. Is your username set already? If so it will look like this:
+A gitea repository has been created for you for this workshop, please login using the link below: 
 
-image::alreadyset.png
-If your username is properly set, then you can move on. If not, in the above box, enter the user ID you were assigned like this:
+Link -----
 
-image::setuser.png
-This will customize the links and copy/paste code for this workshop. If you accidentally type the wrong username, just update your username in the URL parameters (e.g. `1-introduction.html?USERID=%USERID%` )
+=== 1.2.1. Account Assignment
+
+image::get-user-login-informationpng
+Enter your email address and password provided by us and click submit. 
+
+Look in the box on your screen. Is your username set already? If so it will look like this:
+
+image::initial-workshop-landing-page.png
+On this page, you will have access to your username, password, lab instructions, OpenShift console, Gitea and Quay.
 
 Important
-You have to use an unique username (e.g. %USERID%) while you’re running the hands-on labs. For example, you need to deploy applications to your own project (e.g. retail-%USERID%).
+You have to use an unique username (e.g. %USERID%) while you’re running the hands-on labs. For example, you need to deploy applications to your own project (e.g. %USERID%).
 
-=== 1.2.2. OpenShift Cluster
-Your OpenShift cluster is already configured with everything you need. Here are the details:
+=== 1.2.2. Accessing your OpenShift Cluster
+Your OpenShift cluster is already configured with everything you need. Log in to your OpenShift console with the following steps: 
+image::login-user-ldap.png
+image::openshift-user-login.png
+image::user-developer-dashboard.png
 
-`Gitea` A community git server to host the source code repositories
+=== 1.2.2. Accessing your OpenShift Dev Spaces console
+Built on the open source Eclipse Che project, Red Hat OpenShift Dev Spaces uses Kubernetes and containers to provide developers and other IT team members with a consistent, secure, and zero-configuration development environment.
+
+To get started, access the DevSpaces console by clicking the icon as follows: 
+image::open-dev-spaces.png
+image::login-openshift-screen.png
+image::login-user-ldap.png
+image::openshift-user-login.png
+image::click-allow-selected-permissions.png
+image::devspaces-dashboard.png
+
+
+
+
+
+
+
+=== 1.2.2. Additional Details
+
+`Gitea` A community git server to host the source code repositories 
 
 `OpenShift GitOps` to manage the deployed services using a GitOps approach through ArgoCD
 
 `OpenShift Pipelines` to build the customer application from source code and deploy using GitOps
 
+`Quay`Red Hat Quay is a distributed and highly available container image registry. It provides a single and resilient content repository for delivering containerized software to development and production across OpenShift clusters.
 
-=== 1.2.2. OpenShift Dev Spaces 
-Built on the open source Eclipse Che project, Red Hat OpenShift Dev Spaces uses Kubernetes and containers to provide developers and other IT team members with a consistent, secure, and zero-configuration development environment.
-
-VSCode (IDE) is already deployed in the OpenShift cluster for you to use as your IDE. This means you don’t need to install and configure anything on your system. This makes it easy to change source code and configuration files in the cloned repository.
-
-To get started, access the {DEVSPACES_URL}[VSCode Console,window=console] and log in using the following password.
-
-Password: {openshift-password}
-
-=== 1.2.2. Quay Regsitry
-
-Red Hat Quay is a distributed and highly available container image registry. It provides a single and resilient content repository for delivering containerized software to development and production across OpenShift clusters.
-
-Quay is already deployed and configured in the OpenShift cluster for you. To access your Quay registry, log in using the following credentials. 
-
-xxxxxxx
-
-=== 1.2.3. Gitea 
-
-Gitea is a painless self-hosted all-in-one software development service, it includes Git hosting, code review, team collaboration, package registry and CI/CD. It is similar to GitHub, Bitbucket and GitLab. 
-
-Gitea has already been deployed on the OpenShift cluster. To access your Gitea account, log in using the following credentials. 
 
