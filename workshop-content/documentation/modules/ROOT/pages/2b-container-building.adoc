@@ -46,7 +46,7 @@ You will need to first login to the Quay regsitry using the following command
 . Login to Quay Registry 
 +
  $ podman login \
-     registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com \
+     registry-quay-quay-enterprise.apps.cluster-xxxx.sandboxyyyy.opentlc.com \
      --username %USER% \
      --password redhat
 
@@ -55,11 +55,11 @@ You will need to first login to the Quay regsitry using the following command
 +
  $ podman tag \
      localhost/podman-simpleweb:v2 \
-     registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v2
+     registry-quay-quay-enterprise.apps.cluster-xxxx.sandboxyyyy.opentlc.com/%USER%/podman-simpleweb:v2
 
 . Push the Container Image into your Quay Registry
 +
- $ podman push registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v2
+ $ podman push registry-quay-quay-enterprise.apps.cluster-xxxx.sandboxyyyy.opentlc.com/%USER%/podman-simpleweb:v2
 
 == 2.2.4. Accessing Your MicroShift Instance
 
@@ -90,8 +90,8 @@ When prompted with password, use `password`
  $ podman images
 +
    REPOSITORY                                                                                       TAG         IMAGE ID      CREATED         SIZE
-   registry-quay-quay-enterprise.apps.cluster-jgt4p.sandbox1207.opentlc.com/user1/podman-simpleweb  v2          27970bae2dae  17 minutes ago  222 MB
-   registry-quay-quay-enterprise.apps.cluster-jgt4p.sandbox1207.opentlc.com/user1/podman-simpleweb  v1          27970bae2dae  17 minutes ago  222 MB
+   registry-quay-quay-enterprise.apps.cluster-xxxx.sandboxyyyy.opentlc.com/user1/podman-simpleweb  v2          27970bae2dae  17 minutes ago  222 MB
+   registry-quay-quay-enterprise.apps.cluster-xxxxp.sandboxyyyy.opentlc.com/user1/podman-simpleweb  v1          27970bae2dae  17 minutes ago  222 MB
 
 == 2.2.6. Building the container using the podman-simpleweb image
 
@@ -105,7 +105,7 @@ When prompted with password, use `password`
  $ podman ps
 +
   CONTAINER ID  IMAGE                                                                                               COMMAND     CREATED         STATUS        PORTS       NAMES
-  29bc1542e8e2  registry-quay-quay-enterprise.apps.cluster-jgt4p.sandbox1207.opentlc.com/user1/podman-simpleweb:v1              14 seconds ago  Up 2 seconds              podman-simpleweb
+  29bc1542e8e2  registry-quay-quay-enterprise.apps.cluster-xxxx.sandboxyyyy.opentlc.com/user1/podman-simpleweb:v1              14 seconds ago  Up 2 seconds              podman-simpleweb
 
 . Setting up the firewall and opening TCP port 8080
 +
