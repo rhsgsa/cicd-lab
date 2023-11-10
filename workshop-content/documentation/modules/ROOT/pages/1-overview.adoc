@@ -9,7 +9,7 @@ The goal of this lab is to assess the benefits of using containers on MicroShift
 
 A gitea repository has been created for you for this workshop, please login using the link below: 
 
-Link -----
+{git_url}[gitea URL]
 
 === 1.2.1. Account Assignment
 
