@@ -35,6 +35,8 @@ components:
           value: OpenShift console
         - name: OPENVSX_REGISTRY_URL
           value: ''
+        - name: QUAY_URL
+          value: 
       image: registry.redhat.io/devspaces/udi-rhel8@sha256:571ceed7b4b886b7f989ba193fa74ec863600f56f7c0045f3a1af6dadf09f85b
       memoryLimit: 2Gi
       memoryRequest: 1Gi
