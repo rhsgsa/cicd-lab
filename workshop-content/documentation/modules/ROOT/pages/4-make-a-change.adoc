@@ -19,6 +19,10 @@ image::commit_change.png[Commit Change]
 
 . Wait for the pipeline run to complete
 
-. Go back to the Topology view - you should see a new pod spinning up
+. Once the pipelines has been completed, you can repeat the curl statement on the DevSpaces console by executing the following command: 
++
+$ curl vmi-service.%user%.svc.cluster.local:8080
 
-. When the new pod comes up successfully, click on ``simpleweb``'s route again - the new greeting should appear
+. Now yoou should be able to see the new output on your terminal:
++
+image::new_hello_world.png
