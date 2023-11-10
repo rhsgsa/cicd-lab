@@ -33,6 +33,7 @@ For building the container image, we will be making use of Podman Build command.
 . Validate that the container image (v2) has been built successfully 
 +
  $ podman images
++
    REPOSITORY                           TAG                  IMAGE ID      CREATED         SIZE
    localhost/podman-simpleweb           v2                   27970bae2dae  14 seconds ago  222 MB
    localhost/podman-simpleweb           v1                   27970bae2dae  14 seconds ago  222 MB
@@ -87,6 +88,7 @@ When prompted with password, use - xxx
 . Validate that the container image has been successfully pulled and you should be able to see the podman-simpleweb image. 
 +
  $ podman images
++
    REPOSITORY                                                                                       TAG         IMAGE ID      CREATED         SIZE
    registry-quay-quay-enterprise.apps.cluster-jgt4p.sandbox1207.opentlc.com/user1/podman-simpleweb  v2          27970bae2dae  17 minutes ago  222 MB
    registry-quay-quay-enterprise.apps.cluster-jgt4p.sandbox1207.opentlc.com/user1/podman-simpleweb  v1          27970bae2dae  17 minutes ago  222 MB
@@ -101,19 +103,17 @@ When prompted with password, use - xxx
 . Verify that the container is running successfully
 +
  $ podman ps
++
   CONTAINER ID  IMAGE                                                                                               COMMAND     CREATED         STATUS        PORTS       NAMES
   29bc1542e8e2  registry-quay-quay-enterprise.apps.cluster-jgt4p.sandbox1207.opentlc.com/user1/podman-simpleweb:v1              14 seconds ago  Up 2 seconds              podman-simpleweb
 
-. Setting up the firewall 
+. Setting up the firewall and opening TCP port 8080
 +
- $ Opening TCP port 8080
-   firewall-cmd --permanent --zone=public --add-port=8080/tcp
+ $ firewall-cmd --permanent --zone=public --add-port=8080/tcp
 + 
- $ Reload the firewall
-   firewall-cmd --reload
+ $ firewall-cmd --reload
 +
- $ Restart the firewall
-   systemctl restart firewalld
+ $ systemctl restart firewalld
 
 == 2.1.6. Testing the application
 
