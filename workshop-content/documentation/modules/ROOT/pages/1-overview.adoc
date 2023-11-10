@@ -32,7 +32,7 @@ Your OpenShift cluster is already configured with everything you need. Log in to
 2. image::openshift-user-login.png
 3. image::user-developer-dashboard.png
 
-=== 1.2.2. Accessing your OpenShift Dev Spaces console
+=== 1.2.3. Accessing your OpenShift Dev Spaces console
 Built on the open source Eclipse Che project, Red Hat OpenShift Dev Spaces uses Kubernetes and containers to provide developers and other IT team members with a consistent, secure, and zero-configuration development environment.
 
 To get started, access the DevSpaces console by clicking the icon as follows: 
@@ -44,7 +44,7 @@ To get started, access the DevSpaces console by clicking the icon as follows:
 5. image::click-allow-selected-permissions.png
 6. image::devspaces-dashboard.png
 
-=== 1.2.2. Additional Details
+=== 1.2.4. Additional Details
 
 `Gitea` A community git server to host the source code repositories 
 
