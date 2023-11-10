@@ -26,3 +26,7 @@ $ curl vmi-service.%user%.svc.cluster.local:8080
 . Now yoou should be able to see the new output on your terminal:
 +
 image::new_hello_world.png
+
+== 4.1. Conclusion
+
+
