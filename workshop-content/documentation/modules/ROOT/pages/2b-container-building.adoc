@@ -67,9 +67,9 @@ Now that your have your container image in your Quay Registry, you can now acces
 
 . Access your MircoShift VM via SSH
 +
- $ ssh rhde@xxxxxx
+ $ ssh rhde@microshift-service.%USER%.svc.cluster.local
 + 
-When prompted with password, use - xxx
+When prompted with password, use `password`
 
 
 == 2.2.5. Pulling the Container Image from your Quay Registry
@@ -77,13 +77,13 @@ When prompted with password, use - xxx
 . Login to Quay Registry 
 +
  $ podman login \
-     registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com \
+     registry-quay-quay-enterprise.apps.cluster-xxxx.sandboxyyyy.opentlc.com \
      --username %USER% \
      --password redhat
 
 . Pull the podman-simpleweb:v2 image from the Quay registry
 +
- $ podman pull registry-quay-quay-enterprise.apps.cluster-vcdn4.sandbox1757.opentlc.com/%USER%/podman-simpleweb:v2
+ $ podman pull registry-quay-quay-enterprise.apps.cluster-xxxx.sandboxyyyy.opentlc.com/%USER%/podman-simpleweb:v2
 
 . Validate that the container image has been successfully pulled and you should be able to see the podman-simpleweb image. 
 +
@@ -98,7 +98,7 @@ When prompted with password, use - xxx
 . Build and run with podman run command, let's name this container: podman-simpleweb
 +
  $ podman run -d -p 8080:8080 --name podman-simpleweb 
-   registry-quay-quay-enterprise.apps.cluster-jgt4p.sandbox1207.opentlc.com/user1/podman-simpleweb:v1
+   registry-quay-quay-enterprise.apps.cluster-xxxx.sandboxyyyy.opentlc.com/%USER%/podman-simpleweb:v1
 
 . Verify that the container is running successfully
 +
