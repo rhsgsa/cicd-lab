@@ -59,7 +59,7 @@ image::commit_change.png[Commit Change]
 
 . Test that the application is running properly by accessing the DevSpaces terminal and executing the following command: 
 +
-$ curl vmi-service.%user%.svc.cluster.local:8080
+$ curl vmi-service.%USER%.svc.cluster.local:8080
 
 . You should be able to see the following output on your terminal:
 +
