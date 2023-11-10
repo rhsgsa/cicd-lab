@@ -103,7 +103,7 @@ When prompted with password, use - `password`
  $ podman images
 +
    REPOSITORY                                                                                       TAG         IMAGE ID      CREATED         SIZE
-   registry-quay-quay-enterprise.apps.cluster-jgt4p.sandbox1207.opentlc.com/user1/podman-simpleweb  v1          27970bae2dae  10 minutes ago  222 MB
+   registry-quay-quay-enterprise.apps.cluster-xxxx.sandboxyyyy.opentlc.com/user1/podman-simpleweb  v1          27970bae2dae  10 minutes ago  222 MB
 
 
 == 2.1.5. Building the container using the podman-simpleweb image
