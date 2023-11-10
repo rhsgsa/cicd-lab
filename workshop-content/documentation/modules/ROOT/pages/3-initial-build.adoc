@@ -3,6 +3,7 @@
 A CICD pipeline has been provisioned in your OpenShift namespace. Let's take a look at the pipeline in the OpenShift Console.
 
 [start=1]
+
 . Login to the {CONSOLE_URL}[OpenShift Console,window=console] in a new browser tab - select the `ldap_provider` and enter your assigned username and password
 +
 image::auth_providers.png[Authentication providers]
@@ -11,7 +12,7 @@ image::auth_providers.png[Authentication providers]
 +
 image::select_pipeline.png[Select pipeline]
 
-. The pipeline clones from a Java source git repo, builds the application, creates a container image, pushes the container image to an image registry, and deploys the image to your namespace in OpenShift
+. The pipeline clones from a Java source git repo, builds the application, creates a container image, pushes the container image to an image registry, and deploys the image to the Micorshift VM
 +
 image::pipeline.png[Pipeline]
 
@@ -40,10 +41,10 @@ image::test_delivery.png[Test Delivery]
 
 . Wait for the pipeline run to complete
 
-. Select the menu:Developer[Topology] - you should see the `simpleweb` Deployment spinning up
+. Test that the application is running properly by accessing the DevSpaces terminal and executing the following command: 
 +
-image::topology_view.png[Topology view]
+$ curl vmi-service.%user%.svc.cluster.local:8080
 
-. Click on the `simpleweb` route - you should see a greeting from the web services
+. You should be able to see the following output on your terminal:
 +
-image::route.png[Route]
+image::hello_world.png
