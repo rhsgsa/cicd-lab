@@ -82,7 +82,7 @@ Now that your have your container image in your Quay Registry, you can now acces
 +
  $ ssh rhde@microshift-service.%USER%.svc.cluster.local
 + 
-When prompted with password, use - xxx
+When prompted with password, use - `password`
 
 
 == 2.1.4. Pulling the Container Image from your Quay Registry
