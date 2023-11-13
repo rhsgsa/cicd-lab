@@ -1,6 +1,6 @@
 = 3. CI/CD OpenShift Build
 
-A CICD pipeline has been provisioned in your OpenShift namespace. Let's take a look at the pipeline in the OpenShift Console.
+A CICD pipeline has been provisioned in your OpenShift namespace. This section is to showcase the integration of CICD with Microshift. Let's take a look at the pipeline in the OpenShift Console.
 
 [start=1]
 
