@@ -51,7 +51,7 @@ image::acs-scan-failure.png[ACS Scan Failed]
 
 . Git clone the repository into Dev Spaces
 
-`+git clone+` https://{GIT_URL}/%USER%/sample-app.git
+    `+git clone+` https://{GIT_URL}/%USER%/sample-app.git
 
 . Edit the Dockerfile
 +
