@@ -9,11 +9,11 @@ The goal of this lab is to assess the benefits of using containers on MicroShift
 
 . `Gitea` is a community git server to host the source code repositories 
 
-. `OpenShift GitOps` to manage the deployed services using a GitOps approach through ArgoCD
+. `OpenShift GitOps` is used to manage the deployed services using a GitOps approach through ArgoCD
 
-. `OpenShift Pipelines` to build the customer application from source code and deploy using GitOps
+. `OpenShift Pipelines` is used to build the customer application from source code and deploy them to OpenShift clusters
 
-. `Red Hat Quay` is a distributed and highly available container image registry. It provides a single and resilient content repository for delivering containerized software to development and production across OpenShift clusters.
+. `Red Hat Quay` is a distributed and highly available container image registry that provides a single and resilient content repository for delivering containerized software to development and production environments across OpenShift clusters.
 
 == 1.3. Workshop Environment Login Information
 
@@ -27,15 +27,13 @@ The goal of this lab is to assess the benefits of using containers on MicroShift
 
 . Your Username is %USER% and your password is `redhat`
 
-*Important*
-You have to use an unique username, e.g. %USER% while you’re running the hands-on labs. You will need to deploy applications onto your own project/namespace, e.g. e.g. %USER%.
+*Important*: You have to use an unique username, e.g. %USER% while you’re running the hands-on labs. You will need to deploy applications onto your own project/namespace, e.g. e.g. %USER%.
 
 === 1.3.1. Accessing your OpenShift Cluster
-. Your OpenShift cluster is already configured with everything you need. Log in to your OpenShift console with the following steps: 
+. Your OpenShift cluster is already configured with everything you need. Log in to your OpenShift console with the following steps (using `ldap_provider`): 
 +
 image::login-user-ldap.png[User Login LDAP]
 image::openshift-user-login-screen.png[OpenShift User Login Screen]
-image::user-developer-dashboard.png[User Developer Dashboard]
 
 === 1.3.2. Accessing your OpenShift Dev Spaces console
 Built on the open source Eclipse Che project, Red Hat OpenShift Dev Spaces uses Kubernetes and containers to provide developers and other IT team members with a consistent, secure, and zero-configuration development environment.
