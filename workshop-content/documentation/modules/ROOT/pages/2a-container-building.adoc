@@ -12,7 +12,7 @@ image::B4DA4F47-F3E5-4833-87D8-E0AB4ADD78AB.jpeg[Go Template]
 
 . Select the terminal window on the top left and open up a new terminal
 +
-image::Terminal.png[Terminal Window]
+image::Screenshot 2023-11-13 at 5.46.01 PM.png[Terminal Window]
 
 . Clone the "sample-app" repo from your Gitea console onto your Dev Spaces terminal
 
