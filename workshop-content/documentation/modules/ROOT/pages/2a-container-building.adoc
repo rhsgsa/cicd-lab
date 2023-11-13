@@ -68,7 +68,7 @@ Export Quay Registry URL as an environment variable
 . Login to Quay Registry 
 +
  $ podman login \
-     ${QUAY_URL}\
+     {quay_url}\
      --username %USER% \
      --password redhat
 
