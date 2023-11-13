@@ -55,7 +55,7 @@ You will need to first login to the Quay registry using the following command
 . Login to Quay Registry 
 +
  $ podman login \
-     {QUAY_URL} \
+     {quay_url}\
      --username %USER% \
      --password redhat
 
