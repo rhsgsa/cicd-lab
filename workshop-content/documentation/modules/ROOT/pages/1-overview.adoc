@@ -24,14 +24,14 @@ image::initial-workshop-landing-page.png
 On this page, you will have access to your username, password, lab instructions, OpenShift console, Gitea and Quay.
 
 Important
-You have to use an unique username (e.g. %USERID%) while you’re running the hands-on labs. For example, you need to deploy applications to your own project (e.g. %USERID%).
+You have to use an unique username (e.g. %USER%) while you’re running the hands-on labs. For example, you need to deploy applications to your own project (e.g. %USER%).
 
 === 1.2.2. Accessing your OpenShift Cluster
 Your OpenShift cluster is already configured with everything you need. Log in to your OpenShift console with the following steps: 
-
-image::login-user-ldap.png
-image::openshift-user-login.png
-image::user-developer-dashboard.png
++
+image::login-user-ldap.png[User Login LDAP]
+image::openshift-user-login.png[OpenShift User Login]
+image::user-developer-dashboard.png[User Developer Dashboard]
 
 === 1.2.3. Accessing your OpenShift Dev Spaces console
 Built on the open source Eclipse Che project, Red Hat OpenShift Dev Spaces uses Kubernetes and containers to provide developers and other IT team members with a consistent, secure, and zero-configuration development environment.
