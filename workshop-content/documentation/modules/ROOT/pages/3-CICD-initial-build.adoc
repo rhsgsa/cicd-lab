@@ -40,6 +40,8 @@ image::test_delivery.png[Test Delivery]
 . Examine the {CONSOLE_URL}/pipelines/ns/%USER%/pipeline-runs[PipelineRuns screen in the OpenShift Console,window=console] - you should see a new pipeline run running
 
 . Wait for the pipeline run to fail due to security vulnerabilities that was flagged out by Advanced Cluster Security
++
+image::acs-scan-failure.png[ACS Scan Failed]
 
 . Open {GIT_URL}/%USER%/sample-app/src/branch/main/Docker[`Docker` in the `sample-app` git repo,window=git]
 
