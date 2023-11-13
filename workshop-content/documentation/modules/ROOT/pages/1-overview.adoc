@@ -42,7 +42,7 @@ Built on the open source Eclipse Che project, Red Hat OpenShift Dev Spaces uses 
 image::open-dev-spaces.png[Open Dev Spaces]
 image::login-openshift-screen.png[OpenShift Login Screen]
 image::login-user-ldap.png[User Login LDAP]
-image::openshift-user-login.png[OpenShift User Login]
+image::openshift-user-login-screen.png[OpenShift User Login Screen]
 image::click-allow-selected-permissions.png[Allow Selected Permissions]
 image::devspaces-dashboard.png[Dev Spaces Dashboard]
 
