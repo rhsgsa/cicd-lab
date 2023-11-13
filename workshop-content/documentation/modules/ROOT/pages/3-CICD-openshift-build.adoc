@@ -4,9 +4,9 @@ This section showcases the integration of CICD with Microshift. A CICD pipeline 
 
 [start=1]
 
-. Go to the pipeline that can be accessed from the OpenShift Console, i.e. {console_url}/pipelines/ns/%USER%/ and click on the `build-and-deploy` pipeline
+. Go to the pipeline for this section, i.e. {console_url}/pipelines/ns/%USER%/ and click on the `build-and-deploy` pipeline
 
-. The pipeline clones from the git repo, builds the application, creates a container image, pushes the container image to an image registry, and deploys the image to the Micorshift VM
+. The pipeline clones from the git repo, builds the application, creates a container image, pushes the container image to an image registry, scans the image for vulnerabilities and deploys the image to the Micorshift VM if it is deemed to be good and free of critical CVEs.
 +
 image::pipeline.png[Pipeline]
 
@@ -44,9 +44,10 @@ image::acs-scan-failure.png[ACS Scan Failed]
 image::redhat_quay_webapp_image_dashboard.png[Red Hat Quay Web App Dashboard]
 image::redhat_quay_webapp_image_cve.png[Red Hat Quay Web App CVE]
 
-. To fix the security issue, update the UBI image to the latest available version 
 
-. Change the current base image in line 1 from `registry.access.redhat.com/ubi8/ubi:8.8-1067.1697633337` to `registry.access.redhat.com/ubi8/ubi:latest`
+. Update the UBI image to the latest available version to fix the security issue
+
+. Change the current base image in line 1 from `registry.access.redhat.com/ubi8/ubi:8.8-1067.1697633337` to `registry.access.redhat.com/ubi8/ubi:latest`. The Dockerfile should look like the image below:
 +
 image::edit-dockerfile-devspaces-to-latest.png[Edit DockerFile Image to Latest]
 
@@ -64,11 +65,11 @@ image::stage_commit_changes_devspaces.png[Stage and Commit Change]
 +
 image::sync_changes_devspaces.png[Sync and Push Change]
 
-. Key in user name
+. Key in user name, i.e. %USER% when prompted in VSCode
 +
 image::key_in_git_username.png[Key in Username]
 
-. Key in password
+. Key in password, i.e. `redhat` when prompted in VSCode
 +
 image::key_in_git_password.png[Key in Password]
 
