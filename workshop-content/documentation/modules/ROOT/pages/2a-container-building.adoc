@@ -55,7 +55,7 @@ You will need to first login to the Quay registry using the following command
 . Login to Quay Registry 
 +
  $ podman login \
-     registry-quay-quay-enterprise.apps.cluster-xxxx.sandboxyyyy.opentlc.com \
+     registry-quay-quay-enterprise.apps.cluster-ck6cg.sandbox2981.opentlc.com \
      --username %USER% \
      --password redhat
 
@@ -64,11 +64,11 @@ You will need to first login to the Quay registry using the following command
 +
  $ podman tag \
      localhost/podman-simpleweb:v1 \
-     registry-quay-quay-enterprise.apps.cluster-xxxx.sandboyyyy.opentlc.com/%USER%/podman-simpleweb:v1
+     registry-quay-quay-enterprise.apps.cluster-ck6cg.sandbo2981.opentlc.com/%USER%/podman-simpleweb:v1
 
 . Push the Container Image into your Quay Registry
 +
- $ podman push registry-quay-quay-enterprise.apps.cluster-xxxx.sandboxyyyy.opentlc.com/%USER%/podman-simpleweb:v1
+ $ podman push registry-quay-quay-enterprise.apps.cluster-ck6cg.sandbox2981.opentlc.com/%USER%/podman-simpleweb:v1
 
 . Verify that the image has been built on Quay using the following link
 +
@@ -90,20 +90,20 @@ When prompted with password, use - `password`
 . Login to Quay Registry 
 +
  $ podman login \
-     registry-quay-quay-enterprise.apps.cluster-xxxx.sandboxyyyy.opentlc.com \
+     registry-quay-quay-enterprise.apps.cluster-ck6cg.sandbox2981.opentlc.com \
      --username %USER% \
      --password redhat
 
 . Pull the podman-simpleweb:v1 image from the Quay registry
 +
- $ podman pull registry-quay-quay-enterprise.apps.cluster-xxxx.sandboxyyyy.opentlc.com/%USER%/podman-simpleweb:v1
+ $ podman pull registry-quay-quay-enterprise.apps.cluster-ck6cg.sandbox2981.opentlc.com/%USER%/podman-simpleweb:v1
 
 . Validate that the container image has been successfully pulled and you should be able to see the podman-simpleweb image. 
 +
  $ podman images
 +
    REPOSITORY                                                                                       TAG         IMAGE ID      CREATED         SIZE
-   registry-quay-quay-enterprise.apps.cluster-xxxx.sandboxyyyy.opentlc.com/user1/podman-simpleweb  v1          27970bae2dae  10 minutes ago  222 MB
+   registry-quay-quay-enterprise.apps.cluster-ck6cg.sandbox2981.opentlc.com/user1/podman-simpleweb  v1          27970bae2dae  10 minutes ago  222 MB
 
 
 == 2.1.5. Running the container using the podman-simpleweb image
@@ -111,14 +111,14 @@ When prompted with password, use - `password`
 . Build and run with podman run command, let's name this container: podman-simpleweb
 +
  $ podman run -d -p 8080:8080 --name podman-simpleweb 
-   registry-quay-quay-enterprise.apps.cluster-xxxx.sandboxyyyy.opentlc.com/user1/podman-simpleweb:v1
+   registry-quay-quay-enterprise.apps.cluster-ck6cg.sandbox2981.opentlc.com/user1/podman-simpleweb:v1
 
 . Verify that the container is running successfully
 +
  $ podman ps
 + 
   CONTAINER ID  IMAGE                                                                                               COMMAND     CREATED         STATUS        PORTS       NAMES
-  29bc1542e8e2  registry-quay-quay-enterprise.apps.cluster-jgt4p.sandbox1207.opentlc.com/user1/podman-simpleweb:v1              14 seconds ago  Up 2 seconds              podman-simpleweb
+  29bc1542e8e2  registry-quay-quay-enterprise.apps.cluster-ck6cg.sandbox2981.opentlc.com/user1/podman-simpleweb:v1              14 seconds ago  Up 2 seconds              podman-simpleweb
 
 . Setting up the firewall and opening TCP port 8080
 +
