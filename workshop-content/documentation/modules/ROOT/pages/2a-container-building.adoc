@@ -126,11 +126,11 @@ When prompted with password, use - `password`
 
 . Setting up the firewall and opening TCP port 8080
 +
- $ firewall-cmd --permanent --zone=public --add-port=8080/tcp
+ $ sudo firewall-cmd --permanent --zone=public --add-port=8080/tcp
 + 
- $ firewall-cmd --reload
+ $ sudo firewall-cmd --reload
 +
- $ systemctl restart firewalld
+ $ sudo systemctl restart firewalld
 
 == 2.1.6. Testing the application
 
