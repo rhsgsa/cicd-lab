@@ -9,7 +9,7 @@ Now, let's simulate a scenario where we have a new update in the application (so
 [start=1]
 . In the file named "main.go", look for line 26 and change the text from "Hello" to "Hello there" as shown in the image below. 
 +
-image::SourceCodeChange.png[main.go]
+image::maingo.png[main.go]
 
 . Compile the simpleweb application with the new change by running the following command
 +
