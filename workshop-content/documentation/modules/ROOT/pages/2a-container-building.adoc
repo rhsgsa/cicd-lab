@@ -146,9 +146,10 @@ When prompted with password, use - `password`
 
 You have successfully compiled and built your application using the container image and created a container from the image! Moving on to the next section, we will make a change in the source code and re-build the container to see the reflected changes. 
 
-. Before we move on with the next part, let's clean up what we created by removing the container!
+. Before we move on with the next part, let's clean up what we created by stopping and removing the container!
 +
- $ podman rm podman-simpleweb
+ $ podman stop podman-simpleweb   
+ $ podman rm podman-simpleweb 
 
 
 
