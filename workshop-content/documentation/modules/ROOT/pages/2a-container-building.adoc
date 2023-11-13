@@ -78,7 +78,7 @@ Export Quay Registry URL as an environment variable
 
 . Verify that the image has been built on Quay using the following link
 +
- xx
+  {QUAY_URL}
 
 == 2.1.3. Accessing Your MicroShift Instance
 
