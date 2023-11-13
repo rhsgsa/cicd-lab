@@ -76,9 +76,7 @@ Export Quay Registry URL as an environment variable
 +
  $ podman push {QUAY_URL}/%USER%/podman-simpleweb:v1
 
-. Verify that the image has been built on Quay using the following link
-+
-  {QUAY_URL}
+. Verify that the image has been built on Quay using by logging into your Quay Console - QUAY_URL
 
 == 2.1.3. Accessing Your MicroShift Instance
 
