@@ -111,19 +111,16 @@ When prompted with password, use `password`
   CONTAINER ID  IMAGE                                                                                               COMMAND     CREATED         STATUS        PORTS       NAMES
   29bc1542e8e2  registry-quay-quay-enterprise.apps.cluster-ck6cg.sandbox2981.opentlc.com/user1/podman-simpleweb:v1              14 seconds ago  Up 2 seconds              podman-simpleweb
 
-. Setting up the firewall and opening TCP port 8080
-+
- $ sudo firewall-cmd --permanent --zone=public --add-port=8080/tcp
-+ 
- $ sudo firewall-cmd --reload
-+
- $ sudo systemctl restart firewalld
-
 == 2.2.7. Testing the application
 
 . Use the curl command to test the application
 +
  $ curl localhost:8080 
+
+. Stop and Remove the Simple Web Container
++
+ $ podman stop podman-simpleweb   
+ $ podman rm podman-simpleweb 
 
 == 2.2.8. Congratulations!
 
