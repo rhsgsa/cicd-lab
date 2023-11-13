@@ -4,15 +4,9 @@ A CICD pipeline has been provisioned in your OpenShift namespace. This section i
 
 [start=1]
 
-. Login to the {CONSOLE_URL}[OpenShift Console,window=console] in a new browser tab - select the `ldap_provider` and enter your assigned username and password
-+
-image::auth_providers.png[Authentication providers]
+. Go to the pipeline in OpenShift Console, i.e. {console_url}/k8s/ns/%USER%/tekton.dev~v1beta1~Pipeline/build-and-deploy
 
-. Select the %USER% project / Pipelines / `build-and-deploy`
-+
-image::select_pipeline.png[Select pipeline]
-
-. The pipeline clones from a Java source git repo, builds the application, creates a container image, pushes the container image to an image registry, and deploys the image to the Micorshift VM
+. The pipeline clones from the git repo, builds the application, creates a container image, pushes the container image to an image registry, and deploys the image to the Micorshift VM
 +
 image::pipeline.png[Pipeline]
 
