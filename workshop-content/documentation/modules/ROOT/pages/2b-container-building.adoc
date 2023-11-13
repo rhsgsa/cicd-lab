@@ -46,7 +46,7 @@ You will need to first login to the Quay regsitry using the following command
 . Login to Quay Registry 
 +
  $ podman login \
-     registry-quay-quay-enterprise.apps.cluster-ck6cg.sandbox2981.opentlc.com \
+     {quay_url} \
      --username %USER% \
      --password redhat
 
@@ -55,11 +55,11 @@ You will need to first login to the Quay regsitry using the following command
 +
  $ podman tag \
      localhost/podman-simpleweb:v2 \
-     registry-quay-quay-enterprise.apps.cluster-ck6cg.sandbox2981.opentlc.com/%USER%/podman-simpleweb:v2
+     {quay_url}/%USER%/podman-simpleweb:v2
 
 . Push the Container Image into your Quay Registry
 +
- $ podman push registry-quay-quay-enterprise.apps.cluster-ck6cg.sandbox2981.opentlc.com/%USER%/podman-simpleweb:v2
+ $ podman push {quay_url}/%USER%/podman-simpleweb:v2
 
 == 2.2.4. Accessing Your MicroShift Instance
 
@@ -77,13 +77,13 @@ When prompted with password, use `password`
 . Login to Quay Registry 
 +
  $ podman login \
-     registry-quay-quay-enterprise.apps.cluster-ck6cg.sandbox2981.opentlc.com \
+     {quay_url} \
      --username %USER% \
      --password redhat
 
 . Pull the podman-simpleweb:v2 image from the Quay registry
 +
- $ podman pull registry-quay-quay-enterprise.apps.cluster-ck6cg.sandbox2981.opentlc.com/%USER%/podman-simpleweb:v2
+ $ podman pull {quay_url}/%USER%/podman-simpleweb:v2
 
 . Validate that the container image has been successfully pulled and you should be able to see the podman-simpleweb image. 
 +
@@ -98,7 +98,7 @@ When prompted with password, use `password`
 . Build and run with podman run command, let's name this container: podman-simpleweb
 +
  $ podman run -d -p 8080:8080 --name podman-simpleweb 
-   registry-quay-quay-enterprise.apps.cluster-ck6cg.sandbox2981.opentlc.com/%USER%/podman-simpleweb:v2
+   {quay_url}/%USER%/podman-simpleweb:v2
 
 . Verify that the container is running successfully
 +
