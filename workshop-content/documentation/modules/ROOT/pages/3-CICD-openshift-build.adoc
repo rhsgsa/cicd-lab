@@ -12,7 +12,7 @@ image::pipeline.png[Pipeline]
 
 . If you wish to examine the artifacts that were used to deploy the pipeline, you can look through the files in the {GIT_URL}/%USER%/pipeline[pipline git repo,window=git]
 
-== Initial Build
+== CICD Build
 include::_attributes.adoc[]
 
 In this module, we will trigger the pipeline for the first time. We will do this by triggering a webhook from the application source git repo.
