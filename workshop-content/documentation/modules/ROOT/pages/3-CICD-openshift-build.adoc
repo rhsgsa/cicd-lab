@@ -1,4 +1,4 @@
-= 3. CI/CD Initial Build
+= 3. CI/CD OpenShift Build
 
 A CICD pipeline has been provisioned in your OpenShift namespace. Let's take a look at the pipeline in the OpenShift Console.
 
