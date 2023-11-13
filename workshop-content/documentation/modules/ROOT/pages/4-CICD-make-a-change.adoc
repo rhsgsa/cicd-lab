@@ -9,7 +9,7 @@ In this module, we will make a change to the application. This should trigger th
 +
 image::edit_file.png[Edit File]
 
-. Change the greeting in line 26 from `Hello` to `Good afternoon`
+. Change the greeting in line 26 from `Hello` to `Good Morning`
 
 . Commit the change
 +
@@ -18,15 +18,17 @@ image::commit_change.png[Commit Change]
 . Switch back to the OpenShift Console - a new pipeline run should have been triggered by the webhook
 
 . Wait for the pipeline run to complete
++
+image::final-working-pipeline.png[Complete Working Pipeline]
 
 . Once the pipelines has been completed, you can repeat the curl statement on the DevSpaces console by executing the following command: 
 +
-$ curl vmi-service.%USER%.svc.cluster.local:8080
+ $ curl microshift-vmiservice.%USER%.svc.cluster.local:8081
 
-. Now yoou should be able to see the new output on your terminal:
+. Now you should be able to see the new output on your terminal:
 +
-image::new_hello_world.png
+ simpleweb-b4975f85f-gdlvr: Good Morning World
 
 == 4.1. Conclusion
-
+You have successfully compiled and re-built your application with the reflected change in source code. You are now done with the last part of the hands-on workshop!
 
