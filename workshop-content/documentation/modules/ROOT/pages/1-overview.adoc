@@ -14,6 +14,7 @@ A gitea repository has been created for you for this workshop, please login usin
 === 1.2.1. Account Assignment
 
 image::get-user-login-information.png
+
 Enter your email address and password and click submit. 
 
 Look in the box on your screen. Is your username set already? If so it will look like this:
@@ -28,21 +29,21 @@ You have to use an unique username (e.g. %USERID%) while you’re running the ha
 === 1.2.2. Accessing your OpenShift Cluster
 Your OpenShift cluster is already configured with everything you need. Log in to your OpenShift console with the following steps: 
 
-1. image::login-user-ldap.png
-2. image::openshift-user-login.png
-3. image::user-developer-dashboard.png
+image::login-user-ldap.png
+image::openshift-user-login.png
+image::user-developer-dashboard.png
 
 === 1.2.3. Accessing your OpenShift Dev Spaces console
 Built on the open source Eclipse Che project, Red Hat OpenShift Dev Spaces uses Kubernetes and containers to provide developers and other IT team members with a consistent, secure, and zero-configuration development environment.
 
 To get started, access the DevSpaces console by clicking the icon as follows: 
 
-1. image::open-dev-spaces.png
-2. image::login-openshift-screen.png
-3. image::login-user-ldap.png
-4. image::openshift-user-login.png
-5. image::click-allow-selected-permissions.png
-6. image::devspaces-dashboard.png
+image::open-dev-spaces.png
+image::login-openshift-screen.png
+image::login-user-ldap.png
+image::openshift-user-login.png
+image::click-allow-selected-permissions.png
+image::devspaces-dashboard.png
 
 === 1.2.4. Additional Details
 
