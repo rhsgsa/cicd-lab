@@ -44,6 +44,8 @@ Now that we have successsfully built our container image, we shall push this ima
 You will need to first login to the Quay regsitry using the following command
 
 . Login to Quay Registry 
+{QUAY_URL}
+{quay_url}
 +
  $ podman login \
      {QUAY_URL} \
