@@ -62,16 +62,15 @@ Now that we have successsfully built our container image, we shall push this ima
 You will need to first login to the Quay registry using the following command
 
 Export Quay Registry URL as an environment variable
-
-`+export QUAY_URL=+`{QUAY_URL}
++
+export QUAY_URL={QUAY_URL}
 
 . Login to Quay Registry 
 +
-$ podman login \
-    {QUAY_URL}\
-    --username %USER% \
-    --password redhat
-
+ $ podman login \
+     ${QUAY_URL}\
+     --username %USER% \
+     --password redhat
 
 . Tag the Container Image
 +
