@@ -43,9 +43,10 @@ For building the container image, we will be making use of Podman Build command.
 Now that we have successsfully built our container image, we shall push this image into the Quay registry. 
 You will need to first login to the Quay regsitry using the following command
 
-. Login to Quay Registry 
-{QUAY_URL}
-{quay_url}
+. Login to Quay Registry, i.e. {QUAY_URL}
+
+`+export QUAY_URL={QUAY_URL}+`
+
 +
  $ podman login \
      {QUAY_URL} \
