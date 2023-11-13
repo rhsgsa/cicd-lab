@@ -19,7 +19,7 @@ Enter your email address and password and click submit.
 
 . Look in the box on your screen. Is your username set already? If so it will look like this:
 +
-image::initial-workshop-landing-page.png
+image::initial-workshop-landing-page.png[Initial WorkShop Landing Page]
 
 On this page, you will have access to your username, password, lab instructions, OpenShift console, Gitea and Quay.
 
@@ -30,7 +30,7 @@ You have to use an unique username (e.g. %USER%) while you’re running the hand
 . Your OpenShift cluster is already configured with everything you need. Log in to your OpenShift console with the following steps: 
 +
 image::login-user-ldap.png[User Login LDAP]
-image::openshift-user-login.png[OpenShift User Login]
+image::openshift-user-login-screen.png[OpenShift User Login Screen]
 image::user-developer-dashboard.png[User Developer Dashboard]
 
 === 1.2.3. Accessing your OpenShift Dev Spaces console
