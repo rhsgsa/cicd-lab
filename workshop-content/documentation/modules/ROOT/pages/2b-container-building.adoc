@@ -127,4 +127,4 @@ When prompted with password, use `password`
 
 == 2.2.8. Congratulations!
 
-You have successfully compiled and re-built your application with the reflected change in source code. You are now done with part A of the hands-on workshop!
+You have successfully compiled and re-built your application with the reflected change in source code. You are now done with the first half of the hands-on workshop!
