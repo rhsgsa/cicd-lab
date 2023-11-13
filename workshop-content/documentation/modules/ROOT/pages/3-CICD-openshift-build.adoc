@@ -1,10 +1,10 @@
 = 3. CI/CD OpenShift Build
 
-A CICD pipeline has been provisioned in your OpenShift namespace. This section is to showcase the integration of CICD with Microshift. Let's take a look at the pipeline in the OpenShift Console.
+This section showcases the integration of CICD with Microshift. A CICD pipeline has been provisioned in your OpenShift namespace. Let's take a look at the pipeline in the OpenShift Console.
 
 [start=1]
 
-. Go to the pipeline in OpenShift Console, i.e. {console_url}/pipelines/ns/%USER%/ and click on the `build-and-deploy` pipeline
+. Go to the pipeline that can be accessed from the OpenShift Console, i.e. {console_url}/pipelines/ns/%USER%/ and click on the `build-and-deploy` pipeline
 
 . The pipeline clones from the git repo, builds the application, creates a container image, pushes the container image to an image registry, and deploys the image to the Micorshift VM
 +
@@ -45,14 +45,12 @@ image::redhat_quay_webapp_image_dashboard.png[Red Hat Quay Web App Dashboard]
 image::redhat_quay_webapp_image_cve.png[Red Hat Quay Web App CVE]
 
 . To fix the security issue, update the UBI image to the latest available version 
-+
-image::edit-dockerfile-devspaces.png[Edit DockerFile]
 
 . Change the current base image in line 1 from `registry.access.redhat.com/ubi8/ubi:8.8-1067.1697633337` to `registry.access.redhat.com/ubi8/ubi:latest`
-
-. The latest UBI image will contain the fix for the CVE that was detected earlier on an older UBI image
 +
 image::edit-dockerfile-devspaces-to-latest.png[Edit DockerFile Image to Latest]
+
+. The latest UBI image will contain the fix for the CVE that was detected earlier on the older UBI image
 
 . Commit the change
 +
