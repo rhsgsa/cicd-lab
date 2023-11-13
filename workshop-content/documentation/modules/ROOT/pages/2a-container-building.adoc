@@ -10,6 +10,10 @@ In this section, we will be making use of Dev Spaces environment which has Visua
 +
 image::DevSpacesConsole.png[Dev Spaces Console]
 
+. Select the "Go" template to start your workspace on DevSpaces console
++
+image::gotemplate.png[Go Template]
+
 . Select the terminal window on the top left and open up a new terminal
 +
 image::Terminal.png[Terminal Window]
