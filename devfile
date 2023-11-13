@@ -24,13 +24,13 @@ components:
         - name: GOCACHE
           value: /tmp/.cache
         - name: CHE_DASHBOARD_URL
-          value: https://devspaces.apps.cluster-xxxx.dynamic.opentlc.com
+          value: https://devspaces.apps.cluster-ck6cg.sandbox2981.opentlc.com
         - name: CHE_PLUGIN_REGISTRY_URL
-          value: https://devspaces.apps.cluster-xxxx.dynamic.opentlc.com/plugin-registry/v3
+          value: https://devspaces.apps.cluster-ck6cg.sandbox2981.opentlc.com/plugin-registry/v3
         - name: CHE_PLUGIN_REGISTRY_INTERNAL_URL
-          value: http://plugin-registry.openshift-operators.svc:8080/v3
+          value: http://plugin-registry.openshift-devspaces.svc:8080/v3
         - name: CLUSTER_CONSOLE_URL
-          value: https://console-openshift-console.apps.cluster-xxxx.dynamic.opentlc.com
+          value: https://console-openshift-console.apps.cluster-ck6cg.sandbox2981.opentlc.com
         - name: CLUSTER_CONSOLE_TITLE
           value: OpenShift console
         - name: OPENVSX_REGISTRY_URL
