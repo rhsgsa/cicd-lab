@@ -4,7 +4,7 @@ This section showcases the integration of CICD with Microshift. A CICD pipeline 
 
 [start=1]
 
-. Go to the pipeline for this section, i.e. {console_url}/pipelines/ns/%USER%/ and click on the `build-and-deploy` pipeline
+. Go to OpenShift pipeline, i.e. {console_url}/pipelines/ns/%USER%/ and click on the `build-and-deploy` pipeline to view the Tekton pipeline.
 
 . The pipeline clones from the git repo, builds the application, creates a container image, pushes the container image to an image registry, scans the image for vulnerabilities and deploys the image to the Micorshift VM if it is deemed to be good and free of critical CVEs.
 +
