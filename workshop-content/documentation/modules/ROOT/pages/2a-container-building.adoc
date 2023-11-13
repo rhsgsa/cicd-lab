@@ -12,7 +12,7 @@ image::DevSpacesConsole.png[Dev Spaces Console]
 
 . Select the "Go" template to start your workspace on DevSpaces console
 +
-image::gotemplate.png[Go Template]
+image::B4DA4F47-F3E5-4833-87D8-E0AB4ADD78AB.jpeg[Go Template]
 
 . Select the terminal window on the top left and open up a new terminal
 +
