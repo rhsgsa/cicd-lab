@@ -39,7 +39,7 @@ git clone {GIT_URL}/%USER%/sample-app.git
 . Verify that the simpleweb application has been compiled successfully
 +
  $ ls
-
+   LICENSE  README.md  bindata.go  cicd-lab  devfile.yaml  go.mod  go.sum  main.go  public  simpleweb
 
 == 2.1.1. Building Your First Container Image 
 
