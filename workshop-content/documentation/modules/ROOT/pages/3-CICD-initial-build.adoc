@@ -72,6 +72,14 @@ image::stage_commit_changes_devspaces.png[Stage and Commit Change]
 +
 image::sync_changes_devspaces.png[Sync and Push Change]
 
+. Key in user name
++
+image::key_in_git_username.png[Key in Username]
+
+. Key in password
++
+image::key_in_git_password.png[Key in Password]
+
 . Switch back to the OpenShift Console - a new pipeline run should have been triggered by the webhook
 
 . Wait for the pipeline run to complete
