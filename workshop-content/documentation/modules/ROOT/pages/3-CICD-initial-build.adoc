@@ -49,9 +49,7 @@ image::acs-scan-failure.png[ACS Scan Failed]
  $ git config --global user.name "user100"
  $ git config --global user.email "user100@example.com"
 
-. Git clone the repository into Dev Spaces
-
-`+git clone+` https://{GIT_URL}/%USER%/sample-app.git
+. Git clone the `sample-app` repository into Dev Spaces, i.e. `+git clone+` https://{GIT_URL}/%USER%/sample-app.git
 
 . Edit the Dockerfile
 +
