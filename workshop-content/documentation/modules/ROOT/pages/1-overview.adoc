@@ -27,30 +27,17 @@ The goal of this lab is to assess the benefits of using containers on MicroShift
 
 . Your Username is %USER% and your password is `redhat`
 
-=== 1.3.1. Account Assignment
-. Below shows the screen for `get-a-user-login` landing page
-+
-image::get-user-login-information.png[Get User Login Information]
+*Important*
+You have to use an unique username, e.g. %USER% while you’re running the hands-on labs. You will need to deploy applications onto your own project/namespace, e.g. e.g. %USER%.
 
-Enter your email address and password and click submit. 
-
-. Look in the box on your screen. Is your username set already? If so it will look like this:
-+
-image::initial-workshop-landing-page.png[Initial WorkShop Landing Page]
-
-On this page, you will have access to your username, password, lab instructions, OpenShift console, Gitea and Quay.
-
-Important
-You have to use an unique username (e.g. %USER%) while you’re running the hands-on labs. For example, you need to deploy applications to your own project (e.g. %USER%).
-
-=== 1.3.2. Accessing your OpenShift Cluster
+=== 1.3.1. Accessing your OpenShift Cluster
 . Your OpenShift cluster is already configured with everything you need. Log in to your OpenShift console with the following steps: 
 +
 image::login-user-ldap.png[User Login LDAP]
 image::openshift-user-login-screen.png[OpenShift User Login Screen]
 image::user-developer-dashboard.png[User Developer Dashboard]
 
-=== 1.3.3. Accessing your OpenShift Dev Spaces console
+=== 1.3.2. Accessing your OpenShift Dev Spaces console
 Built on the open source Eclipse Che project, Red Hat OpenShift Dev Spaces uses Kubernetes and containers to provide developers and other IT team members with a consistent, secure, and zero-configuration development environment.
 
 . To get started, access the DevSpaces console by clicking the icon as follows: 
