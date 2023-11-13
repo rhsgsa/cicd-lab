@@ -14,6 +14,8 @@ image::B4DA4F47-F3E5-4833-87D8-E0AB4ADD78AB.jpeg[Go Template]
 +
 image::Terminal.png[Terminal Window]
 
+. Clone the "sample-app" repo from your Gitea console onto your DevSpaces terminal. 
+
 . Change directory once again into the sample-app directory by running the following command
 +
  $ cd sample-app
