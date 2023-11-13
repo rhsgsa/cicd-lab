@@ -14,7 +14,12 @@ image::B4DA4F47-F3E5-4833-87D8-E0AB4ADD78AB.jpeg[Go Template]
 +
 image::Screenshot 2023-11-13 at 5.46.01 PM.png[Terminal Window]
 
-. Clone the "sample-app" repo from your Gitea console onto your Dev Spaces terminal
+. Configure your user name and email for Git in Dev Spaces. For instance
++
+ $ git config --global user.name "andy"
+ $ git config --global user.email "andy@example.com"
+
+. Clone the "sample-app" repo from your Gitea console onto your Dev Spaces terminal, i.e. `+git clone+` https://{GIT_URL}/%USER%/sample-app.git
 
 . Change directory once again into the sample-app directory by running the following command
 +
