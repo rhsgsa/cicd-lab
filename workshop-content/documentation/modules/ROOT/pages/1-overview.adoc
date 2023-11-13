@@ -7,7 +7,7 @@ The goal of this lab is to assess the benefits of using containers on MicroShift
 
 == 1.2. Workshop Environment
 
-. `Gitea` A community git server to host the source code repositories 
+. `Gitea` is a community git server to host the source code repositories 
 
 . `OpenShift GitOps` to manage the deployed services using a GitOps approach through ArgoCD
 
