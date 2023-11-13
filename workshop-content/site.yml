@@ -13,9 +13,9 @@ content:
 asciidoc:
   attributes:
     page-pagination: true
-    console_url: https://console-openshift-console.apps.example.com
+    console_url: https://console-openshift-console.apps.cluster-ck6cg.sandbox2981.opentlc.com
     git_url: https://gitea-infra.apps.example.com
-    devspaces_url: https://devspaces.apps.example.com
+    devspaces_url: devspaces.apps.cluster-ck6cg.sandbox2981.opentlc.com
   extensions:
     - ./lib/tab-block.js
     - ./lib/remote-include-processor.js
