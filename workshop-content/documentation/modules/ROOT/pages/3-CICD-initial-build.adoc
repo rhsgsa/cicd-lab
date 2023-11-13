@@ -40,6 +40,7 @@ image::test_delivery.png[Test Delivery]
 . Examine the {CONSOLE_URL}/pipelines/ns/%USER%/pipeline-runs[PipelineRuns screen in the OpenShift Console,window=console] - you should see a new pipeline run running
 
 . Wait for the pipeline run to fail due to security vulnerabilities that was flagged out by Advanced Cluster Security
+. Continuous scanning and assurance can be achieved by integrating CI/CD Pipelines and Image Registries with the Red Hat Advanced Cluster Security for Kubernetes 
 +
 image::acs-scan-failure.png[ACS Scan Failed]
 
@@ -50,6 +51,7 @@ image::acs-scan-failure.png[ACS Scan Failed]
 image::edit_file.png[Edit File]
 
 . Change the base image in line 1 from `registry.access.redhat.com/ubi8/ubi:8.8-1067.1697633337` to `registry.access.redhat.com/ubi8/ubi:latest`
+. The latest UBI image will contain the fix for the CVE that was detected earlier on an older UBI image
 
 . Commit the change
 +
