@@ -6,7 +6,7 @@ In this section, we will be making use of Dev Spaces environment which has Visua
 
 [start=1]
 
-. Login to the {DEVSPACES_URL}#{GIT_URL}/%USER%/path/to/devfile.yaml[OpenShift Dev Spaces Console,window=console] in a new browser tab - and enter your assigned username and password
+. Login to the {DEVSPACES_URL}#{GIT_URL}/%USER%/devfile [OpenShift Dev Spaces Console,window=console] in a new browser tab - and enter your assigned username and password
 +
 image::DevSpacesConsole.png[Dev Spaces Console]
 
