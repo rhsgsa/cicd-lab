@@ -67,10 +67,10 @@ Export Quay Registry URL as an environment variable
 
 . Login to Quay Registry 
 +
- $ podman login \
-     {quay_url}\
-     --username %USER% \
-     --password redhat
+$ podman login \
+    {QUAY_URL}\
+    --username %USER% \
+    --password redhat
 
 
 . Tag the Container Image
