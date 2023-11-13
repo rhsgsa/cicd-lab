@@ -61,7 +61,7 @@ For building the container image, we will be making use of Podman Build command.
 Now that we have successsfully built our container image, we shall push this image into the Quay registry. 
 You will need to first login to the Quay registry using the following command
 
-Export Quay Registry URL as an environment variable
+. Export Quay Registry URL as an environment variable
 +
 export QUAY_URL={QUAY_URL}
 
@@ -129,14 +129,6 @@ When prompted with password, use - `password`
 + 
   CONTAINER ID  IMAGE                                                                                               COMMAND     CREATED         STATUS        PORTS       NAMES
   29bc1542e8e2  registry-quay-quay-enterprise.apps.cluster-ck6cg.sandbox2981.opentlc.com/user1/podman-simpleweb:v1              14 seconds ago  Up 2 seconds              podman-simpleweb
-
-. Setting up the firewall and opening TCP port 8080
-+
- $ sudo firewall-cmd --permanent --zone=public --add-port=8080/tcp
-+ 
- $ sudo firewall-cmd --reload
-+
- $ sudo systemctl restart firewalld
 
 == 2.1.6. Testing the application
 
