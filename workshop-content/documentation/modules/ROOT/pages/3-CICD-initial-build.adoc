@@ -44,18 +44,34 @@ image::test_delivery.png[Test Delivery]
 +
 image::acs-scan-failure.png[ACS Scan Failed]
 
-. Open {GIT_URL}/%USER%/sample-app/src/branch/main/Dockerfile[`Dockerfile` in the `sample-app` git repo,window=git]
-
-. Click on Edit File
+. Configure your user name and email for Git in Dev Spaces. For instance
 +
-image::edit_file.png[Edit File]
+ $ git config --global user.name "user100"
+ $ git config --global user.email "user100@example.com"
+
+. Git clone the repository into Dev Spaces
+  `+git clone+` https://{GIT_URL}/%USER%/sample-app.git
+
+. Edit the Dockerfile
++
+image::edit-dockerfile-devspaces.png[Edit DockerFile]
 
 . Change the base image in line 1 from `registry.access.redhat.com/ubi8/ubi:8.8-1067.1697633337` to `registry.access.redhat.com/ubi8/ubi:latest`
 . The latest UBI image will contain the fix for the CVE that was detected earlier on an older UBI image
++
+image::edit-dockerfile-devspaces-to-latest[Edit DockerFile Image to Latest]
 
 . Commit the change
 +
-image::commit_change.png[Commit Change]
+image::commit_changes_devspaces.png[Commit Change]
+
+. Click Yes
++
+image::stage_commit_changes_devspaces.png[Stage and Commit Change]
+
+. Sync and Push the change
++
+image::sync_changes_devspaces.png[Sync and Push Change]
 
 . Switch back to the OpenShift Console - a new pipeline run should have been triggered by the webhook
 
