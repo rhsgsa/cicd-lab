@@ -114,3 +114,5 @@ image::final-working-pipeline.png[Complete Working Pipeline]
 +
  simpleweb-b4975f85f-gdlvr: Good Morning World
 
+== 4.1. Conclusion
+You have successfully compiled and re-built your application with the reflected change in source code. You are now done with the last part of the hands-on workshop!
