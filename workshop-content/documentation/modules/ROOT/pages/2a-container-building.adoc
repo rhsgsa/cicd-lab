@@ -2,7 +2,7 @@
 include::_attributes.adoc[]
 :experimental:
 
-In this section, we will be making use of Dev Spaces environment which has Visual Studio Code running as an IDE on it. At the end of this section, you would have built a container image and a container in which an application named "simpleweb" is running. 
+In this section, we will be making use of Dev Spaces environment which has Visual Studio Code running as an IDE on it. At the end of this section, you would have built a container image and run a container with an application named "simpleweb".
 
 [start=1]
 
@@ -10,7 +10,7 @@ In this section, we will be making use of Dev Spaces environment which has Visua
 +
 image::B4DA4F47-F3E5-4833-87D8-E0AB4ADD78AB.jpeg[Go Template]
 
-. Select the terminal window on the top left and open up a new terminal
+. Select the terminal window using the hamburger icon on the top left and open up a new terminal
 +
 image::Screenshot 2023-11-13 at 5.46.01 PM.png[Terminal Window]
 
@@ -36,6 +36,10 @@ git clone {GIT_URL}/%USER%/sample-app.git
      -o ./simpleweb \
      .
 
+. Verify that the simpleweb application has been compiled successfully
++
+ $ ls
+
 
 == 2.1.1. Building Your First Container Image 
 
@@ -43,7 +47,7 @@ Once `simpleweb` is compiled successfully, we can now go ahead to build the cont
 
 For building the container image, we will be making use of Podman Build command. `podman build` builds an image using instructions from one or more Containerfile(s) a specified build context directory. 
 
-. Run the following on your Visual Studio Code 
+. Run the following on your Visual Studio Code terminal 
 +
  $ podman build -t podman-simpleweb:v1 .
 
@@ -92,6 +96,8 @@ Now that your have your container image in your Quay Registry, you can now acces
 +
  $ ssh rhde@microshift-service.%USER%.svc.cluster.local
 + 
+When prompted with "Are you sure you want to continue connecting", enter "yes"
++
 When prompted with password, use - `password`
 
 
@@ -139,6 +145,10 @@ When prompted with password, use - `password`
 == 2.1.7. Congratulations!
 
 You have successfully compiled and built your application using the container image and created a container from the image! Moving on to the next section, we will make a change in the source code and re-build the container to see the reflected changes. 
+
+. Before we move on with the next part, let's clean up what we created by removing the container!
++
+ $ podman rm podman-simpleweb
 
 
 
