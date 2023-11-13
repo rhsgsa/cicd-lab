@@ -90,4 +90,27 @@ image::key_in_git_password.png[Key in Password]
 
 . You should be able to see something similar in the output on your terminal:
 +
- simpleweb-b4975f85f-gdlvr: Hello World
+ simpleweb-b4975f85f-gdlvr: Hello there World
+
+. Next, proceed to make a change in the `main.go` file
+
+. Change the greeting in line 26 from `Hello` to `Good Morning`
++
+image::update_main_go.png[Update main.go]
+
+. Follow the same steps as before to commit and push the change to the git repository
+
+. Switch back to the OpenShift Console - a new pipeline run should have been triggered by the webhook
+
+. Wait for the pipeline run to complete
++
+image::final-working-pipeline.png[Complete Working Pipeline]
+
+. Once the pipelines has been completed, you can repeat the curl statement on the DevSpaces console by executing the following command: 
++
+ $ curl microshift-vmiservice.%USER%.svc.cluster.local:8081
+
+. Now you should be able to see the new output on your terminal:
++
+ simpleweb-b4975f85f-gdlvr: Good Morning World
+
