@@ -52,4 +52,4 @@ To get started, access the DevSpaces console by clicking the icon as follows:
 
 `OpenShift Pipelines` to build the customer application from source code and deploy using GitOps
 
-`Quay`Red Hat Quay is a distributed and highly available container image registry. It provides a single and resilient content repository for delivering containerized software to development and production across OpenShift clusters.
+`Quay` Red Hat Quay is a distributed and highly available container image registry. It provides a single and resilient content repository for delivering containerized software to development and production across OpenShift clusters.
