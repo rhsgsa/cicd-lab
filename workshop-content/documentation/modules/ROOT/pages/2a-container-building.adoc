@@ -55,7 +55,7 @@ You will need to first login to the Quay registry using the following command
 . Login to Quay Registry 
 +
  $ podman login \
-     registry-quay-quay-enterprise.apps.cluster-ck6cg.sandbox2981.opentlc.com \
+     {quay_url} \
      --username %USER% \
      --password redhat
 
@@ -90,13 +90,13 @@ When prompted with password, use - `password`
 . Login to Quay Registry 
 +
  $ podman login \
-     registry-quay-quay-enterprise.apps.cluster-ck6cg.sandbox2981.opentlc.com \
+     {quay_url} \
      --username %USER% \
      --password redhat
 
 . Pull the podman-simpleweb:v1 image from the Quay registry
 +
- $ podman pull registry-quay-quay-enterprise.apps.cluster-ck6cg.sandbox2981.opentlc.com/%USER%/podman-simpleweb:v1
+ $ podman pull {quay_url}/%USER%/podman-simpleweb:v1
 
 . Validate that the container image has been successfully pulled and you should be able to see the podman-simpleweb image. 
 +
@@ -111,7 +111,7 @@ When prompted with password, use - `password`
 . Build and run with podman run command, let's name this container: podman-simpleweb
 +
  $ podman run -d -p 8080:8080 --name podman-simpleweb 
-   registry-quay-quay-enterprise.apps.cluster-ck6cg.sandbox2981.opentlc.com/user1/podman-simpleweb:v1
+   {quay_url}/&USER%/podman-simpleweb:v1
 
 . Verify that the container is running successfully
 +
