@@ -12,8 +12,9 @@ A gitea repository has been created for you for this workshop, please login usin
 {git_url}[gitea URL]
 
 === 1.2.1. Account Assignment
-
-image::get-user-login-information.png
+. Below shows the screen for `get-a-user-login` landing page
++
+image::get-user-login-information.png[Get User Login Information]
 
 Enter your email address and password and click submit. 
 
