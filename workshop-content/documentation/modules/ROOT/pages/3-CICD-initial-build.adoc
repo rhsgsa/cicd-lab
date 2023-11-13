@@ -50,16 +50,17 @@ image::acs-scan-failure.png[ACS Scan Failed]
  $ git config --global user.email "user100@example.com"
 
 . Git clone the repository into Dev Spaces
-  `+git clone+` https://{GIT_URL}/%USER%/sample-app.git
+
+`+git clone+` https://{GIT_URL}/%USER%/sample-app.git
 
 . Edit the Dockerfile
 +
 image::edit-dockerfile-devspaces.png[Edit DockerFile]
 
-. Change the base image in line 1 from `registry.access.redhat.com/ubi8/ubi:8.8-1067.1697633337` to `registry.access.redhat.com/ubi8/ubi:latest`
+. Change the base image in line 1 from `+registry.access.redhat.com/ubi8/ubi:8.8-1067.1697633337+` to `+registry.access.redhat.com/ubi8/ubi:latest+`
 . The latest UBI image will contain the fix for the CVE that was detected earlier on an older UBI image
 +
-image::edit-dockerfile-devspaces-to-latest[Edit DockerFile Image to Latest]
+image::edit-dockerfile-devspaces-to-latest.png[Edit DockerFile Image to Latest]
 
 . Commit the change
 +
