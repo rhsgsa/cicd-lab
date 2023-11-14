@@ -23,7 +23,7 @@ asciidoc:
 
 ui:
   bundle:
-    url: https://github.com/rhsgsa/antora-ui/releases/download/v0.1/ui-bundle.zip
+    url: https://github.com/rhsgsa/antora-ui/releases/download/v0.2/ui-bundle.zip
     snapshot: true
   supplemental_files:
     - path: .nojekyll
