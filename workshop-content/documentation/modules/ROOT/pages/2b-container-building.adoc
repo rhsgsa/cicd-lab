@@ -109,7 +109,7 @@ When prompted with password, use - `password`
 
 . Build and run with podman run command, let's name this container: podman-simpleweb
 +
- $ podman run -d -p 8080:8080 --name podman-simpleweb 
+ $ podman run -d -p 8080:8080 --name podman-simpleweb \ 
    ${QUAY_URL}/%USER%/podman-simpleweb:v2
 
 . Verify that the container is running successfully
