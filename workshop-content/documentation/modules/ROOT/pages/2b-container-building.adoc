@@ -51,7 +51,7 @@ You will need to first login to the Quay regsitry using the following command
 
 Export Quay Registry URL as an environment variable
 
-`+export QUAY_URL=+`{QUAY_URL}
+`+export QUAY_URL=+`{quay_registry}
 
 . Login to Quay Registry 
 +
