@@ -16,6 +16,7 @@ asciidoc:
     git_url: https://gitea-infra.apps.example.com
     devspaces_url: https://devspaces.apps.example.com
     quay_url: https://quay.apps.example.com
+    quay_registry: quay.apps.example.com
   extensions:
     - ./lib/remote-include-processor.js
     - ./lib/tab-block.js
