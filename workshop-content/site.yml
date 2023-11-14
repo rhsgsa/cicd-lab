@@ -17,6 +17,7 @@ asciidoc:
     git_url: https://gitea-infra.apps.cluster-ck6cg.sandbox2981.opentlc.com
     devspaces_url: https://devspaces.apps.cluster-ck6cg.sandbox2981.opentlc.com
     quay_url: https://registry-quay-quay-enterprise.apps.cluster-ck6cg.sandbox2981.opentlc.com
+    quay_registry: registry-quay-quay-enterprise.apps.cluster-ck6cg.sandbox2981.opentlc.com
   extensions:
     - ./lib/tab-block.js
     - ./lib/remote-include-processor.js
